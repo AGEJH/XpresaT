@@ -15,6 +15,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+
         // Inicialización de las vistas
         imageViewNotifications = findViewById(R.id.imageViewNotifications);
         imageViewFriends = findViewById(R.id.imageViewFriends);
