@@ -17,6 +17,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
 
+
         // Inicialización de las vistas
         imageViewNotifications = findViewById(R.id.imageViewNotifications);
         imageViewFriends = findViewById(R.id.imageViewFriends);
