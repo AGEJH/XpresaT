@@ -87,6 +87,7 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+
                             // Registro exitoso, redirigir a MainActivity
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(RegisterActivity.this, "Cuenta creada exitosamente", Toast.LENGTH_SHORT).show();
@@ -94,7 +95,6 @@ public class RegisterActivity extends AppCompatActivity {
                             startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                             finish(); // Finalizar actividad actual para que no pueda regresar con el botón de retroceso
                         } else {
-                            // Si el registro falla, mostrar un mensaje de error
                             String errorMessage = "Error al registrar: " + task.getException().getMessage();
                             Log.e("Registro", errorMessage); // Registrar el error en Logcat
                             Toast.makeText(RegisterActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
