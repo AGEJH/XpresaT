@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "324650864943",
+    "project_id": "prueba-red-social-9758b",
+    "storage_bucket": "prueba-red-social-9758b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:324650864943:android:08bedffd5081fb1b1fd1da",
+        "android_client_info": {
+          "package_name": "com.example.pruebaappredsocial"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBM10TFu3nj5QNXqNiD-rh6NdwS0G7f9fA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
