@@ -28,6 +28,10 @@
         <activity android:name=".RegisterActivity"
             android:exported="true">
         </activity>
+        <activity android:name=".RegistroUsuario"
+            android:exported="true">
+        </activity>
+
 
 
 
