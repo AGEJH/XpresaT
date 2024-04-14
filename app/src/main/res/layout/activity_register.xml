@@ -13,7 +13,7 @@
         android:id="@+id/textView26"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="108dp"
         android:text="Registro"
         android:textColor="#050505"
         android:textSize="32sp"
@@ -79,14 +79,14 @@
 
     <Button
         android:id="@+id/btn_registrarse"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_width="371dp"
+        android:layout_height="66dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="108dp"
         android:layout_marginEnd="32dp"
         android:backgroundTint="@color/violeta_letras_botones"
-        android:textColor="@color/beige"
         android:text="Registrarse"
+        android:textColor="@color/beige"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tcontraseña2" />
@@ -131,5 +131,31 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tcontraseña" />
+
+
+    <TextView
+        android:id="@+id/textViewQuestionnaire"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Contestar Cuestionario"
+
+        android:textColor="@color/azul_primario"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnQuestionnaire" />
+
+    <Button
+        android:id="@+id/btnQuestionnaire"
+        android:layout_width="48dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/boton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tcontraseña2" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

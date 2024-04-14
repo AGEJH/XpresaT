@@ -1,5 +1,6 @@
 package com.example.pruebaappredsocial;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -17,7 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Método llamado cuando la base de datos se crea por primera vez
 
     //A continuación  el campo id será autoincrementado automáticamente por SQLite
-    // cuando inserte nuevo registros en la tabla no habrá necesidad de poner AUTO_INCREMENTE asi que se omitirá
+    // cuando inserte nuevo registros en la tabla no habrá necesidad de poner AUTO_INCREMENT asi que se omitirá
     //En SQLite, la manera de lograr la autoincrementación es
     //utilizando INTEGER PRIMARY KEY, sin necesidad de especificar AUTO_INCREMENT.
     @Override
@@ -240,7 +241,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Método llamado cuando se necesita actualizar la base de datos
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Maneja las actualizaciones del esquema de la base de datos aquí
-        // Puedes añadir código para migrar los datos si es necesario
+        db.execSQL("DROP TABLE IF EXISTS Users");
+        db.execSQL("DROP TABLE IF EXISTS SurveyResponses");
+        onCreate(db);
+    }
+
+    // Método para agregar un usuario
+    public void addUser(String uid, String email, String fullName, String otherDetails) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("uid", uid);
+        values.put("email", email);
+        values.put("fullName", fullName);
+        values.put("otherDetails", otherDetails);
+
+        db.insert("Users", null, values);
+    }
+
+    // Método para agregar una respuesta de encuesta
+    public void addSurveyResponse(String uid, int questionId, String response) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("uid", uid);
+        values.put("questionId", questionId);
+        values.put("response", response);
+
+        db.insert("SurveyResponses", null, values);
     }
 }
