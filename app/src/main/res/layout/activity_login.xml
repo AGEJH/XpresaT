@@ -80,11 +80,12 @@
 
     <Button
         android:id="@+id/buttonLogin"
-        android:layout_width="364dp"
-        android:layout_height="66dp"
+        android:layout_width="296dp"
+        android:layout_height="57dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="56dp"
         android:layout_marginEnd="32dp"
+        android:background="@drawable/button_style"
         android:backgroundTint="@color/violeta_letras_botones"
         android:text="Iniciar sesión"
         app:layout_constraintEnd_toEndOf="parent"

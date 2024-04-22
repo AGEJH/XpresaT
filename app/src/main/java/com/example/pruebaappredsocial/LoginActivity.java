@@ -45,16 +45,24 @@ public class LoginActivity extends Activity {
         });
     }
 
-    private void loginUser()  {
+    private void loginUser() {
         try {
             String email = editTextEmail.getText().toString().trim();
             String password = editTextPassword.getText().toString().trim();
 
+            // Verifica si los campos están vacíos
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(LoginActivity.this, "Por favor, complete los campos", Toast.LENGTH_LONG).show();
-                return;  // Asegúrate de retornar para evitar seguir con la ejecución
+                return;  // Detiene la ejecución del método si algún campo está vacío
             }
 
+            // Verifica si el correo tiene la extensión correcta
+            if (!email.endsWith("@ucol.mx")) {
+                Toast.makeText(LoginActivity.this, "Por favor, use un correo con la extensión '@ucol.mx'", Toast.LENGTH_LONG).show();
+                return;  // Detiene la ejecución del método si el correo no tiene la extensión correcta
+            }
+
+            // Proceso de inicio de sesión con Firebase
             firebaseAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, task -> {
                         if (task.isSuccessful()) {
@@ -69,6 +77,4 @@ public class LoginActivity extends Activity {
             Toast.makeText(LoginActivity.this, "Error inesperado: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
-
 }
-

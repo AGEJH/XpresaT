@@ -31,63 +31,64 @@ public class RegisterActivity extends AppCompatActivity {
         editTextRepetirContraseña = findViewById(R.id.tcontraseña2);
         Button btnQuestionnaire = findViewById(R.id.btnQuestionnaire);
         btn_registrarse = findViewById(R.id.btn_registrarse);
-        btnQuestionnaire.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Reemplaza "url_del_cuestionario" con tu URL específica
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://forms.gle/LZ72W5ZvP4yjZHqm6"));
-                startActivity(intent);
-            }
-        });
 
+        btnQuestionnaire.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://forms.gle/LZ72W5ZvP4yjZHqm6"));
+            startActivity(intent);
+        });
 
         dbHelper = new DatabaseHelper(this);
 
-        // Maneja el evento de clic en el botón de registro
-        btn_registrarse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferences prefs = getSharedPreferences("PrefsFile", MODE_PRIVATE);
-                boolean isQuestionnaireCompleted = prefs.getBoolean("QuestionnaireCompleted", false);
-
-                if (isQuestionnaireCompleted) {
-                    // Aquí iría el código para guardar los datos del usuario en la base de datos
-                    // Suponiendo que el registro es exitoso, iniciamos la actividad de inicio de sesión
-                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                    finish(); // Esto cierra la actividad de registro para que el usuario no pueda volver presionando el botón atrás
-                } else {
-                    // Mostrar un mensaje al usuario indicando que necesita completar el cuestionario
-                    Toast.makeText(RegisterActivity.this, "Por favor, complete el cuestionario para continuar con el registro.", Toast.LENGTH_LONG).show();
-                }
+        btn_registrarse.setOnClickListener(v -> {
+            if (validateQuestionnaireCompletion() && validateRegistrationForm()) {
+                registrarUsuario();
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish(); // Cerrar esta actividad
+            } else {
+                Toast.makeText(RegisterActivity.this, "Por favor, complete todos los campos correctamente y asegúrese de haber completado el cuestionario.", Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    private void registrarUsuario() {
-        // Obtiene los datos del formulario
-        String nombre = editTextNombre.getText().toString().trim();
-        String apellido = editTextApellido.getText().toString().trim();
+    private boolean validateQuestionnaireCompletion() {
+        SharedPreferences prefs = getSharedPreferences("PrefsFile", MODE_PRIVATE);
+        return prefs.getBoolean("QuestionnaireCompleted", false);
+    }
+
+    private boolean validateRegistrationForm() {
         String correo = editTextCorreo.getText().toString().trim();
-        String contraseña = editTextContraseña.getText().toString().trim();
-        String repetirContraseña = editTextRepetirContraseña.getText().toString().trim();
+        if (!correo.endsWith("@ucol.mx")) {
+            Toast.makeText(this, "Utilice un correo con la extensión '@ucol.mx'", Toast.LENGTH_LONG).show();
+            return false;
+        }
 
-        // Abre la base de datos en modo escritura
+        if (editTextNombre.getText().toString().trim().isEmpty() ||
+                editTextApellido.getText().toString().trim().isEmpty() ||
+                correo.isEmpty() ||
+                editTextContraseña.getText().toString().trim().isEmpty() ||
+                editTextRepetirContraseña.getText().toString().trim().isEmpty() ||
+                !editTextContraseña.getText().toString().trim().equals(editTextRepetirContraseña.getText().toString().trim())) {
+            return false;
+        }
+        return true;
+    }
+
+    private void registrarUsuario() {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        // Crea un nuevo registro de usuario
         ContentValues values = new ContentValues();
-        values.put("name", nombre);
-        values.put("lastname", apellido);
-        values.put("email", correo);
-        values.put("password", contraseña);
+        values.put("name", editTextNombre.getText().toString().trim());
+        values.put("lastname", editTextApellido.getText().toString().trim());
+        values.put("email", editTextCorreo.getText().toString().trim());
+        values.put("password", editTextContraseña.getText().toString().trim());
 
-        // Inserta el registro en la tabla 'user'
         long newRowId = db.insert("user", null, values);
+        db.close();
 
-        // Cierra la conexión de la base de datos
-        dbHelper.close();
-
-        // Lógica adicional después del registro...
+        if (newRowId == -1) {
+            Toast.makeText(this, "Error al registrar el usuario.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Usuario registrado correctamente.", Toast.LENGTH_SHORT).show();
+        }
     }
 }
