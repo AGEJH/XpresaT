@@ -3,10 +3,10 @@ package com.example.pruebaappredsocial;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -41,10 +41,14 @@ public class RegisterActivity extends AppCompatActivity {
 
         btn_registrarse.setOnClickListener(v -> {
             if (validateQuestionnaireCompletion() && validateRegistrationForm()) {
-                registrarUsuario();
-                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish(); // Cerrar esta actividad
+                if (!isEmailRegistered(editTextCorreo.getText().toString().trim())) {
+                    registrarUsuario();
+                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish(); // Cerrar esta actividad
+                } else {
+                    Toast.makeText(this, "Este correo ya está registrado.", Toast.LENGTH_SHORT).show();
+                }
             } else {
                 Toast.makeText(RegisterActivity.this, "Por favor, complete todos los campos correctamente y asegúrese de haber completado el cuestionario.", Toast.LENGTH_LONG).show();
             }
@@ -58,7 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private boolean validateRegistrationForm() {
         String correo = editTextCorreo.getText().toString().trim();
-        if (!correo.endsWith("@ucol.mx")) {
+        if (!validateEmail(correo)) {
             Toast.makeText(this, "Utilice un correo con la extensión '@ucol.mx'", Toast.LENGTH_LONG).show();
             return false;
         }
@@ -67,11 +71,37 @@ public class RegisterActivity extends AppCompatActivity {
                 editTextApellido.getText().toString().trim().isEmpty() ||
                 correo.isEmpty() ||
                 editTextContraseña.getText().toString().trim().isEmpty() ||
-                editTextRepetirContraseña.getText().toString().trim().isEmpty() ||
                 !editTextContraseña.getText().toString().trim().equals(editTextRepetirContraseña.getText().toString().trim())) {
+            Toast.makeText(this, "Todos los campos son obligatorios y las contraseñas deben coincidir.", Toast.LENGTH_LONG).show();
             return false;
         }
         return true;
+    }
+
+    private boolean validateEmail(String email) {
+        return email.matches("[a-zA-Z0-9._-]+@ucol.mx");
+    }
+
+    private boolean isEmailRegistered(String email) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String[] projection = { "email" };
+        String selection = "email = ?";
+        String[] selectionArgs = { email };
+
+        Cursor cursor = db.query(
+                "user",   // La tabla a consultar
+                projection,           // Las columnas a retornar
+                selection,            // Las columnas para la cláusula WHERE
+                selectionArgs,        // Los valores para la cláusula WHERE
+                null,         // No agrupar las filas
+                null,          // No filtrar por grupos de filas
+                null           // El orden del sorteo
+        );
+
+        boolean exists = cursor.getCount() > 0;
+        cursor.close();
+        db.close();
+        return exists;
     }
 
     private void registrarUsuario() {
@@ -80,6 +110,7 @@ public class RegisterActivity extends AppCompatActivity {
         values.put("name", editTextNombre.getText().toString().trim());
         values.put("lastname", editTextApellido.getText().toString().trim());
         values.put("email", editTextCorreo.getText().toString().trim());
+        // TODO: Implement password hashing for security
         values.put("password", editTextContraseña.getText().toString().trim());
 
         long newRowId = db.insert("user", null, values);
