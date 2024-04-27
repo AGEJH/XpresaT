@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Barra de navegación -->
     <LinearLayout
         android:id="@+id/navigationBar"
         android:layout_width="match_parent"
@@ -12,7 +11,14 @@
         android:orientation="horizontal"
         android:padding="8dp">
 
-        <!-- Icono de notificaciones -->
+        <TextView
+            android:id="@+id/textViewWelcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/violeta_letras_botones"
+            android:text="Bienvenido a XpresaT  "
+            android:gravity=" " />
+
         <ImageView
             android:id="@+id/imageViewNotifications"
             android:layout_width="32dp"
@@ -21,72 +27,48 @@
             android:layout_weight="1"
             android:layout_marginEnd="8dp"/>
 
-        <!-- Icono de amigos -->
-
         <ImageView
-            android:id="@+id/imageViewSearchIcon"
-            android:layout_width="64dp"
-            android:layout_height="52dp"
-            android:layout_marginEnd="8dp"
+            android:id="@+id/imageViewlupa"
+            android:layout_width="49dp"
+            android:layout_height="41dp"
             android:src="@drawable/ic_lupa" />
 
         <ImageView
             android:id="@+id/imageViewFriends"
-            android:layout_width="32dp"
+            android:layout_width="48dp"
             android:layout_height="32dp"
-            android:src="@drawable/ic_amigos"
+            android:layout_marginEnd="8dp"
             android:layout_weight="1"
-            android:layout_marginEnd="8dp"/>
+            android:src="@drawable/ic_amigos" />
 
-        <!-- Espacio en blanco para el logo o título -->
         <ImageView
             android:id="@+id/imageViewMenu"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:src="@drawable/ic_hamburguesa" />
+            android:layout_width="49dp"
+            android:layout_height="29dp"
+            android:src="@drawable/menu" />
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
 
-        <!-- Icono de menú hamburguesa -->
 
     </LinearLayout>
 
-    <!-- Barra de búsqueda -->
     <LinearLayout
         android:id="@+id/searchBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/navigationBar"
+        android:layout_marginTop="25dp"
         android:orientation="horizontal"
         android:padding="8dp">
 
-        <!-- Icono de búsqueda -->
-
-        <!-- Campo de búsqueda -->
-        <EditText
+        <!---<EditText
             android:id="@+id/editTextSearch"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="Buscar personas"
-            android:inputType="text" />
+            android:inputType="text" />  !-->
 
     </LinearLayout>
-
-    <!-- Contenido principal (publicaciones, etc.) -->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/searchBar"
-        android:padding="16dp">
-
-        <!-- Aquí puedes colocar el contenido principal de tu aplicación, como publicaciones, etc. -->
-
-    </RelativeLayout>
 
 </RelativeLayout>
 
