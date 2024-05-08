@@ -1,58 +1,96 @@
 package com.example.pruebaappredsocial;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private ImageView imageViewNotifications, imageViewFriends, imageViewMenu, imageViewLupa;
-    private LinearLayout searchBar;
+    private static final int PICK_IMAGE_REQUEST = 1;
     private TextView textViewWelcome;
+    private LinearLayout searchBar;
+    private ImageView imageViewSelected;
+    private int likeCount = 0;
+    private int commentCount = 0;
+    private int shareCount = 0;
     private DatabaseHelper dbHelper; // Instance of your SQLiteOpenHelper class
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        // Inicialización de las vistas
-        imageViewNotifications = findViewById(R.id.imageViewNotifications);
-        imageViewFriends = findViewById(R.id.imageViewFriends);
-        imageViewMenu = findViewById(R.id.imageViewMenu);
-        imageViewLupa = findViewById(R.id.imageViewlupa);
+        Button buttonLike = findViewById(R.id.buttonLike);
+        Button buttonComment = findViewById(R.id.buttonComment);
+        Button buttonShare = findViewById(R.id.buttonShare);
         textViewWelcome = findViewById(R.id.textViewWelcome);
-        LinearLayout searchBar = findViewById(R.id.searchBar);
-
-
-        // Initialize SQLite database helper
+        TextView textViewLikes = findViewById(R.id.textViewLikes);
+        TextView textViewComments = findViewById(R.id.textViewComments);
+        TextView textViewShares = findViewById(R.id.textViewShares);
+        ImageView imageViewSelected = findViewById(R.id.imageViewSelected);
+        Button buttonChooseImage = findViewById(R.id.buttonChooseImage);
         dbHelper = new DatabaseHelper(this);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+
+        buttonChooseImage.setOnClickListener(v -> openFileChooser());
+
+        // Set onClickListener for Like button
+        buttonLike.setOnClickListener(v -> {
+            likeCount++;
+            textViewLikes.setText(likeCount + " Likes");
+        });
+
+        // Set onClickListener for Comment button
+        buttonComment.setOnClickListener(v -> {
+            commentCount++;
+            textViewComments.setText(commentCount + " Comments");
+        });
+
+        // Set onClickListener for Share button
+        buttonShare.setOnClickListener(v -> {
+            shareCount++;
+            textViewShares.setText(shareCount + " Shares");
+        });
 
         // Retrieve and store username
         retrieveAndStoreUsername();
+    }
 
-        imageViewLupa.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Toggle search bar visibility
-                if (searchBar.getVisibility() == View.VISIBLE) {
-                    searchBar.setVisibility(View.GONE);
-                } else {
-                    searchBar.setVisibility(View.VISIBLE);
-                }
-            }
-        });
+    private void openFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri imageUri = data.getData();
+            Glide.with(this).load(imageUri).into(imageViewSelected);
+        }
     }
 
     private void retrieveAndStoreUsername() {
@@ -60,20 +98,24 @@ public class HomeActivity extends AppCompatActivity {
         if (user != null) {
             String userId = user.getUid();
 
-            // Retrieve username from Firebase (replace with your actual logic)
-            String username = "Sample User"; // Replace with actual username retrieval
-
-            // Check if username exists in SQLite first
-            String storedUsername = getUsernameFromSQLite(userId);
-            if (storedUsername == null) {
-                // Username not found in SQLite, store it
-                storeUsernameInSQLite(userId, username);
-            } else {
-                // Username found in SQLite, use it
-                username = storedUsername;
-            }
-
-            textViewWelcome.setText("Bienvenido a XpresaT y " + username);
+            // Acceder al nombre del usuario desde Firebase Firestore
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            DocumentReference docRef = db.collection("usuarios").document(userId);
+            docRef.get().addOnSuccessListener(documentSnapshot -> {
+                if (documentSnapshot.exists()) {
+                    String username = documentSnapshot.getString("name");
+                    textViewWelcome.setText("Bienvenido a XpresaT " + username);
+                    storeUsernameInSQLite(userId, username); // Almacena el nombre en SQLite
+                } else {
+                    // El documento del usuario no existe
+                    textViewWelcome.setText("Bienvenido a XpresaT (nombre de usuario no encontrado)");
+                }
+            }).addOnFailureListener(e -> {
+                // Manejar cualquier error aquí
+                Log.e("HomeActivity", "Error al obtener el nombre del usuario", e);
+                // Mostrar un mensaje de error en un TextView o un Toast
+                Toast.makeText(HomeActivity.this, "Error al obtener el nombre del usuario", Toast.LENGTH_SHORT).show();
+            });
         }
     }
 

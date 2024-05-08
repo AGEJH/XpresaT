@@ -1,74 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
 
+    <!-- Toolbar o Barra de navegación -->
+
+    <!-- Zona de Posteo -->
+
+    <!-- Selector de Imagen -->
     <LinearLayout
-        android:id="@+id/navigationBar"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:background="#EEEEEE"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="8dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_profile" />
 
         <TextView
             android:id="@+id/textViewWelcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/violeta_letras_botones"
-            android:text="Bienvenido a XpresaT  "
-            android:gravity=" " />
-
-        <ImageView
-            android:id="@+id/imageViewNotifications"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@drawable/ic_notificacion"
-            android:layout_weight="1"
-            android:layout_marginEnd="8dp"/>
-
-        <ImageView
-            android:id="@+id/imageViewlupa"
-            android:layout_width="49dp"
-            android:layout_height="41dp"
-            android:src="@drawable/ic_lupa" />
-
-        <ImageView
-            android:id="@+id/imageViewFriends"
-            android:layout_width="48dp"
-            android:layout_height="32dp"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:src="@drawable/ic_amigos" />
-
-        <ImageView
-            android:id="@+id/imageViewMenu"
-            android:layout_width="49dp"
-            android:layout_height="29dp"
-            android:src="@drawable/menu" />
-
-
-
+            android:layout_marginLeft="16dp"
+            android:text="Bienvenido a XpresaT "
+            android:textColor="#000000"
+            android:textSize="16sp" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/searchBar"
+    <EditText
+        android:id="@+id/postInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/navigationBar"
-        android:layout_marginTop="25dp"
+        android:layout_below="@id/toolbar"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="#FFFFFF"
+        android:hint="¡Postea lo que quieras expresar!"
+        android:padding="12dp" />
+
+    <ImageView
+        android:id="@+id/imageViewSelected"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@id/postInput"
+        android:contentDescription="Selected Image"
+        android:scaleType="centerCrop" />
+
+    <!-- Botón para seleccionar imagen -->
+    <Button
+        android:id="@+id/buttonChooseImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageViewSelected"
+        android:text="Select Image" />
+
+    <!-- Imagen con iconos de interacción -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/buttonChooseImage"
         android:orientation="horizontal"
+        android:gravity="center"
         android:padding="8dp">
 
-        <!---<EditText
-            android:id="@+id/editTextSearch"
+        <!-- Botón "Like" -->
+        <Button
+            android:id="@+id/buttonLike"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Buscar personas"
-            android:inputType="text" />  !-->
+            android:drawableLeft="@drawable/ic_like"
+            android:text="Like"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Botón "Comentar" -->
+        <Button
+            android:id="@+id/buttonComment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_comment"
+            android:text="Comment"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"/>
+
+        <!-- Botón "Compartir" -->
+        <Button
+            android:id="@+id/buttonShare"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_share"
+            android:text="Share"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"/>
+
+
+
+        <!-- Textview para mostrar el número de "likes" -->
+        <TextView
+            android:id="@+id/textViewLikes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0 Likes"
+            android:layout_below="@id/buttonLike"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Textview para mostrar el número de comentarios -->
+        <TextView
+            android:id="@+id/textViewComments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0 Comments"
+            android:layout_below="@id/buttonComment"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"/>
+
+        <!-- Textview para mostrar el número de veces compartido -->
+        <TextView
+            android:id="@+id/textViewShares"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0 Shares"
+            android:layout_below="@id/buttonShare"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"/>
 
     </LinearLayout>
-
 </RelativeLayout>
-

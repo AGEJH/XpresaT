@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -19,6 +20,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Button btn_registrarse;
     private DatabaseHelper dbHelper;
     private FirebaseAuth firebaseAuth;  // Firebase Authentication instance
+    private FirebaseFirestore db; // Firebase Firestore instance
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         dbHelper = new DatabaseHelper(this);
         firebaseAuth = FirebaseAuth.getInstance(); // Initialize Firebase Auth
+        db = FirebaseFirestore.getInstance(); // Initialize Firestore
 
         editTextNombre = findViewById(R.id.tnombre);
         editTextApellido = findViewById(R.id.tapellido);
@@ -70,11 +73,29 @@ public class RegisterActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         // Firebase user created successfully
                         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                        guardarUsuarioLocalmente(); // Call method to save the user locally
+                        guardarUsuarioEnFirestore(firebaseUser.getUid());
                     } else {
                         // Firebase registration failed
                         Toast.makeText(RegisterActivity.this, "Error en Firebase: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                     }
+                });
+    }
+
+    private void guardarUsuarioEnFirestore(String userId) {
+        String nombre = editTextNombre.getText().toString().trim();
+        String apellido = editTextApellido.getText().toString().trim();
+        String email = editTextCorreo.getText().toString().trim();
+
+        // Crear un nuevo documento en la colección 'users' con el ID del usuario
+        Usuario usuario = new Usuario(nombre, apellido, email);
+        db.collection("users").document(userId)
+                .set(usuario)
+                .addOnSuccessListener(aVoid -> {
+                    guardarUsuarioLocalmente(); // Call method to save the user locally
+                })
+                .addOnFailureListener(e -> {
+                    // Firebase Firestore registration failed
+                    Toast.makeText(RegisterActivity.this, "Error en Firestore: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 });
     }
 
@@ -95,6 +116,30 @@ public class RegisterActivity extends AppCompatActivity {
             Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
+        }
+    }
+
+    private class Usuario {
+        private String nombre;
+        private String apellido;
+        private String email;
+
+        public Usuario(String nombre, String apellido, String email) {
+            this.nombre = nombre;
+            this.apellido = apellido;
+            this.email = email;
+        }
+
+        public String getNombre() {
+            return nombre;
+        }
+
+        public String getApellido() {
+            return apellido;
+        }
+
+        public String getEmail() {
+            return email;
         }
     }
 }
