@@ -40,42 +40,47 @@
 
         <ImageButton
             android:id="@+id/buttonHome"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
+            android:scaleType="centerInside"
             android:src="@drawable/ic_inicio" />
 
         <ImageButton
             android:id="@+id/buttonNotifications"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
+            android:scaleType="centerInside"
             android:src="@drawable/ic_notificacion" />
 
         <ImageButton
             android:id="@+id/buttonVideo"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
+            android:scaleType="centerInside"
             android:src="@drawable/ic_video" />
 
         <ImageButton
             android:id="@+id/buttonProfile"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
+            android:scaleType="centerInside"
             android:src="@drawable/ic_perfil" />
 
         <ImageButton
             android:id="@+id/buttonMenu"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
+            android:scaleType="centerInside"
             android:src="@drawable/ic_hamburguesa" />
 
     </LinearLayout>
