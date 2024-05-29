@@ -4,12 +4,7 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF">
 
-    <!-- Toolbar o Barra de navegación -->
-
-    <!-- Zona de Posteo -->
-
-    <!-- Selector de Imagen -->
-    <LinearLayout
+}    <LinearLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,13 +28,65 @@
             android:textSize="16sp" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="633dp"
+        android:background="#EEEEEE"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <ImageButton
+            android:id="@+id/buttonHome"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_inicio" />
+
+        <ImageButton
+            android:id="@+id/buttonNotifications"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_notificacion" />
+
+        <ImageButton
+            android:id="@+id/buttonVideo"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_video" />
+
+        <ImageButton
+            android:id="@+id/buttonProfile"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_perfil" />
+
+        <ImageButton
+            android:id="@+id/buttonMenu"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_hamburguesa" />
+
+    </LinearLayout>
+
     <EditText
         android:id="@+id/postInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="70dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="#FFFFFF"
@@ -54,7 +101,6 @@
         android:contentDescription="Selected Image"
         android:scaleType="centerCrop" />
 
-    <!-- Botón para seleccionar imagen -->
     <Button
         android:id="@+id/buttonChooseImage"
         android:layout_width="match_parent"
@@ -62,77 +108,96 @@
         android:layout_below="@id/imageViewSelected"
         android:text="Select Image" />
 
-    <!-- Imagen con iconos de interacción -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/buttonChooseImage"
-        android:orientation="horizontal"
+        android:layout_marginTop="21dp"
         android:gravity="center"
+        android:orientation="horizontal"
         android:padding="8dp">
 
-        <!-- Botón "Like" -->
-        <Button
-            android:id="@+id/buttonLike"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/ic_like"
-            android:text="Like"
-            android:layout_marginTop="8dp"/>
+            android:orientation="vertical"
+            android:gravity="center">
 
-        <!-- Botón "Comentar" -->
-        <Button
-            android:id="@+id/buttonComment"
+            <ImageButton
+                android:id="@+id/buttonLike"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_like" />
+
+            <TextView
+                android:id="@+id/textLikeCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="0"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:textColor="@android:color/black" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/ic_comment"
-            android:text="Comment"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="8dp"/>
+            android:orientation="vertical"
+            android:gravity="center">
 
-        <!-- Botón "Compartir" -->
-        <Button
-            android:id="@+id/buttonShare"
+            <ImageButton
+                android:id="@+id/buttonComment"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_comment" />
+
+            <TextView
+                android:id="@+id/textCommentCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="0"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:textColor="@android:color/black" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/ic_share"
-            android:text="Share"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="8dp"/>
+            android:orientation="vertical"
+            android:gravity="center">
 
+            <ImageButton
+                android:id="@+id/buttonShare"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_share" />
 
+            <TextView
+                android:id="@+id/textShareCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="0"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:textColor="@android:color/black" />
 
-        <!-- Textview para mostrar el número de "likes" -->
-        <TextView
-            android:id="@+id/textViewLikes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0 Likes"
-            android:layout_below="@id/buttonLike"
-            android:layout_marginTop="8dp"/>
-
-        <!-- Textview para mostrar el número de comentarios -->
-        <TextView
-            android:id="@+id/textViewComments"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0 Comments"
-            android:layout_below="@id/buttonComment"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="8dp"/>
-
-        <!-- Textview para mostrar el número de veces compartido -->
-        <TextView
-            android:id="@+id/textViewShares"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0 Shares"
-            android:layout_below="@id/buttonShare"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="8dp"/>
+        </LinearLayout>
 
     </LinearLayout>
 </RelativeLayout>
+

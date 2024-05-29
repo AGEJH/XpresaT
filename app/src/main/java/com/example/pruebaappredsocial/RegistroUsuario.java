@@ -35,7 +35,7 @@ public class RegistroUsuario {
         mAuth.createUserWithEmailAndPassword(correo, contraseña)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
+                    public   void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
                             enviarEmailVerificacion(context, user);

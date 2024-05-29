@@ -8,8 +8,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,8 +27,8 @@ public class HomeActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private TextView textViewWelcome;
-    private LinearLayout searchBar;
     private ImageView imageViewSelected;
+
     private int likeCount = 0;
     private int commentCount = 0;
     private int shareCount = 0;
@@ -39,18 +40,18 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        Button buttonLike = findViewById(R.id.buttonLike);
-        Button buttonComment = findViewById(R.id.buttonComment);
-        Button buttonShare = findViewById(R.id.buttonShare);
+        ImageButton buttonLike = findViewById(R.id.buttonLike);
+        ImageButton buttonComment = findViewById(R.id.buttonComment);
+        ImageButton buttonShare = findViewById(R.id.buttonShare);
+        TextView textViewLikes = findViewById(R.id.textLikeCount); // Reference to TextView for likes
+        TextView textViewComments = findViewById(R.id.textCommentCount); // Reference to TextView for comments
+        TextView textViewShares = findViewById(R.id.textShareCount); // Reference to TextView for shares
         textViewWelcome = findViewById(R.id.textViewWelcome);
-        TextView textViewLikes = findViewById(R.id.textViewLikes);
-        TextView textViewComments = findViewById(R.id.textViewComments);
-        TextView textViewShares = findViewById(R.id.textViewShares);
-        ImageView imageViewSelected = findViewById(R.id.imageViewSelected);
+        imageViewSelected = findViewById(R.id.imageViewSelected);
         Button buttonChooseImage = findViewById(R.id.buttonChooseImage);
+        EditText postInput = findViewById(R.id.postInput);
         dbHelper = new DatabaseHelper(this);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-
 
         buttonChooseImage.setOnClickListener(v -> openFileChooser());
 

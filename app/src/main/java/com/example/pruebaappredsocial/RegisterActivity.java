@@ -19,8 +19,8 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText editTextNombre, editTextApellido, editTextCorreo, editTextContraseña, editTextRepetirContraseña;
     private Button btn_registrarse;
     private DatabaseHelper dbHelper;
-    private FirebaseAuth firebaseAuth;  // Firebase Authentication instance
-    private FirebaseFirestore db; // Firebase Firestore instance
+    private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +28,8 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         dbHelper = new DatabaseHelper(this);
-        firebaseAuth = FirebaseAuth.getInstance(); // Initialize Firebase Auth
-        db = FirebaseFirestore.getInstance(); // Initialize Firestore
+        firebaseAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         editTextNombre = findViewById(R.id.tnombre);
         editTextApellido = findViewById(R.id.tapellido);
@@ -71,41 +71,44 @@ public class RegisterActivity extends AppCompatActivity {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        // Firebase user created successfully
                         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                        guardarUsuarioEnFirestore(firebaseUser.getUid());
+                        try {
+                            byte[] salt = HashingUtil.generateSalt();
+                            String hashedPassword = HashingUtil.hashPassword(password, salt);
+                            guardarUsuarioEnFirestore(firebaseUser.getUid(), salt, hashedPassword);
+                        } catch (Exception e) {
+                            Toast.makeText(RegisterActivity.this, "Error al generar sal o hash: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
                     } else {
-                        // Firebase registration failed
                         Toast.makeText(RegisterActivity.this, "Error en Firebase: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
     }
 
-    private void guardarUsuarioEnFirestore(String userId) {
+    private void guardarUsuarioEnFirestore(String userId, byte[] salt, String hashedPassword) {
         String nombre = editTextNombre.getText().toString().trim();
         String apellido = editTextApellido.getText().toString().trim();
         String email = editTextCorreo.getText().toString().trim();
 
-        // Crear un nuevo documento en la colección 'users' con el ID del usuario
-        Usuario usuario = new Usuario(nombre, apellido, email);
+        Usuario usuario = new Usuario(nombre, apellido, email, hashedPassword, HexUtil.bytesToHex(salt));
         db.collection("users").document(userId)
                 .set(usuario)
                 .addOnSuccessListener(aVoid -> {
-                    guardarUsuarioLocalmente(); // Call method to save the user locally
+                    guardarUsuarioLocalmente(nombre, apellido, email, hashedPassword, salt);
                 })
                 .addOnFailureListener(e -> {
-                    // Firebase Firestore registration failed
                     Toast.makeText(RegisterActivity.this, "Error en Firestore: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 });
     }
 
-    private void guardarUsuarioLocalmente() {
+    private void guardarUsuarioLocalmente(String nombre, String apellido, String email, String hashedPassword, byte[] salt) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("name", editTextNombre.getText().toString().trim());
-        values.put("lastname", editTextApellido.getText().toString().trim());
-        values.put("email", editTextCorreo.getText().toString().trim());
-        values.put("password", editTextContraseña.getText().toString().trim());
+        values.put("name", nombre);
+        values.put("lastname", apellido);
+        values.put("email", email);
+        values.put("password", hashedPassword);
+        values.put("salt", HexUtil.bytesToHex(salt));
         long newRowId = db.insert("user", null, values);
         db.close();
 
@@ -123,11 +126,15 @@ public class RegisterActivity extends AppCompatActivity {
         private String nombre;
         private String apellido;
         private String email;
+        private String hashedPassword;
+        private String salt;
 
-        public Usuario(String nombre, String apellido, String email) {
+        public Usuario(String nombre, String apellido, String email, String hashedPassword, String salt) {
             this.nombre = nombre;
             this.apellido = apellido;
             this.email = email;
+            this.hashedPassword = hashedPassword;
+            this.salt = salt;
         }
 
         public String getNombre() {
@@ -140,6 +147,14 @@ public class RegisterActivity extends AppCompatActivity {
 
         public String getEmail() {
             return email;
+        }
+
+        public String getHashedPassword() {
+            return hashedPassword;
+        }
+
+        public String getSalt() {
+            return salt;
         }
     }
 }

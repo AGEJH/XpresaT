@@ -14,16 +14,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
-
-    // Método llamado cuando la base de datos se crea por primera vez
-
+    
     //A continuación  el campo id será autoincrementado automáticamente por SQLite
     // cuando inserte nuevo registros en la tabla no habrá necesidad de poner AUTO_INCREMENT asi que se omitirá
     //En SQLite, la manera de lograr la autoincrementación es
     //utilizando INTEGER PRIMARY KEY, sin necesidad de especificar AUTO_INCREMENT.
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // Creación de la tabla user
+        // Create user_info table
+        db.execSQL("CREATE TABLE user_info (uid TEXT PRIMARY KEY, username TEXT)");
+
 
         String createUserTable = "CREATE TABLE user (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
