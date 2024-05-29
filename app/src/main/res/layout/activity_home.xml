@@ -1,91 +1,208 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
 
-    <!-- Barra de navegación -->
-    <LinearLayout
-        android:id="@+id/navigationBar"
+}    <LinearLayout
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:background="#EEEEEE"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="8dp">
 
-        <!-- Icono de notificaciones -->
         <ImageView
-            android:id="@+id/imageViewNotifications"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@drawable/ic_notificacion"
-            android:layout_weight="1"
-            android:layout_marginEnd="8dp"/>
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_profile" />
 
-        <!-- Icono de amigos -->
-        <ImageView
-            android:id="@+id/imageViewSearchIcon"
-            android:layout_width="182dp"
-            android:layout_height="97dp"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_lupa" />
-
-        <ImageView
-            android:id="@+id/imageViewFriends"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@drawable/ic_amigos"
-            android:layout_weight="1"
-            android:layout_marginEnd="8dp"/>
-
-        <!-- Espacio en blanco para el logo o título -->
-        <ImageView
-            android:id="@+id/imageViewMenu"
+        <TextView
+            android:id="@+id/textViewWelcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/ic_hamburguesa" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <!-- Icono de menú hamburguesa -->
-
+            android:layout_marginLeft="16dp"
+            android:text="Bienvenido a XpresaT "
+            android:textColor="#000000"
+            android:textSize="16sp" />
     </LinearLayout>
 
-    <!-- Barra de búsqueda -->
     <LinearLayout
-        android:id="@+id/searchBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/navigationBar"
+        android:layout_height="54dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="633dp"
+        android:background="#EEEEEE"
+        android:gravity="center"
         android:orientation="horizontal"
         android:padding="8dp">
 
-        <!-- Icono de búsqueda -->
-
-        <!-- Campo de búsqueda -->
-        <EditText
-            android:id="@+id/editTextSearch"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+        <ImageButton
+            android:id="@+id/buttonHome"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_weight="1"
-            android:hint="Buscar personas"
-            android:inputType="text" />
+            android:background="?android:attr/selectableItemBackground"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_inicio" />
+
+        <ImageButton
+            android:id="@+id/buttonNotifications"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_notificacion" />
+
+        <ImageButton
+            android:id="@+id/buttonVideo"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_video" />
+
+        <ImageButton
+            android:id="@+id/buttonProfile"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_perfil" />
+
+        <ImageButton
+            android:id="@+id/buttonMenu"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_hamburguesa" />
 
     </LinearLayout>
 
-    <!-- Contenido principal (publicaciones, etc.) -->
-    <RelativeLayout
+    <EditText
+        android:id="@+id/postInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/searchBar"
-        android:padding="16dp">
+        android:layout_below="@id/toolbar"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="#FFFFFF"
+        android:hint="¡Postea lo que quieras expresar!"
+        android:padding="12dp" />
 
-        <!-- Aquí puedes colocar el contenido principal de tu aplicación, como publicaciones, etc. -->
+    <ImageView
+        android:id="@+id/imageViewSelected"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@id/postInput"
+        android:contentDescription="Selected Image"
+        android:scaleType="centerCrop" />
 
-    </RelativeLayout>
+    <Button
+        android:id="@+id/buttonChooseImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageViewSelected"
+        android:text="Select Image" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/buttonChooseImage"
+        android:layout_marginTop="21dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/buttonLike"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_like" />
+
+            <TextView
+                android:id="@+id/textLikeCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="0"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:textColor="@android:color/black" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/buttonComment"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_comment" />
+
+            <TextView
+                android:id="@+id/textCommentCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="0"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:textColor="@android:color/black" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/buttonShare"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_share" />
+
+            <TextView
+                android:id="@+id/textShareCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="0"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:textColor="@android:color/black" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 </RelativeLayout>
 
