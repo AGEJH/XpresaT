@@ -1,0 +1,9 @@
+<resources>
+    <style name="Base.Theme.PruebaAppRedSocial" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorToolbarBackground">#999696</item>
+        <item name="colorToolbarText">@color/toolbar_text_light</item>
+        <item name="colorButtonText">@color/button_text_light</item>
+    </style>
+    <style name="Theme.PruebaAppRedSocial" parent="Base.Theme.PruebaAppRedSocial" />
+</resources>
+

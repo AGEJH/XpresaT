@@ -2,7 +2,7 @@ package com.example.pruebaappredsocial;
 
 import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,16 +29,26 @@ public class HomeActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private TextView textViewWelcome;
     private ImageView imageViewSelected;
-
     private int likeCount = 0;
     private int commentCount = 0;
     private int shareCount = 0;
     private DatabaseHelper dbHelper; // Instance of your SQLiteOpenHelper class
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+
+        // Load the saved theme before setting the content view
+        sharedPreferences = getSharedPreferences("ThemePref", MODE_PRIVATE);
+        boolean isDarkMode = sharedPreferences.getBoolean("isDarkMode", false);
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
         setContentView(R.layout.activity_home);
 
         ImageButton buttonLike = findViewById(R.id.buttonLike);
@@ -52,6 +63,7 @@ public class HomeActivity extends AppCompatActivity {
         EditText postInput = findViewById(R.id.postInput);
         dbHelper = new DatabaseHelper(this);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Button buttonToggleTheme = findViewById(R.id.buttonToggleTheme);
 
         buttonChooseImage.setOnClickListener(v -> openFileChooser());
 
@@ -71,6 +83,22 @@ public class HomeActivity extends AppCompatActivity {
         buttonShare.setOnClickListener(v -> {
             shareCount++;
             textViewShares.setText(shareCount + " Shares");
+        });
+
+        // Toggle theme button logic
+        buttonToggleTheme.setOnClickListener(v -> {
+            boolean isCurrentlyDarkMode = sharedPreferences.getBoolean("isDarkMode", false);
+            if (isCurrentlyDarkMode) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                editor = sharedPreferences.edit();
+                editor.putBoolean("isDarkMode", false);
+                editor.apply();
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                editor = sharedPreferences.edit();
+                editor.putBoolean("isDarkMode", true);
+                editor.apply();
+            }
         });
 
         // Retrieve and store username
@@ -120,7 +148,7 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    private String getUsernameFromSQLite(String userId) {
+    /*private String getUsernameFromSQLite(String userId) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String username = null;
         Cursor cursor = db.query("user_info", new String[]{"username"}, "uid = ?", new String[]{userId}, null, null, null);
@@ -130,7 +158,7 @@ public class HomeActivity extends AppCompatActivity {
         cursor.close();
         db.close();
         return username;
-    }
+    }  */
 
     private void storeUsernameInSQLite(String userId, String username) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();

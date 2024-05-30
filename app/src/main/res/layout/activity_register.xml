@@ -8,14 +8,26 @@
     android:background="#F8F8F8"
     tools:context=".RegisterActivity">
 
+    <TextView
+        android:id="@+id/textView26"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:text="Registro"
+        android:textColor="#050505"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/tnombre"
-        android:layout_width="168dp"
-        android:layout_height="66dp"
+        android:layout_width="0dp"
+        android:layout_height="53dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginTop="84dp"
+        android:layout_marginEnd="8dp"
         android:background="@drawable/button_style"
         android:backgroundTint="#B5BECF"
         android:hint="Nombre"
@@ -24,51 +36,15 @@
         android:textColorHint="#B3040404"
         android:textSize="12sp"
         app:layout_constraintEnd_toStartOf="@+id/tapellido"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView26" />
 
-    <TextView
-        android:id="@+id/textView26"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
-        android:text="Registro"
-        android:textColor="#050505"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/tcontraseña2"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="32dp"
-        android:background="@drawable/button_style"
-        android:backgroundTint="#B5BECF"
-        android:ems="10"
-        android:hint="Repetir contraseña"
-        android:inputType="textPassword"
-        android:textAlignment="center"
-        android:textColor="#020202"
-        android:textColorHint="#B3000000"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tcontraseña" />
-
     <EditText
         android:id="@+id/tapellido"
-        android:layout_width="164dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="210dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="0dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="84dp"
         android:layout_marginEnd="32dp"
         android:background="@drawable/button_style"
         android:backgroundTint="#B5BECF"
@@ -78,9 +54,27 @@
         android:textColorHint="#B3000000"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/tnombre"
+        app:layout_constraintTop_toBottomOf="@+id/textView26" />
+
+    <EditText
+        android:id="@+id/tcorreo"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/button_style"
+        android:backgroundTint="#B5BECF"
+        android:hint="Correo electrónico"
+        android:textAlignment="center"
+        android:textColor="#090909"
+        android:textColorHint="#B3000000"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tnombre" />
+        app:layout_constraintTop_toBottomOf="@+id/tnombre" />
 
     <EditText
         android:id="@+id/tcontraseña"
@@ -104,88 +98,38 @@
         app:layout_constraintTop_toBottomOf="@+id/tcorreo" />
 
     <EditText
-        android:id="@+id/tcorreo"
+        android:id="@+id/tcontraseña2"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="32dp"
         android:background="@drawable/button_style"
         android:backgroundTint="#B5BECF"
-        android:hint="Correo electrónico"
+        android:ems="10"
+        android:hint="Repetir contraseña"
+        android:inputType="textPassword"
         android:textAlignment="center"
-        android:textColor="#090909"
+        android:textColor="#020202"
         android:textColorHint="#B3000000"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tapellido" />
-
+        app:layout_constraintTop_toBottomOf="@+id/tcontraseña" />
 
     <Button
         android:id="@+id/btn_registrarse"
-        android:layout_width="371dp"
+        android:layout_width="0dp"
         android:layout_height="66dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="156dp"
+        android:layout_marginTop="68dp"
         android:layout_marginEnd="32dp"
         android:backgroundTint="@color/violeta_letras_botones"
         android:text="Registrarse"
         android:textColor="@color/beige"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tcontraseña2" />
-
-    <!--
-    <Button
-        android:id="@+id/btnQuestionnaire"
-        android:layout_width="48dp"
-        android:layout_height="34dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/boton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tcontraseña2" />
-
-    <TextView
-        android:id="@+id/textViewQuestionnaire"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Contestar Cuestionario"
-        android:textColor="@color/azul_primario"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnQuestionnaire" />
-
-    <Button
-        android:id="@+id/btnConfirmCompletion"
-        android:layout_width="32dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/cheque"
-        android:onClick="onConfirmCompletionClicked"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewQuestionnaire" />
-
-    <TextView
-        android:id="@+id/textViewconfirm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="Marcar completado"
-        android:textColor="@color/azul_primario"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.506"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnConfirmCompletion" />    !-->
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
