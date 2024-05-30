@@ -2,16 +2,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="@color/white">
 
-}    <LinearLayout
+    <!-- Barra de navegación superior -->
+    <LinearLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#EEEEEE"
+        android:background="@color/blanco_opaco"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:layout_alignParentTop="true">
 
         <ImageView
             android:layout_width="24dp"
@@ -24,16 +26,22 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:text="Bienvenido a XpresaT "
-            android:textColor="#000000"
+            android:textColor="@color/azul_primario"
             android:textSize="16sp" />
     </LinearLayout>
+
+    <!-- Barra de navegación inferior -->
+
+
+    <!-- Zona de Posteo -->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="54dp"
+        android:layout_above="@id/postInput"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="633dp"
-        android:background="#EEEEEE"
+        android:layout_marginBottom="649dp"
+        android:background="@color/colorToolbarText"
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="8dp">
@@ -87,14 +95,14 @@
 
     <EditText
         android:id="@+id/postInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="314dp"
+        android:layout_height="52dp"
         android:layout_below="@id/toolbar"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="84dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:background="#FFFFFF"
+        android:background="@color/font_letras_default"
         android:hint="¡Postea lo que quieras expresar!"
         android:padding="12dp" />
 
@@ -106,18 +114,24 @@
         android:contentDescription="Selected Image"
         android:scaleType="centerCrop" />
 
+    <!-- Botón de seleccionar imagen -->
+
+    <!-- Botón para cambiar tema oscuro -->
     <Button
         android:id="@+id/buttonChooseImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/imageViewSelected"
-        android:text="Select Image" />
+        android:layout_marginTop="-55dp"
+        android:backgroundTint="@color/violeta_letras_botones"
+        android:text="Select Image"
+        android:textColor="@color/white" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/buttonChooseImage"
-        android:layout_marginTop="21dp"
+        android:layout_marginTop="26dp"
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="8dp">
@@ -126,8 +140,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <ImageButton
                 android:id="@+id/buttonLike"
@@ -142,10 +156,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="0"
-                android:textSize="14sp"
                 android:gravity="center"
-                android:textColor="@android:color/black" />
+                android:text="0"
+                android:textColor="@color/gris"
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -153,8 +167,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <ImageButton
                 android:id="@+id/buttonComment"
@@ -169,10 +183,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="0"
-                android:textSize="14sp"
                 android:gravity="center"
-                android:textColor="@android:color/black" />
+                android:text="0"
+                android:textColor="@color/gris"
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -180,8 +194,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <ImageButton
                 android:id="@+id/buttonShare"
@@ -196,13 +210,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="0"
-                android:textSize="14sp"
                 android:gravity="center"
-                android:textColor="@android:color/black" />
+                android:text="0"
+                android:textColor="@color/gris"
+                android:textSize="14sp" />
 
         </LinearLayout>
 
     </LinearLayout>
-</RelativeLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <Button
+            android:id="@+id/buttonToggleTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorToolbarBackground"
+            android:textColor="@color/colorToolbarText"
+            android:text="Toggle Theme" />
+    </LinearLayout>
+
+</RelativeLayout>

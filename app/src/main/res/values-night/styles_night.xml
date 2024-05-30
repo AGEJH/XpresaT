@@ -1,0 +1,32 @@
+<resources>
+    <!-- Base application theme -->
+    <style name="Theme.PruebaAppRedSocial" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary and secondary colors -->
+        <item name="colorPrimary">#1E1E1E</item>
+        <item name="colorPrimaryVariant">#121212</item>
+        <item name="colorOnPrimary">#543881</item>
+        <item name="colorSecondary">#BB86FC</item>
+        <item name="colorSecondaryVariant">#3700B3</item>
+        <item name="colorOnSecondary">#000000</item>
+
+        <!-- Background and surface colors -->
+        <item name="android:colorBackground">#121212</item>
+        <item name="colorSurface">#1E1E1E</item>
+        <item name="colorOnSurface">#FFFFFF</item>
+
+        <!-- Text colors -->
+        <item name="android:textColorPrimary">#FFFFFF</item>
+        <item name="android:textColorSecondary">#B0B0B0</item>
+        <item name="android:textColorHint">#E3E3E3</item>
+        <item name="android:textColorLink">#BB86FC</item>
+
+        <!-- Toolbar color -->
+        <item name="colorToolbarBackground">#090909</item>
+        <item name="colorToolbarText">#EAEAEA</item>
+
+        <!-- Button colors -->
+        <item name="colorButtonNormal">#BB86FC</item>
+        <item name="colorButtonText">#000000</item>
+
+    </style>
+</resources>
