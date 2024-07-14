@@ -93,30 +93,30 @@
 
     </LinearLayout>
 
+
     <EditText
         android:id="@+id/postInput"
         android:layout_width="314dp"
         android:layout_height="52dp"
         android:layout_below="@id/toolbar"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="55dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@color/font_letras_default"
         android:hint="¡Postea lo que quieras expresar!"
         android:padding="12dp" />
 
+
     <ImageView
         android:id="@+id/imageViewSelected"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_below="@id/postInput"
+        android:layout_marginTop="6dp"
         android:contentDescription="Selected Image"
         android:scaleType="centerCrop" />
 
-    <!-- Botón de seleccionar imagen -->
-
-    <!-- Botón para cambiar tema oscuro -->
     <Button
         android:id="@+id/buttonChooseImage"
         android:layout_width="match_parent"

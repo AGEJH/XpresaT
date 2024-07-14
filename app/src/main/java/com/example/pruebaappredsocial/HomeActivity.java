@@ -54,6 +54,7 @@ public class HomeActivity extends AppCompatActivity {
         ImageButton buttonLike = findViewById(R.id.buttonLike);
         ImageButton buttonComment = findViewById(R.id.buttonComment);
         ImageButton buttonShare = findViewById(R.id.buttonShare);
+        ImageButton buttonNotifications = findViewById(R.id.buttonNotifications);
         TextView textViewLikes = findViewById(R.id.textLikeCount); // Reference to TextView for likes
         TextView textViewComments = findViewById(R.id.textCommentCount); // Reference to TextView for comments
         TextView textViewShares = findViewById(R.id.textShareCount); // Reference to TextView for shares
@@ -83,6 +84,11 @@ public class HomeActivity extends AppCompatActivity {
         buttonShare.setOnClickListener(v -> {
             shareCount++;
             textViewShares.setText(shareCount + " Shares");
+        });
+        // Set onClickListener for Notifications button
+        buttonNotifications.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, NotificationsActivity.class);
+            startActivity(intent);
         });
 
         // Toggle theme button logic
