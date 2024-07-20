@@ -7,16 +7,17 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,93 +30,64 @@ public class HomeActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private TextView textViewWelcome;
     private ImageView imageViewSelected;
+    private ImageButton buttonNotifications;
     private int likeCount = 0;
     private int commentCount = 0;
     private int shareCount = 0;
     private DatabaseHelper dbHelper; // Instance of your SQLiteOpenHelper class
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+    private EditText postInput;
+    private LinearLayout optionsLayout;
+    private ImageView ImageViewSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Load the saved theme before setting the content view
-        sharedPreferences = getSharedPreferences("ThemePref", MODE_PRIVATE);
-        boolean isDarkMode = sharedPreferences.getBoolean("isDarkMode", false);
-        if (isDarkMode) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
-
         setContentView(R.layout.activity_home);
 
-        ImageButton buttonLike = findViewById(R.id.buttonLike);
-        ImageButton buttonComment = findViewById(R.id.buttonComment);
-        ImageButton buttonShare = findViewById(R.id.buttonShare);
-        ImageButton buttonNotifications = findViewById(R.id.buttonNotifications);
-        TextView textViewLikes = findViewById(R.id.textLikeCount); // Reference to TextView for likes
-        TextView textViewComments = findViewById(R.id.textCommentCount); // Reference to TextView for comments
-        TextView textViewShares = findViewById(R.id.textShareCount); // Reference to TextView for shares
-        textViewWelcome = findViewById(R.id.textViewWelcome);
+        postInput = findViewById(R.id.postInput);
+        optionsLayout = findViewById(R.id.optionsLayout);
+        Button btnAddPhoto = findViewById(R.id.btnAddPhoto);
         imageViewSelected = findViewById(R.id.imageViewSelected);
-        Button buttonChooseImage = findViewById(R.id.buttonChooseImage);
-        EditText postInput = findViewById(R.id.postInput);
-        dbHelper = new DatabaseHelper(this);
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Button buttonToggleTheme = findViewById(R.id.buttonToggleTheme);
+        ImageButton buttonNotifications = findViewById(R.id.buttonNotifications);
 
-        buttonChooseImage.setOnClickListener(v -> openFileChooser());
 
-        // Set onClickListener for Like button
-        buttonLike.setOnClickListener(v -> {
-            likeCount++;
-            textViewLikes.setText(likeCount + " Likes");
-        });
-
-        // Set onClickListener for Comment button
-        buttonComment.setOnClickListener(v -> {
-            commentCount++;
-            textViewComments.setText(commentCount + " Comments");
-        });
-
-        // Set onClickListener for Share button
-        buttonShare.setOnClickListener(v -> {
-            shareCount++;
-            textViewShares.setText(shareCount + " Shares");
-        });
-        // Set onClickListener for Notifications button
-        buttonNotifications.setOnClickListener(v -> {
-            Intent intent = new Intent(HomeActivity.this, NotificationsActivity.class);
-            startActivity(intent);
-        });
-
-        // Toggle theme button logic
-        buttonToggleTheme.setOnClickListener(v -> {
-            boolean isCurrentlyDarkMode = sharedPreferences.getBoolean("isDarkMode", false);
-            if (isCurrentlyDarkMode) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                editor = sharedPreferences.edit();
-                editor.putBoolean("isDarkMode", false);
-                editor.apply();
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                editor = sharedPreferences.edit();
-                editor.putBoolean("isDarkMode", true);
-                editor.apply();
+        postInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    optionsLayout.setVisibility(View.VISIBLE);
+                } else {
+                    optionsLayout.setVisibility(View.GONE);
+                }
             }
         });
 
-        // Retrieve and store username
-        retrieveAndStoreUsername();
+        btnAddPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFileChooser();
+            }
+        });
+        buttonNotifications.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openNotifications();
+            }
+        });
     }
 
+
     private void openFileChooser() {
-        Intent intent = new Intent();
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);  //Abertura de imagenes de galería
+    }
+
+    private void openNotifications() {
+        Intent intent = new Intent(HomeActivity.this, NotificationsActivity.class);     //Notificaciones apartado
+        startActivity(intent);
     }
 
     @Override
@@ -124,7 +96,8 @@ public class HomeActivity extends AppCompatActivity {
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri imageUri = data.getData();
-            Glide.with(this).load(imageUri).into(imageViewSelected);
+            imageViewSelected.setVisibility(View.VISIBLE);
+            Glide.with(this).load(imageUri).into(imageViewSelected);                          //Posteo de imagen cargada a la app.
         }
     }
 
@@ -153,6 +126,48 @@ public class HomeActivity extends AppCompatActivity {
             });
         }
     }
+
+
+        /*
+        ImageButton buttonLike = findViewById(R.id.buttonLike);
+        ImageButton buttonComment = findViewById(R.id.buttonComment);
+        ImageButton buttonShare = findViewById(R.id.buttonShare);
+        ImageButton buttonNotifications = findViewById(R.id.buttonNotifications);
+        TextView textViewLikes = findViewById(R.id.textLikeCount); // Reference to TextView for likes
+        TextView textViewComments = findViewById(R.id.textCommentCount); // Reference to TextView for comments
+        TextView textViewShares = findViewById(R.id.textShareCount); // Reference to TextView for shares
+        imageViewSelected = findViewById(R.id.imageViewSelected);
+        Button buttonChooseImage = findViewById(R.id.buttonChooseImage);
+        EditText postInput = findViewById(R.id.postInput);
+
+        Button buttonToggleTheme = findViewById(R.id.buttonToggleTheme);
+
+        buttonChooseImage.setOnClickListener(v -> openFileChooser());
+
+        // Set onClickListener for Like button
+        buttonLike.setOnClickListener(v -> {
+            likeCount++;
+            textViewLikes.setText(likeCount + " Likes");
+        });
+
+        // Set onClickListener for Comment button
+        buttonComment.setOnClickListener(v -> {
+            commentCount++;
+            textViewComments.setText(commentCount + " Comments");
+        });
+
+        // Set onClickListener for Share button
+        buttonShare.setOnClickListener(v -> {
+            shareCount++;
+            textViewShares.setText(shareCount + " Shares");
+        });
+        // Set onClickListener for Notifications button
+        buttonNotifications.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, NotificationsActivity.class);
+            startActivity(intent);
+        });                                     */
+
+        // Retrieve and store username
 
     /*private String getUsernameFromSQLite(String userId) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
