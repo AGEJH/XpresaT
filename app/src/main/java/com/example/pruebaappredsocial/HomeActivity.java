@@ -53,7 +53,7 @@ public class HomeActivity extends AppCompatActivity {
         ImageButton buttonNotifications = findViewById(R.id.buttonNotifications);
 
 
-        postInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        postInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {   //Campo para que los usuarios escriban sus publicaciones
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if (hasFocus) {
@@ -64,16 +64,23 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        btnAddPhoto.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btnAddPhoto).setOnClickListener(new View.OnClickListener() {     //abrir archivos para cargar foto
             @Override
             public void onClick(View v) {
                 openFileChooser();
             }
         });
-        buttonNotifications.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.buttonNotifications).setOnClickListener(new View.OnClickListener() {     //Abrir activity notificaciones
             @Override
             public void onClick(View v) {
                 openNotifications();
+            }
+        });
+        findViewById(R.id.buttonMenu).setOnClickListener(new View.OnClickListener() {  //Abrir activity menú configuración
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, MenuconfigActivity.class);
+                startActivity(intent);
             }
         });
     }
