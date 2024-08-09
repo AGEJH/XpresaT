@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
-
+    android:background="@color/white"
+    android:layout_marginTop="30dp">
     <!-- Barra de navegación superior -->
     <LinearLayout
         android:id="@+id/toolbar"
@@ -14,11 +14,6 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="8dp">
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_profile" />
 
         <TextView
             android:id="@+id/textViewWelcome"
@@ -44,13 +39,23 @@
         android:padding="6dp">
 
         <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Back"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_back" />
+
+        <ImageButton
             android:id="@+id/buttonHome"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_weight="1"
+            android:layout_marginStart="20dp"
             android:background="?android:attr/selectableItemBackground"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_inicio" />
+            android:src="@drawable/ic_home" />
 
         <ImageButton
             android:id="@+id/buttonNotifications"
@@ -59,7 +64,7 @@
             android:layout_weight="1"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_notificacion" />
+            android:src="@drawable/ic_notifications" />
 
         <ImageButton
             android:id="@+id/buttonVideo"
@@ -68,7 +73,7 @@
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_video" />
+            android:src="@drawable/ic_videos" />
 
         <ImageButton
             android:id="@+id/buttonProfile"
@@ -77,7 +82,7 @@
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_perfil" />
+            android:src="@drawable/ic_profile" />
 
         <ImageButton
             android:id="@+id/buttonMenu"
@@ -86,7 +91,7 @@
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_hamburguesa" />
+            android:src="@drawable/ic_menu" />
 
     </LinearLayout>
 
