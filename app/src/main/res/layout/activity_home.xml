@@ -3,105 +3,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:layout_marginTop="30dp">
-    <!-- Barra de navegación superior -->
-    <LinearLayout
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="53dp"
-        android:layout_alignParentTop="true"
-        android:background="@color/blanco_opaco"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="8dp">
+    android:padding="9dp"
+    android:layout_marginTop="10dp">
 
-        <TextView
-            android:id="@+id/textViewWelcome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:text="Bienvenido a XpresaT "
-            android:textColor="@color/azul_primario"
-            android:textSize="16sp" />
-    </LinearLayout>
+        <include
+            android:id="@+id/menu_navigation"
+            layout="@layout/menu_navigation" />
+
 
     <!-- Zona de Posteo -->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="54dp"
-        android:layout_above="@id/postInput"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="659dp"
-        android:background="@color/colorToolbarText"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="6dp">
-
-        <ImageButton
-            android:id="@+id/btnBack"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Back"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_back" />
-
-        <ImageButton
-            android:id="@+id/buttonHome"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_weight="1"
-            android:layout_marginStart="20dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_home" />
-
-        <ImageButton
-            android:id="@+id/buttonNotifications"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_weight="1"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_notifications" />
-
-        <ImageButton
-            android:id="@+id/buttonVideo"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_videos" />
-
-        <ImageButton
-            android:id="@+id/buttonProfile"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_profile" />
-
-        <ImageButton
-            android:id="@+id/buttonMenu"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_menu" />
-
-    </LinearLayout>
 
     <EditText
         android:id="@+id/postInput"
         android:layout_width="314dp"
         android:layout_height="52dp"
-        android:layout_below="@id/toolbar"
+        android:layout_below="@id/menu_navigation"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="87dp"
+        android:layout_marginTop="52dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@color/font_letras_default"

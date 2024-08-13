@@ -15,8 +15,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,9 +28,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class HomeActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
+    private ImageButton btnBack, btnHome, btnNotifications, btnVideos, btnProfile, btnMenu;
     private TextView textViewWelcome;
     private ImageView imageViewSelected;
-    private ImageButton buttonNotifications;
     private int likeCount = 0;
     private int commentCount = 0;
     private int shareCount = 0;
@@ -48,10 +50,19 @@ public class HomeActivity extends AppCompatActivity {
         optionsLayout = findViewById(R.id.optionsLayout);
         Button btnAddPhoto = findViewById(R.id.btnAddPhoto);
         imageViewSelected = findViewById(R.id.imageViewSelected);
-        ImageButton buttonNotifications = findViewById(R.id.buttonNotifications);
 
+        // Menu de navegación
+        btnBack = findViewById(R.id.btnBack);
+        btnHome = findViewById(R.id.btnHome);
+        btnNotifications = findViewById(R.id.btnNotifications);
+        btnVideos = findViewById(R.id.btnVideos);
+        btnProfile = findViewById(R.id.btnProfile);
+        btnMenu = findViewById(R.id.btnMenu);
 
-        postInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {   //Campo para que los usuarios escriban sus publicaciones
+        // Establecer escuchadores para los botones
+        setButtonListeners();
+
+        postInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {   // Campo para que los usuarios escriban sus publicaciones
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if (hasFocus) {
@@ -62,19 +73,55 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.btnAddPhoto).setOnClickListener(new View.OnClickListener() {     //abrir archivos para cargar foto
+        findViewById(R.id.btnAddPhoto).setOnClickListener(new View.OnClickListener() {     // Campo para abrir archivos para cargar foto
             @Override
             public void onClick(View v) {
                 openFileChooser();
             }
         });
-        findViewById(R.id.buttonNotifications).setOnClickListener(new View.OnClickListener() {     //Abrir activity notificaciones
+    }
+
+    private void setButtonListeners() {
+        btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openNotifications();
+                onBackPressed(); // Volver a la actividad anterior
             }
         });
-        findViewById(R.id.buttonMenu).setOnClickListener(new View.OnClickListener() {  //Abrir activity menú configuración
+
+        btnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnNotifications.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, NotificationsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnVideos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, VideosActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, EditProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, MenuconfigActivity.class);
@@ -83,16 +130,10 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-
     private void openFileChooser() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);  //Abertura de imagenes de galería
-    }
-
-    private void openNotifications() {
-        Intent intent = new Intent(HomeActivity.this, NotificationsActivity.class);     //Notificaciones apartado
-        startActivity(intent);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);  // Apertura de imágenes de galería
     }
 
     @Override
@@ -102,7 +143,7 @@ public class HomeActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri imageUri = data.getData();
             imageViewSelected.setVisibility(View.VISIBLE);
-            Glide.with(this).load(imageUri).into(imageViewSelected);                          //Posteo de imagen cargada a la app.
+            Glide.with(this).load(imageUri).into(imageViewSelected);                          // Posteo de imagen cargada a la app.
         }
     }
 
@@ -131,60 +172,6 @@ public class HomeActivity extends AppCompatActivity {
             });
         }
     }
-
-
-        /*
-        ImageButton buttonLike = findViewById(R.id.buttonLike);
-        ImageButton buttonComment = findViewById(R.id.buttonComment);
-        ImageButton buttonShare = findViewById(R.id.buttonShare);
-        ImageButton buttonNotifications = findViewById(R.id.buttonNotifications);
-        TextView textViewLikes = findViewById(R.id.textLikeCount); // Reference to TextView for likes
-        TextView textViewComments = findViewById(R.id.textCommentCount); // Reference to TextView for comments
-        TextView textViewShares = findViewById(R.id.textShareCount); // Reference to TextView for shares
-        imageViewSelected = findViewById(R.id.imageViewSelected);
-        Button buttonChooseImage = findViewById(R.id.buttonChooseImage);
-        EditText postInput = findViewById(R.id.postInput);
-
-        Button buttonToggleTheme = findViewById(R.id.buttonToggleTheme);
-
-        buttonChooseImage.setOnClickListener(v -> openFileChooser());
-
-        // Set onClickListener for Like button
-        buttonLike.setOnClickListener(v -> {
-            likeCount++;
-            textViewLikes.setText(likeCount + " Likes");
-        });
-
-        // Set onClickListener for Comment button
-        buttonComment.setOnClickListener(v -> {
-            commentCount++;
-            textViewComments.setText(commentCount + " Comments");
-        });
-
-        // Set onClickListener for Share button
-        buttonShare.setOnClickListener(v -> {
-            shareCount++;
-            textViewShares.setText(shareCount + " Shares");
-        });
-        // Set onClickListener for Notifications button
-        buttonNotifications.setOnClickListener(v -> {
-            Intent intent = new Intent(HomeActivity.this, NotificationsActivity.class);
-            startActivity(intent);
-        });                                     */
-
-        // Retrieve and store username
-
-    /*private String getUsernameFromSQLite(String userId) {
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String username = null;
-        Cursor cursor = db.query("user_info", new String[]{"username"}, "uid = ?", new String[]{userId}, null, null, null);
-        if (cursor.moveToFirst()) {
-            username = cursor.getString(0);
-        }
-        cursor.close();
-        db.close();
-        return username;
-    }  */
 
     private void storeUsernameInSQLite(String userId, String username) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
