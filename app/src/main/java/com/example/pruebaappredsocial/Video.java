@@ -17,7 +17,7 @@ public class Video {
         this.numCompartidos = numCompartidos;
     }
 
-    // Getters y setters
+    //  -> Getters y setters
 
     public String getNombreUsuario() {
         return nombreUsuario;

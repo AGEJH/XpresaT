@@ -54,7 +54,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
         public VideoViewHolder(@NonNull View itemView) {
             super(itemView);
-        /*    tvNombreUsuario = itemView.findViewById(R.id.tvNombreUsuario);
+        /*  tvNombreUsuario = itemView.findViewById(R.id.tvNombreUsuario);
             tvDescripcionVideo = itemView.findViewById(R.id.tvDescripcionVideo);
             ivMiniaturaVideo = itemView.findViewById(R.id.ivMiniaturaVideo);
             tvNumLikes = itemView.findViewById(R.id.tvNumLikes);

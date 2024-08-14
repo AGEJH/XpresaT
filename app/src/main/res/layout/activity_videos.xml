@@ -23,7 +23,7 @@
         android:layout_marginBottom="10dp"
         android:textSize="30sp" />
 
-    <!-- RecyclerView para mostrar los videos -->
+    <!-- RecyclerView para mostrar los videoss -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewVideos"
         android:layout_width="match_parent"

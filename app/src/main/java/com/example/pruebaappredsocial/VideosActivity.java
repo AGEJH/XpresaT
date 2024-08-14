@@ -12,7 +12,7 @@ import java.util.List;
 public class VideosActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewVideos;
-    private VideoAdapter videosAdapter; // Asegúrate de crear esta clase
+    private VideoAdapter videosAdapter; // Asegúrate de crear esta clase.
     private List<Video> videoList; // Tu modelo de datos para videos
 
     @Override
