@@ -1,0 +1,75 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:padding="9dp"
+    android:layout_marginTop="30dp">
+
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Back"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_back" />
+
+    <ImageButton
+        android:id="@+id/btnHome"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_toRightOf="@id/btnBack"
+        android:layout_marginStart="38dp"
+        android:src="@drawable/ic_home"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="centerInside"
+        android:contentDescription="Home" />
+
+    <ImageButton
+        android:id="@+id/btnNotifications"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_toRightOf="@id/btnHome"
+        android:layout_marginStart="38dp"
+        android:src="@drawable/ic_notifications"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="centerInside"
+        android:contentDescription="Notifications" />
+
+    <ImageButton
+        android:id="@+id/btnVideos"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_toRightOf="@id/btnNotifications"
+        android:layout_marginStart="38dp"
+        android:src="@drawable/ic_videos"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="centerInside"
+        android:contentDescription="Videos" />
+
+    <ImageButton
+        android:id="@+id/btnProfile"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_toRightOf="@id/btnVideos"
+        android:layout_marginStart="42dp"
+        android:src="@drawable/ic_profile"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="centerInside"
+        android:contentDescription="Profile" />
+
+    <ImageButton
+        android:id="@+id/btnMenu"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="38dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginRight="-99dp"
+        android:layout_toLeftOf="@id/btnProfile"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Menu"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_menu" />
+
+</RelativeLayout>

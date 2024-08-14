@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvWelcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/button_style"
+        android:text="¡Expresa todo lo que quieras!"
+        android:textColor="#000000"
+        android:textSize="30sp"
+        android:fontFamily="@font/core_mellow_57_cn_medium" />
+
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_below="@id/tvWelcome"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/logo_oficial" />
+
+    <TextView
+        android:id="@+id/tvAppName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ivLogo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="XPRESAT"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        android:fontFamily="@font/core_mellow_57_cn_medium" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvAppName"
+        android:layout_marginTop="141dp"
+        android:textSize="22dp"
+        android:background="@drawable/button_style"
+        android:backgroundTint="@color/violeta_letras_botones"
+        android:text="Ingresar"
+        android:textColor="#FFFFFF"
+        android:fontFamily="@font/core_mellow_57_cn_medium"/>
+
+    <TextView
+        android:id="@+id/tvSignUpPrompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnLogin"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="48dp"
+        android:text="Aun no tienes cuenta? "
+        android:textColor="#000000" />
+
+    <TextView
+        android:id="@+id/tvSignUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvSignUpPrompt"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:text="¡Crea una aqui!"
+        android:textColor="#0000FF"
+        android:textStyle="bold" />
+
+
+</RelativeLayout>

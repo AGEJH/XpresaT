@@ -3,6 +3,7 @@
         <item name="colorToolbarBackground">#999696</item>
         <item name="colorToolbarText">@color/toolbar_text_light</item>
         <item name="colorButtonText">@color/button_text_light</item>
+
     </style>
     <style name="Theme.PruebaAppRedSocial" parent="Base.Theme.PruebaAppRedSocial" />
 </resources>

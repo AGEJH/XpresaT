@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="9dp"
+    android:layout_marginTop="10dp">
+
+
+    <include
+        android:id="@+id/menu_navigation"
+        layout="@layout/menu_navigation" />
+
+    <TextView
+        android:id="@+id/textViewNotifications"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="No hay notificaciones por el momento."
+        android:textColor="@color/azul_primario"
+        android:textSize="16sp" />
+</RelativeLayout>
