@@ -1,11 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="9dp"
     android:layout_marginTop="10dp">
 
+    <!-- Menú de navegación -->
     <include
         android:id="@+id/menu_navigation"
         layout="@layout/menu_navigation" />
@@ -18,10 +20,16 @@
         android:text="Videos"
         android:textStyle="bold"
         android:layout_marginTop="55dp"
-    android:layout_marginBottom="10dp"
-        android:textSize="30dp"/>
+        android:layout_marginBottom="10dp"
+        android:textSize="30sp" />
 
-    <!-- Información del usuario y descripción del video -->
-
-
+    <!-- RecyclerView para mostrar los videos -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewVideos"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingBottom="8dp" />
 </LinearLayout>
+
