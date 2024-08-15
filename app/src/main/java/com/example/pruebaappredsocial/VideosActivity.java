@@ -1,11 +1,12 @@
 package com.example.pruebaappredsocial;
 
+import android.content.Intent;
 import android.os.Bundle;
-
+import android.view.View;
+import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,8 @@ public class VideosActivity extends AppCompatActivity {
     private RecyclerView recyclerViewVideos;
     private VideoAdapter videosAdapter; // Asegúrate de crear esta clase.
     private List<Video> videoList; // Tu modelo de datos para videos
+    private ImageButton btnBack, btnHome, btnNotifications, btnVideos, btnProfile, btnMenu; //Para la barra de navegación
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +32,72 @@ public class VideosActivity extends AppCompatActivity {
         // Configura el adaptador
         videosAdapter = new VideoAdapter(videoList);
         recyclerViewVideos.setAdapter(videosAdapter);
-    }
 
-    // Método de ejemplo para obtener la lista de videos
-    private List<Video> obtenerListaDeVideos() {
-        // Aquí iría la lógica para obtener la lista de videos desde tu base de datos
-        return new ArrayList<>(); // Reemplaza esto con la lógica real
+        // Menu de navegación
+        btnBack = findViewById(R.id.btnBack);
+        btnHome = findViewById(R.id.btnHome);
+        btnNotifications = findViewById(R.id.btnNotifications);
+        btnVideos = findViewById(R.id.btnVideos);
+        btnProfile = findViewById(R.id.btnProfile);
+        btnMenu = findViewById(R.id.btnMenu);
+
+        setButtonListeners();
+    }
+        // Método de ejemplo para obtener la lista de videos
+        private List<Video> obtenerListaDeVideos () {
+            // Aquí iría la lógica para obtener la lista de videos desde tu base de datos
+            return new ArrayList<>(); // Reemplaza esto con la lógica real
+        }
+
+    private void setButtonListeners() {
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed(); // Volver a la actividad anterior
+            }
+        });
+
+        btnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(VideosActivity.this, HomeActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnNotifications.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(VideosActivity.this, NotificationsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnVideos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(VideosActivity.this, VideosActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(VideosActivity.this, EditProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(VideosActivity.this, MenuconfigActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
 }
 
