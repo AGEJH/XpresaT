@@ -69,7 +69,9 @@
             android:layout_height="32dp"
             android:src="@drawable/ic_comment"
             android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="centerInside"
             android:contentDescription="Comentarios" />
+
 
         <TextView
             android:id="@+id/tvNumComentarios"
@@ -83,6 +85,7 @@
             android:layout_height="32dp"
             android:src="@drawable/ic_share"
             android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="centerInside"
             android:contentDescription="Compartir" />
 
         <TextView

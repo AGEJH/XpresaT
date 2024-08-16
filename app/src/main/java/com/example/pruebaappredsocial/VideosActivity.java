@@ -101,9 +101,6 @@ public class VideosActivity extends AppCompatActivity {
     }
 }
 
-
-
-
 /*
 Explicación:
 RecyclerView: Se inicializa y se establece un LinearLayoutManager, que organiza los elementos en una lista vertical.
