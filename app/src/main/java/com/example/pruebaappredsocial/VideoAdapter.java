@@ -9,7 +9,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHolder> {
@@ -17,7 +16,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
     private Context context;
     private List<Video> videoList;
 
-    public VideoAdapter(List<Video> videoList) {
+    public VideoAdapter(Context context, List<Video> videoList) {
         this.context = context;
         this.videoList = videoList;
     }
@@ -25,7 +24,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
     @NonNull
     @Override
     public VideoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.activity_videos, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.video_item, parent, false);
         return new VideoViewHolder(view);
     }
 
@@ -38,7 +37,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         holder.tvNumComentarios.setText(String.valueOf(video.getNumComentarios()));
         holder.tvNumCompartidos.setText(String.valueOf(video.getNumCompartidos()));
 
-        // Carga la miniatura del video
+        // Carga la miniatura del video usando Picasso
         Picasso.get().load(video.getUrlMiniatura()).into(holder.ivMiniaturaVideo);
     }
 
@@ -54,12 +53,12 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
         public VideoViewHolder(@NonNull View itemView) {
             super(itemView);
-        /*  tvNombreUsuario = itemView.findViewById(R.id.tvNombreUsuario);
+            tvNombreUsuario = itemView.findViewById(R.id.tvNombreUsuario);
             tvDescripcionVideo = itemView.findViewById(R.id.tvDescripcionVideo);
             ivMiniaturaVideo = itemView.findViewById(R.id.ivMiniaturaVideo);
             tvNumLikes = itemView.findViewById(R.id.tvNumLikes);
             tvNumComentarios = itemView.findViewById(R.id.tvNumComentarios);
-            tvNumCompartidos = itemView.findViewById(R.id.tvNumCompartir);             */
+            tvNumCompartidos = itemView.findViewById(R.id.tvNumCompartidos);
         }
     }
 }

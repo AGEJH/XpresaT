@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:layout_marginBottom="16dp">
+
+    <!-- Información del usuario y descripción del video -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_usuario" />
+
+        <TextView
+            android:id="@+id/tvNombreUsuario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre de Usuario"
+            android:textStyle="bold"
+            android:layout_marginStart="8dp" />
+
+        <TextView
+            android:id="@+id/tvDescripcionVideo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=": Descripción del Video"
+            android:layout_marginStart="4dp" />
+    </LinearLayout>
+
+    <!-- Miniatura del video -->
+    <ImageView
+        android:id="@+id/ivMiniaturaVideo"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:layout_marginTop="8dp" />
+
+    <!-- Barra de interacciones -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <ImageButton
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_like"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Me gusta" />
+
+        <TextView
+            android:id="@+id/tvNumLikes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:layout_marginStart="4dp" />
+
+        <ImageButton
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_comment"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Comentarios" />
+
+        <TextView
+            android:id="@+id/tvNumComentarios"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:layout_marginStart="4dp" />
+
+        <ImageButton
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_share"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Compartir" />
+
+        <TextView
+            android:id="@+id/tvNumCompartidos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:layout_marginStart="4dp" />
+    </LinearLayout>
+</LinearLayout>

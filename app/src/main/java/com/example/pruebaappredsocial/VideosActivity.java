@@ -13,7 +13,7 @@ import java.util.List;
 public class VideosActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewVideos;
-    private VideoAdapter videosAdapter; // Asegúrate de crear esta clase.
+    private VideoAdapter videoAdapter; // Asegúrate de crear esta clase.
     private List<Video> videoList; // Tu modelo de datos para videos
     private ImageButton btnBack, btnHome, btnNotifications, btnVideos, btnProfile, btnMenu; //Para la barra de navegación
 
@@ -30,8 +30,8 @@ public class VideosActivity extends AppCompatActivity {
         videoList = obtenerListaDeVideos(); // Implementa este método para obtener los videos
 
         // Configura el adaptador
-        videosAdapter = new VideoAdapter(videoList);
-        recyclerViewVideos.setAdapter(videosAdapter);
+        videoAdapter = new VideoAdapter(this, videoList);
+        recyclerViewVideos.setAdapter(videoAdapter);
 
         // Menu de navegación
         btnBack = findViewById(R.id.btnBack);

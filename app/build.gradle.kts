@@ -44,6 +44,7 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore:25.0.0")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation ("com.squareup.picasso:picasso:2.71828")
+    implementation ("androidx.recyclerview:recyclerview:1.2.1")
 
     annotationProcessor ("com.github.bumptech.glide:compiler:4.11.0")
     testImplementation("junit:junit:4.13.2")
