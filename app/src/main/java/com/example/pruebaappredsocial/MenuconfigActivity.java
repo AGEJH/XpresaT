@@ -4,12 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MenuconfigActivity  extends AppCompatActivity {
 
     private ImageButton btnBack, btnHome, btnNotifications, btnVideos, btnProfile, btnMenu;
+    private TextView tvLogout;
 
 
     @Override
@@ -23,6 +27,8 @@ public class MenuconfigActivity  extends AppCompatActivity {
         btnVideos = findViewById(R.id.btnVideos);
         btnProfile = findViewById(R.id.btnProfile);
         btnMenu = findViewById(R.id.btnMenu);
+
+        tvLogout = findViewById(R.id.tvLogout);  //botón para encontrar Cerrar sesión
 
         // Establecer escuchadores para los botones
         setButtonListeners();
@@ -72,6 +78,18 @@ public class MenuconfigActivity  extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MenuconfigActivity.this, MenuconfigActivity.class);
                 startActivity(intent);
+            }
+        });
+        tvLogout.setOnClickListener(new View.OnClickListener() { // Añade este bloque
+            @Override
+            public void onClick(View v) {
+                // Cerrar sesión con Firebase
+                FirebaseAuth.getInstance().signOut();
+                // Redirigir a LoginActivity
+                Intent intent = new Intent(MenuconfigActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
             }
         });
     }
