@@ -3,9 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="9dp"
-    android:layout_marginTop="10dp">
+    android:background="@drawable/background_gradient"
+    android:orientation="vertical">
 
     <!-- Menú de navegación -->
     <include
@@ -13,21 +12,27 @@
         layout="@layout/menu_navigation" />
 
     <!-- Título de la sección -->
+
+    <!-- RecyclerView para mostrar los videoss -->
     <TextView
         android:id="@+id/tvTituloSeccion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Videos"
-        android:textStyle="bold"
-        android:layout_marginTop="55dp"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
-        android:textSize="30sp" />
-
-    <!-- RecyclerView para mostrar los videoss -->
+        android:layout_marginLeft="150dp"
+        android:text="Videos"
+        android:textColor="@color/beige"
+        android:fontFamily="@font/core_mellow_57_cn_medium"
+        android:textSize="39dp"
+        android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewVideos"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginLeft="22dp"
+
+        />
 </LinearLayout>
 

@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_gradient"
-    android:layout_marginTop="10dp">
+    android:background="@drawable/background_gradient">
 
     <include
         android:id="@+id/menu_navigation"
@@ -14,18 +13,21 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="configuración"
-        android:textColor="@color/violeta_letras_botones"
-        android:textSize="20sp"
-        android:layout_marginTop="216dp" />
+        android:textColor="@color/black"
+        android:fontFamily="@font/core_mellow_57_cn_medium"
+        android:textSize="33sp"
+        android:layout_marginTop="200dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_weight="1"
         android:text="Menú"
-        android:textColor="@color/black"
-        android:textSize="30sp"
-        android:layout_centerHorizontal="true"
+        android:textColor="@color/beige"
+        android:fontFamily="@font/core_mellow_57_cn_medium"
+        android:textSize="39sp"
+        android:textStyle="bold"
         android:layout_marginTop="114dp"
          />
 
@@ -48,19 +50,23 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ayuda y soporte"
-            android:textColor="@color/violeta_letras_botones"
             android:drawableEnd="@android:drawable/ic_menu_more"
+            android:fontFamily="@font/core_mellow_57_cn_medium"
             android:gravity="center_vertical"
-            android:padding="20dp" />
+            android:text="Ayuda y soporte"
+            android:textSize="21dp"
+            android:textColor="@color/beige"
+            android:padding="20dp"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Envíanos tus comentarios"
-            android:textColor="@color/violeta_letras_botones"
+            android:textColor="@color/beige"
             android:drawableEnd="@android:drawable/ic_menu_more"
+            android:fontFamily="@font/core_mellow_57_cn_medium"
             android:gravity="center_vertical"
+            android:textSize="21dp"
             android:padding="20dp" />
 
         <TextView
@@ -68,9 +74,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Cerrar sesión"
-            android:textColor="@color/violeta_letras_botones"
+            android:textColor="@color/beige"
             android:drawableEnd="@android:drawable/ic_menu_more"
             android:gravity="center_vertical"
+            android:fontFamily="@font/core_mellow_57_cn_medium"
+            android:textSize="21dp"
             android:padding="20dp" />
     </LinearLayout>
 </RelativeLayout>

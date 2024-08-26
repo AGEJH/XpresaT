@@ -2,17 +2,29 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:padding="9dp"
-    android:layout_marginTop="10dp">
+    android:background="@drawable/background_gradient">
 
         <include
             android:id="@+id/menu_navigation"
             layout="@layout/menu_navigation" />
 
-
     <!-- Zona de Posteo -->
 
+
+    <TextView
+        android:id="@+id/btn_init"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+
+        android:layout_marginTop="88dp"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/core_mellow_57_cn_medium"
+        android:text="Inicio"
+        android:textColor="@color/blanco_opaco"
+        android:textSize="39dp"
+        android:layout_marginLeft="152dp"
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/postInput"
@@ -20,12 +32,15 @@
         android:layout_height="52dp"
         android:layout_below="@id/menu_navigation"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="60dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@color/font_letras_default"
+        android:layout_marginBottom="9dp"
+        android:background="@android:color/transparent"
         android:hint="¡Postea lo que quieras expresar!"
-        android:padding="12dp" />
+        android:backgroundTint="@color/black"
+        android:fontFamily="@font/core_mellow_57_cn_medium"
+        android:textColor="@color/black"
+        android:padding="14dp" />
 
     <LinearLayout
         android:id="@+id/optionsLayout"

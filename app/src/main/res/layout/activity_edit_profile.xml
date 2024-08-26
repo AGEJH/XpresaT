@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="9dp"
-    android:layout_marginTop="30dp">
+    android:background="@drawable/background_gradient">
 
     <include
         android:id="@+id/menu_navigation"
@@ -20,9 +19,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/button_style"
+            android:background="@android:color/transparent"
+            android:fontFamily="@font/core_mellow_57_cn_medium"
             android:text="Editar perfil"
-            android:textColor="@color/violeta_letras_botones" />
+            android:textSize="39dp"
+            android:textStyle="bold"
+            android:textColor="@color/blanco_opaco" />
 
         <ImageView
             android:id="@+id/iv_profile_picture"
@@ -41,6 +43,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:text="Nombre de usuario"
+            android:fontFamily="@font/core_mellow_57_cn_medium"
             android:textSize="18sp" />
 
         <!-- Tabs para navegar entre secciones de perfil -->
@@ -58,6 +61,7 @@
                 android:layout_weight="1"
                 android:text="Información personal"
                 android:background="@android:color/transparent"
+                android:fontFamily="@font/core_mellow_57_cn_medium"
                 android:textColor="@color/black" />
 
             <Button
@@ -67,7 +71,9 @@
                 android:layout_weight="1"
                 android:text="Posts"
                 android:background="@android:color/transparent"
-                android:textColor="@color/azul_primario" />
+                android:fontFamily="@font/core_mellow_57_cn_medium"
+
+                android:textColor="@color/black" />
 
             <Button
                 android:id="@+id/btnFriends"
@@ -76,6 +82,7 @@
                 android:layout_weight="1"
                 android:text="Amigos"
                 android:background="@android:color/transparent"
+                android:fontFamily="@font/core_mellow_57_cn_medium"
                 android:textColor="@color/black" />
         </LinearLayout>
 
@@ -113,4 +120,4 @@
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
