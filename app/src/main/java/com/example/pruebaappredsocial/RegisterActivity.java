@@ -1,8 +1,6 @@
 package com.example.pruebaappredsocial;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,26 +8,22 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
+
 
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText editTextNombre, editTextApellido, editTextCorreo, editTextContraseña, editTextRepetirContraseña;
     private Button btn_registrarse;
-    private DatabaseHelper dbHelper;
-    private FirebaseAuth firebaseAuth;
-    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
-        dbHelper = new DatabaseHelper(this);
-        firebaseAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
 
         editTextNombre = findViewById(R.id.tnombre);
         editTextApellido = findViewById(R.id.tapellido);
@@ -65,96 +59,39 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void registrarUsuario() {
-        String email = editTextCorreo.getText().toString().trim();
-        String password = editTextContraseña.getText().toString().trim();
-
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                        try {
-                            byte[] salt = HashingUtil.generateSalt();
-                            String hashedPassword = HashingUtil.hashPassword(password, salt);
-                            guardarUsuarioEnFirestore(firebaseUser.getUid(), salt, hashedPassword);
-                        } catch (Exception e) {
-                            Toast.makeText(RegisterActivity.this, "Error al generar sal o hash: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    } else {
-                        Toast.makeText(RegisterActivity.this, "Error en Firebase: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
-    }
-
-    private void guardarUsuarioEnFirestore(String userId, byte[] salt, String hashedPassword) {
         String nombre = editTextNombre.getText().toString().trim();
         String apellido = editTextApellido.getText().toString().trim();
         String email = editTextCorreo.getText().toString().trim();
+        String password = editTextContraseña.getText().toString().trim();
 
-        Usuario usuario = new Usuario(nombre, apellido, email, hashedPassword, HexUtil.bytesToHex(salt));
-        db.collection("users").document(userId)
-                .set(usuario)
-                .addOnSuccessListener(aVoid -> {
-                    guardarUsuarioLocalmente(nombre, apellido, email, hashedPassword, salt);
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(RegisterActivity.this, "Error en Firestore: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                });
-    }
+        // Crear el objeto usuario
+        Usuario usuario = new Usuario(nombre, apellido, email, password);
 
-    private void guardarUsuarioLocalmente(String nombre, String apellido, String email, String hashedPassword, byte[] salt) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("name", nombre);
-        values.put("lastname", apellido);
-        values.put("email", email);
-        values.put("password", hashedPassword);
-        values.put("salt", HexUtil.bytesToHex(salt));
-        long newRowId = db.insert("user", null, values);
-        db.close();
+        // Obtener la instancia de Retrofit
+        Retrofit retrofit = RetrofitClient.getClient();
+        ApiService apiService = retrofit.create(ApiService.class);
 
-        if (newRowId == -1) {
-            Toast.makeText(this, "Error al registrar el usuario localmente.", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Usuario registrado correctamente en Firebase y localmente.", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-        }
-    }
+        // Hacer la llamada a la API
+        Call<ApiResponse> call = apiService.registerUser(usuario);
 
-    private class Usuario {
-        private String nombre;
-        private String apellido;
-        private String email;
-        private String hashedPassword;
-        private String salt;
+        call.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    ApiResponse apiResponse = response.body();
+                    Toast.makeText(RegisterActivity.this, apiResponse.getMessage(), Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Toast.makeText(RegisterActivity.this, "Error en la respuesta del servidor.", Toast.LENGTH_LONG).show();
+                }
+            }
 
-        public Usuario(String nombre, String apellido, String email, String hashedPassword, String salt) {
-            this.nombre = nombre;
-            this.apellido = apellido;
-            this.email = email;
-            this.hashedPassword = hashedPassword;
-            this.salt = salt;
-        }
-
-        public String getNombre() {
-            return nombre;
-        }
-
-        public String getApellido() {
-            return apellido;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public String getHashedPassword() {
-            return hashedPassword;
-        }
-
-        public String getSalt() {
-            return salt;
-        }
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                Toast.makeText(RegisterActivity.this, "Error de red: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

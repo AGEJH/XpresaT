@@ -1,9 +1,9 @@
-package com.example.pruebaappredsocial;
-
+package com.example.pruebaappredsocial;// ApiService.java
 import retrofit2.Call;
-import retrofit2.http.GET;
+import retrofit2.http.Body;
+import retrofit2.http.POST;
 
 public interface ApiService {
-    @GET("/test")  // Asegúrate de ajustar este endpoint a uno existente en tu Flask API
-    Call<ApiResponse> getTest();
+    @POST("/register")  // Cambia esto a la ruta de tu endpoint de registro en tu API
+    Call<ApiResponse> registerUser(@Body Usuario usuario);
 }
