@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseAuth;
 
 public class MenuconfigActivity  extends AppCompatActivity {
 
@@ -83,14 +82,14 @@ public class MenuconfigActivity  extends AppCompatActivity {
         tvLogout.setOnClickListener(new View.OnClickListener() { // Añade este bloque
             @Override
             public void onClick(View v) {
-                // Cerrar sesión con Firebase
-                FirebaseAuth.getInstance().signOut();
-                // Redirigir a LoginActivity
+                // Redirigir al LoginActivity
                 Intent intent = new Intent(MenuconfigActivity.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
             }
+
+
         });
     }
 }
