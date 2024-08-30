@@ -9,7 +9,7 @@ public class RetrofitClient {
     public static Retrofit getClient() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl("https://tu-api-url.com/")  // Cambia esto a la URL base de tu API
+                    .baseUrl("http://127.0.0.1:5000/")  // Cambia esto a la URL base de tu API
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
