@@ -10,4 +10,7 @@ public interface ApiService {
 
     @POST("/login")
     Call<ApiResponse> loginUser(@Body LoginRequest loginRequest);
+
+    @POST("/get_user")
+    Call<ApiResponse> getUsername(@Body UserIdRequest userIdRequest);
 }

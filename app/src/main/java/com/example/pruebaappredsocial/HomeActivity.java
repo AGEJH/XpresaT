@@ -1,9 +1,7 @@
 package com.example.pruebaappredsocial;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,10 +18,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -148,37 +147,50 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void retrieveAndStoreUsername() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            String userId = user.getUid();
+        String userId = getUserIdFromLocalStorage();  // Obtener el ID del usuario desde el almacenamiento local
 
-            // Acceder al nombre del usuario desde Firebase Firestore
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            DocumentReference docRef = db.collection("usuarios").document(userId);
-            docRef.get().addOnSuccessListener(documentSnapshot -> {
-                if (documentSnapshot.exists()) {
-                    String username = documentSnapshot.getString("name");
-                    textViewWelcome.setText("Bienvenido a XpresaT " + username);
-                    storeUsernameInSQLite(userId, username); // Almacena el nombre en SQLite
-                } else {
-                    // El documento del usuario no existe
-                    textViewWelcome.setText("Bienvenido a XpresaT (nombre de usuario no encontrado)");
+        if (userId != null) {
+            Retrofit retrofit = RetrofitClient.getClient();
+            ApiService apiService = retrofit.create(ApiService.class);
+
+            // Crear la solicitud con el userId
+            UserIdRequest request = new UserIdRequest(userId);
+            Call<ApiResponse> call = apiService.getUsername(request);
+
+            call.enqueue(new Callback<ApiResponse>() {
+                @Override
+                public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        String username = response.body().getUsername();
+                        textViewWelcome.setText("Bienvenido a XpresaT " + username);
+                    } else {
+                        textViewWelcome.setText("Bienvenido a XpresaT (nombre de usuario no encontrado)");
+                    }
                 }
-            }).addOnFailureListener(e -> {
-                // Manejar cualquier error aquí
-                Log.e("HomeActivity", "Error al obtener el nombre del usuario", e);
-                // Mostrar un mensaje de error en un TextView o un Toast
-                Toast.makeText(HomeActivity.this, "Error al obtener el nombre del usuario", Toast.LENGTH_SHORT).show();
+
+                @Override
+                public void onFailure(Call<ApiResponse> call, Throwable t) {
+                    Log.e("HomeActivity", "Error al obtener el nombre del usuario", t);
+                    Toast.makeText(HomeActivity.this, "Error al obtener el nombre del usuario", Toast.LENGTH_SHORT).show();
+                }
             });
+        } else {
+            textViewWelcome.setText("Bienvenido a XpresaT (usuario no encontrado)");
         }
     }
 
-    private void storeUsernameInSQLite(String userId, String username) {
+    private String getUserIdFromLocalStorage() {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        return sharedPreferences.getString("userId", null);
+    }
+
+
+    /*private void storeUsernameInSQLite(String userId, String username) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("uid", userId);
         values.put("username", username);
         db.insert("user_info", null, values);
         db.close();
-    }
+    }*/
 }
