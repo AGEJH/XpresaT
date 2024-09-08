@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_gradient">
 
+    <!-- Menú de navegación -->
     <include
         android:id="@+id/menu_navigation"
         layout="@layout/menu_navigation" />
@@ -46,7 +47,7 @@
             android:fontFamily="@font/core_mellow_57_cn_medium"
             android:textSize="18sp" />
 
-        <!-- Tabs para navegar entre secciones de perfil -->
+        <!-- Botones para navegar entre secciones de perfil -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -72,7 +73,6 @@
                 android:text="Posts"
                 android:background="@android:color/transparent"
                 android:fontFamily="@font/core_mellow_57_cn_medium"
-
                 android:textColor="@color/black" />
 
             <Button
@@ -86,38 +86,13 @@
                 android:textColor="@color/black" />
         </LinearLayout>
 
-        <!-- Contenido de los posts -->
-        <ScrollView
+        <!-- Contenedor de Fragmentos -->
+        <FrameLayout
+            android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@id/tv_profile_name"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <!-- Repetir este bloque para cada post -->
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="8dp">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:layout_marginStart="8dp">
-                    </LinearLayout>
-                </LinearLayout>
-                <!-- Fin del bloque de un post -->
-
-            </LinearLayout>
-        </ScrollView>
     </RelativeLayout>
 </RelativeLayout>
