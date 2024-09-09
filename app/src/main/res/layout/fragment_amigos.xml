@@ -1,16 +1,34 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Amigos -->
     <TextView
+        android:id="@+id/tv_no_friends"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Amigos"
+        android:text="Aún no tienes amigos"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:textColor="@color/black" />
 
-    <!-- Más elementos... -->
-</LinearLayout>
+    <TextView
+        android:id="@+id/tv_friend_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0 amigos"
+        android:textSize="18sp"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/black" />
+
+    <LinearLayout
+        android:id="@+id/friends_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp">
+        <!-- Aquí se agregarán dinámicamente los amigos -->
+    </LinearLayout>
+</RelativeLayout>

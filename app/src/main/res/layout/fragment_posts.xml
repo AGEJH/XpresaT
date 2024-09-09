@@ -1,16 +1,33 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="16dp">
 
-    <!--Posts -->
+    <!-- Texto que indica que no hay publicaciones -->
     <TextView
+        android:id="@+id/tv_no_posts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Posts"
+        android:text="No tienes ninguna publicación"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:textColor="@color/black" />
 
-    <!-- Más elementos... -->
-</LinearLayout>
+    <!-- ScrollView para permitir el desplazamiento si hay muchas publicaciones -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tv_no_posts">
+
+        <!-- Contenedor donde se agregarán dinámicamente las publicaciones -->
+        <LinearLayout
+            android:id="@+id/posts_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp">
+            <!-- Aquí se agregarán las publicaciones dinámicamente -->
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
