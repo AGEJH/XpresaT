@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_gradient"
     android:padding="16dp">
 
     <!-- Layout de autenticación para contraseña o huella -->
@@ -26,13 +27,14 @@
             android:layout_height="wrap_content"
             android:hint="Contraseña"
             android:inputType="textPassword"
+            android:backgroundTint="@color/black"
             android:layout_marginTop="16dp" />
 
         <Button
             android:id="@+id/btn_verify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/violeta_letras_botones"
+            android:backgroundTint="@color/black"
             android:text="Verificar"
             android:layout_marginTop="16dp" />
     </LinearLayout>
