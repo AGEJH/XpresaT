@@ -30,5 +30,120 @@
             android:layout_marginTop="10dp">
             <!-- Aquí se agregarán las publicaciones dinámicamente -->
         </LinearLayout>
+        <!--
+        <Button
+            android:id="@+id/buttonChooseImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imageViewSelected"
+            android:layout_marginTop="-55dp"
+            android:backgroundTint="@color/violeta_letras_botones"
+            android:text="Select Image"
+            android:textColor="@color/white" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/buttonChooseImage"
+            android:layout_marginTop="26dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/buttonLike"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_like" />
+
+                <TextView
+                    android:id="@+id/textLikeCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/gris"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/buttonComment"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_comment" />
+
+                <TextView
+                    android:id="@+id/textCommentCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/gris"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/buttonShare"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_share" />
+
+                <TextView
+                    android:id="@+id/textShareCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/gris"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="16dp"
+            android:orientation="horizontal"
+            android:gravity="end">
+
+        </LinearLayout>
+        -->
     </ScrollView>
 </RelativeLayout>

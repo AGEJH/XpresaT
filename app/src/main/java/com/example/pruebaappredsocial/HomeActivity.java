@@ -16,29 +16,35 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+
 public class HomeActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private ImageButton btnBack, btnHome, btnNotifications, btnVideos, btnProfile, btnMenu;
-    private TextView textViewWelcome;
+    private TextView textViewWelcome, tvNoPosts;
     private ImageView imageViewSelected;
-    private int likeCount = 0;
-    private int commentCount = 0;
-    private int shareCount = 0;
+    private EditText postInput;
+    private LinearLayout optionsLayout;
+    private RecyclerView recyclerViewPosts;
+    private PostAdapter postAdapter;
+    private List<Post> postList = new ArrayList<>(); // Lista de publicaciones
     private DatabaseHelper dbHelper; // Instance of your SQLiteOpenHelper class
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-    private EditText postInput;
-    private LinearLayout optionsLayout;
-    private ImageView ImageViewSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +55,16 @@ public class HomeActivity extends AppCompatActivity {
         optionsLayout = findViewById(R.id.optionsLayout);
         Button btnAddPhoto = findViewById(R.id.btnAddPhoto);
         imageViewSelected = findViewById(R.id.imageViewSelected);
+        tvNoPosts = findViewById(R.id.tv_no_posts);
+        recyclerViewPosts = findViewById(R.id.recyclerViewPosts);
+
+        // Configurar el RecyclerView
+        recyclerViewPosts.setLayoutManager(new LinearLayoutManager(this));
+        postAdapter = new PostAdapter(Collections.singletonList((Post) postList));
+        recyclerViewPosts.setAdapter(postAdapter);
+
+        // Cargar publicaciones
+        loadPosts();
 
         // Menu de navegación
         btnBack = findViewById(R.id.btnBack);
@@ -61,7 +77,7 @@ public class HomeActivity extends AppCompatActivity {
         // Establecer escuchadores para los botones
         setButtonListeners();
 
-        postInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {   // Campo para que los usuarios escriban sus publicaciones
+        postInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if (hasFocus) {
@@ -72,12 +88,25 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.btnAddPhoto).setOnClickListener(new View.OnClickListener() {     // Campo para abrir archivos para cargar foto
+        findViewById(R.id.btnAddPhoto).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openFileChooser();
             }
         });
+    }
+
+    private void loadPosts() {
+        // Aquí es donde deberías cargar las publicaciones de tu base de datos o API
+        // Por ahora lo dejaremos vacío para simular que no hay publicaciones
+
+        if (postList.isEmpty()) {
+            recyclerViewPosts.setVisibility(View.GONE);
+            tvNoPosts.setVisibility(View.VISIBLE);
+        } else {
+            recyclerViewPosts.setVisibility(View.VISIBLE);
+            tvNoPosts.setVisibility(View.GONE);
+        }
     }
 
     private void setButtonListeners() {
@@ -132,7 +161,7 @@ public class HomeActivity extends AppCompatActivity {
     private void openFileChooser() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);  // Apertura de imágenes de galería
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
     @Override
@@ -142,7 +171,7 @@ public class HomeActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri imageUri = data.getData();
             imageViewSelected.setVisibility(View.VISIBLE);
-            Glide.with(this).load(imageUri).into(imageViewSelected);                          // Posteo de imagen cargada a la app.
+            Glide.with(this).load(imageUri).into(imageViewSelected);
         }
     }
 
@@ -183,14 +212,5 @@ public class HomeActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
         return sharedPreferences.getString("userId", null);
     }
-
-
-    /*private void storeUsernameInSQLite(String userId, String username) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("uid", userId);
-        values.put("username", username);
-        db.insert("user_info", null, values);
-        db.close();
-    }*/
 }
+

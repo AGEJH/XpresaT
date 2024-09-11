@@ -1,22 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_gradient">
 
-        <include
-            android:id="@+id/menu_navigation"
-            layout="@layout/menu_navigation" />
+    <include
+        android:id="@+id/menu_navigation"
+        layout="@layout/menu_navigation" />
 
     <!-- Zona de Posteo -->
-
-
     <TextView
         android:id="@+id/btn_init"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-
         android:layout_marginTop="88dp"
         android:background="@android:color/transparent"
         android:fontFamily="@font/core_mellow_57_cn_medium"
@@ -26,21 +23,59 @@
         android:layout_marginLeft="152dp"
         android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/postInput"
-        android:layout_width="314dp"
-        android:layout_height="52dp"
-        android:layout_below="@id/menu_navigation"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="9dp"
-        android:background="@android:color/transparent"
-        android:hint="¡Postea lo que quieras expresar!"
-        android:backgroundTint="@color/black"
-        android:fontFamily="@font/core_mellow_57_cn_medium"
-        android:textColor="@color/black"
-        android:padding="14dp" />
+    <!-- Contenedor para el icono de usuario y el EditText -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_init"
+        android:layout_marginTop="20dp"
+        android:padding="8dp">
+
+        <!-- Icono de Usuario -->
+        <ImageView
+            android:id="@+id/profile_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/usuario"
+            android:contentDescription="Icono de usuario"
+            android:layout_marginEnd="8dp"
+            android:scaleType="centerCrop" /> <!-- Para fondo circular -->
+
+        <!-- EditText para Post Input -->
+        <EditText
+            android:id="@+id/postInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/profile_icon"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="8dp"
+            android:background="@android:color/transparent"
+            android:backgroundTint="@color/black"
+            android:textColorHint="@color/black"
+            android:fontFamily="@font/core_mellow_57_cn_medium"
+            android:hint="¡Postea lo que quieras expresar!"
+            android:padding="14dp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_no_posts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No tienes ninguna publicación"
+            android:textSize="18sp"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            android:textColor="@color/black" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewPosts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/postInput"
+            android:visibility="visible" />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/optionsLayout"
@@ -48,137 +83,25 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/postInput"
         android:orientation="horizontal"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:ignore="NotSibling">
 
-    <Button
-        android:id="@+id/btnAddPhoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cargar foto" />
+        <Button
+            android:id="@+id/btnAddPhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cargar foto" />
 
     </LinearLayout>
 
-   <ImageView
+    <ImageView
         android:id="@+id/imageViewSelected"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_below="@id/postInput"
         android:layout_marginTop="6dp"
         android:contentDescription="Selected Image"
-        android:scaleType="centerCrop" />
-    <!--
-    <Button
-        android:id="@+id/buttonChooseImage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/imageViewSelected"
-        android:layout_marginTop="-55dp"
-        android:backgroundTint="@color/violeta_letras_botones"
-        android:text="Select Image"
-        android:textColor="@color/white" />
+        android:scaleType="centerCrop"
+        tools:ignore="NotSibling" />
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/buttonChooseImage"
-        android:layout_marginTop="26dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="8dp">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageButton
-                android:id="@+id/buttonLike"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_like" />
-
-            <TextView
-                android:id="@+id/textLikeCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:gravity="center"
-                android:text="0"
-                android:textColor="@color/gris"
-                android:textSize="14sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageButton
-                android:id="@+id/buttonComment"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_comment" />
-
-            <TextView
-                android:id="@+id/textCommentCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:gravity="center"
-                android:text="0"
-                android:textColor="@color/gris"
-                android:textSize="14sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageButton
-                android:id="@+id/buttonShare"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_share" />
-
-            <TextView
-                android:id="@+id/textShareCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:gravity="center"
-                android:text="0"
-                android:textColor="@color/gris"
-                android:textSize="14sp" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="16dp"
-        android:orientation="horizontal"
-        android:gravity="end">
-
-    </LinearLayout>
-    -->
 </RelativeLayout>
