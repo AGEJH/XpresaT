@@ -3,10 +3,13 @@ package com.example.pruebaappredsocial;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -37,18 +40,24 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     }
 
     public class PostViewHolder extends RecyclerView.ViewHolder {
-        private final TextView tvPostContent;
-        private final TextView tvPostAuthor;
+
+        private ImageView imageViewProfile;
+        private TextView textViewPost;
 
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvPostContent = itemView.findViewById(R.id.tvPostContent);
-            tvPostAuthor = itemView.findViewById(R.id.tvPostAuthor);
+            imageViewProfile = itemView.findViewById(R.id.imageViewProfile);
+            textViewPost = itemView.findViewById(R.id.tvPostAuthor);
         }
 
         public void bind(Post post) {
-            tvPostContent.setText(post.getContent());
-            tvPostAuthor.setText(post.getAuthor());
+            // Cargar la imagen de perfil usando Glide
+            Glide.with(itemView.getContext())
+                    .load(post.getUserProfileImage())  // URL de la imagen de perfil
+                    .placeholder(R.drawable.ic_profile)  // Imagen de carga
+                    .into(imageViewProfile);
+
+            textViewPost.setText(post.getUsername());
         }
     }
 }
