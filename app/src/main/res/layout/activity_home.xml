@@ -52,7 +52,7 @@
             android:layout_marginStart="8dp"
             android:background="@android:color/transparent"
             android:backgroundTint="@color/black"
-            android:textColorHint="@color/black"
+            android:textColorHint="@color/blanco_opaco"
             android:fontFamily="@font/core_mellow_57_cn_medium"
             android:hint="¡Postea lo que quieras expresar!"
             android:padding="14dp"
@@ -73,6 +73,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/postInput"
+            android:layout_marginTop="33dp"
             android:visibility="visible" />
 
     </RelativeLayout>

@@ -23,7 +23,7 @@
         android:layout_below="@id/tvWelcome"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:src="@drawable/logo_oficial" />
+        android:src="@drawable/xpresat2" />
 
     <TextView
         android:id="@+id/tvAppName"
