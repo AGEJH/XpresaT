@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">10.0.2.2</domain> <!-- Permitir solo tráfico HTTP a 10.0.2.2 -->
+    </domain-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">http://127.0.0.1:5000/</domain> <!-- Opcionalmente puedes permitir localhost -->
+    </domain-config>
+</network-security-config>

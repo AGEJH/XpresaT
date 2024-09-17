@@ -176,15 +176,14 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void retrieveAndStoreUsername() {
-        String userId = getUserIdFromLocalStorage();  // Obtener el ID del usuario desde el almacenamiento local
+        String email = getEmailFromLocalStorage();  // Obtener el email del usuario desde el almacenamiento local
 
-        if (userId != null) {
+        if (email != null) {
             Retrofit retrofit = RetrofitClient.getClient();
             ApiService apiService = retrofit.create(ApiService.class);
 
-            // Crear la solicitud con el userId
-            UserIdRequest request = new UserIdRequest(userId);
-            Call<ApiResponse> call = apiService.getUsername(request);
+            // Llama a la API utilizando el email del usuario
+            Call<ApiResponse> call = apiService.getUser(email);
 
             call.enqueue(new Callback<ApiResponse>() {
                 @Override
@@ -208,9 +207,8 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    private String getUserIdFromLocalStorage() {
+    private String getEmailFromLocalStorage() {
         SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
-        return sharedPreferences.getString("userId", null);
+        return sharedPreferences.getString("email", null);  // Obtén el email en lugar del userId
     }
 }
-
