@@ -2,6 +2,7 @@ package com.example.pruebaappredsocial;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -13,12 +14,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-
-
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText editTextNombre, editTextApellido, editTextCorreo, editTextContraseña, editTextRepetirContraseña;
     private Button btn_registrarse;
+    private static final String TAG = "RegisterActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,19 +77,28 @@ public class RegisterActivity extends AppCompatActivity {
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
+                if (response.isSuccessful()) {
                     ApiResponse apiResponse = response.body();
+                    Log.d(TAG, "Respuesta del servidor: " + apiResponse.getMessage());
                     Toast.makeText(RegisterActivity.this, apiResponse.getMessage(), Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
-                    Toast.makeText(RegisterActivity.this, "Error en la respuesta del servidor.", Toast.LENGTH_LONG).show();
+                    try {
+                        String errorBody = response.errorBody().string();
+                        Log.e(TAG, "Código de respuesta del servidor: " + response.code());
+                        Log.e(TAG, "Cuerpo de la respuesta: " + errorBody);
+                        Toast.makeText(RegisterActivity.this, "Error en la respuesta del servidor: " + errorBody, Toast.LENGTH_LONG).show();
+                    } catch (Exception e) {
+                        Log.e(TAG, "Error al leer el cuerpo de la respuesta: " + e.getMessage());
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
+                Log.e(TAG, "Error de red: " + t.getMessage());
                 Toast.makeText(RegisterActivity.this, "Error de red: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });

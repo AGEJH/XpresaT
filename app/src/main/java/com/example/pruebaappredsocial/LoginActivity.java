@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.IOException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -83,13 +85,23 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     } else {
+                        // Mostrar el mensaje del servidor
                         Toast.makeText(LoginActivity.this, "Error: " + apiResponse.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(LoginActivity.this, "Error en la respuesta del servidor.", Toast.LENGTH_LONG).show();
+                    // Aquí registramos la respuesta del servidor para obtener más detalles
+                    int errorCode = response.code(); // Código de error HTTP
+                    String errorBody = null;
+                    if (response.errorBody() != null) {
+                        try {
+                            errorBody = response.errorBody().string(); // Obtener cuerpo del error como String
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    Toast.makeText(LoginActivity.this, "Error en la respuesta del servidor. Código: " + errorCode + ", Detalles: " + errorBody, Toast.LENGTH_LONG).show();
                 }
             }
-
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
                 Toast.makeText(LoginActivity.this, "Error de red: " + t.getMessage(), Toast.LENGTH_LONG).show();
