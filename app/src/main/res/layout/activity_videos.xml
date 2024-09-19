@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="150dp"
         android:text="Videos"
         android:textColor="@color/beige"
@@ -27,10 +27,25 @@
         android:textSize="39dp"
         android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/textViewVideos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margintop="50dp"
+        android:layout_marginLeft="60dp"
+        android:fontFamily="@font/core_mellow_57_cn_medium"
+        android:text="No hay videos por el momento."
+        android:textColor="@color/black"
+        android:textSize="26sp"
+        android:textStyle="bold" />
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewVideos"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margintop="20dp"
         android:layout_marginLeft="22dp"
 
         />

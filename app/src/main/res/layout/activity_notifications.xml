@@ -27,9 +27,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:fontFamily="@font/core_mellow_57_cn_medium"
         android:text="No hay notificaciones por el momento."
         android:textColor="@color/black"
-        android:textStyle="bold"
-        android:fontFamily="@font/core_mellow_57_cn_medium"
-        android:textSize="26sp" />
+        android:textSize="26sp"
+        android:textStyle="bold" />
 </RelativeLayout>
