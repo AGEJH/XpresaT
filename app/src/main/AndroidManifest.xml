@@ -18,15 +18,12 @@
         android:theme="@style/Theme.PruebaAppRedSocial"
         tools:targetApi="31">
 
+        <!-- Elimina el intent-filter de cualquier otra actividad -->
         <activity android:name=".BienvenidaActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
-            <activity android:name=".LoginActivity"
+        <activity android:name=".LoginActivity"
             android:exported="false">
         </activity>
 
@@ -42,8 +39,13 @@
             android:exported="false">
         </activity>
 
+        <!-- Añade el intent-filter a la actividad EditProfileActivity -->
         <activity android:name=".EditProfileActivity"
-            android:exported="false">
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity android:name=".MenuconfigActivity"
@@ -52,8 +54,7 @@
 
         <activity android:name=".NotificationsActivity" />
 
-
-
     </application>
+
 
 </manifest>

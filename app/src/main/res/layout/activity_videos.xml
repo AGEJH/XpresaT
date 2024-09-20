@@ -32,7 +32,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_margintop="50dp"
         android:layout_marginLeft="60dp"
         android:fontFamily="@font/core_mellow_57_cn_medium"
         android:text="No hay videos por el momento."
@@ -45,9 +44,7 @@
         android:id="@+id/recyclerViewVideos"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margintop="20dp"
         android:layout_marginLeft="22dp"
-
         />
 </LinearLayout>
 
