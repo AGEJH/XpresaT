@@ -10,28 +10,30 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:background="?attr/selectableItemBackgroundBorderless"
+        android:layout_marginEnd="10dp"
         android:contentDescription="Back"
         android:scaleType="centerInside"
         android:src="@drawable/ic_back" />
 
     <ImageButton
         android:id="@+id/btnHome"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="34dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginLeft="30dp"
         android:layout_toRightOf="@id/btnBack"
-        android:layout_marginStart="38dp"
-        android:src="@drawable/ic_home"
         android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Home"
         android:scaleType="centerInside"
-        android:contentDescription="Home" />
+        android:src="@drawable/ic_home_selector" />
 
     <ImageButton
         android:id="@+id/btnNotifications"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
         android:layout_toRightOf="@id/btnHome"
-        android:layout_marginStart="38dp"
-        android:src="@drawable/ic_notifications"
+        android:layout_marginStart="32dp"
+        android:src="@drawable/ic_notifications_selector"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:scaleType="centerInside"
         android:contentDescription="Notifications" />
@@ -42,7 +44,7 @@
         android:layout_height="32dp"
         android:layout_toRightOf="@id/btnNotifications"
         android:layout_marginStart="38dp"
-        android:src="@drawable/ic_videos"
+        android:src="@drawable/ic_videos_selector"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:scaleType="centerInside"
         android:contentDescription="Videos" />
@@ -52,8 +54,8 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_toRightOf="@id/btnVideos"
-        android:layout_marginStart="42dp"
-        android:src="@drawable/ic_profile"
+        android:layout_marginStart="35dp"
+        android:src="@drawable/ic_profile_selector"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:scaleType="centerInside"
         android:contentDescription="Profile" />
@@ -64,12 +66,12 @@
         android:layout_height="32dp"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="38dp"
-        android:layout_marginEnd="6dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginRight="-99dp"
         android:layout_toLeftOf="@id/btnProfile"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="Menu"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_menu" />
+        android:src="@drawable/ic_menu_selector" />
 
 </RelativeLayout>
