@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-    <uses-permission android:name="android.permission.INTERNET" />
+xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
-                    android:maxSdkVersion="32" />
+        android:maxSdkVersion="32" />
 
     <application
         android:usesCleartextTraffic="true"
@@ -18,9 +17,12 @@
         android:theme="@style/Theme.PruebaAppRedSocial"
         tools:targetApi="31">
 
-        <!-- Elimina el intent-filter de cualquier otra actividad -->
         <activity android:name=".BienvenidaActivity"
             android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity android:name=".LoginActivity"
@@ -39,13 +41,8 @@
             android:exported="false">
         </activity>
 
-        <!-- Añade el intent-filter a la actividad EditProfileActivity -->
         <activity android:name=".EditProfileActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:exported="false">
         </activity>
 
         <activity android:name=".MenuconfigActivity"

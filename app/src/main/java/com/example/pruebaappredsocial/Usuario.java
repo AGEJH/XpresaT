@@ -1,19 +1,48 @@
 package com.example.pruebaappredsocial;
 
-
 public class Usuario {
-    private String nombre;
-    private String apellido;
+    private String name;
+    private String lastname;
     private String email;
-    private String password; // Aquí el nombre debe ser coherente con el campo que esperas en el back-end
+    private String password;
 
-    public Usuario(String nombre, String apellido, String email, String password) {
-        this.nombre = nombre;
-        this.apellido = apellido;
+    public Usuario(String name, String lastname, String email, String password) {
+        this.name = name;
+        this.lastname = lastname;
         this.email = email;
         this.password = password;
     }
 
-    // Getters y setters si los necesitas
-}
+    // Getters y Setters
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+}
