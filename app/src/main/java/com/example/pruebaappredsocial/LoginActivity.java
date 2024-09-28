@@ -102,12 +102,14 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Error en la respuesta del servidor. Código: " + errorCode + ", Detalles: " + errorBody, Toast.LENGTH_LONG).show();
                 }
             }
+
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
                 Toast.makeText(LoginActivity.this, "Error de red: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
+
 }
 
 
