@@ -1,0 +1,7 @@
+Conexión a MySQL: En tu archivo config.py, estás utilizando SQLALCHEMY_DATABASE_URI para especificar la conexión a tu base de datos MySQL. La URI que has configurado (mysql://root:1234@127.0.0.1/xpresat?charset=utf8mb4) indica que estás conectando tu servidor Flask a una base de datos MySQL llamada xpresat que se encuentra alojada en tu máquina local.
+
+ORM (Object-Relational Mapping): Estás utilizando SQLAlchemy como el ORM para manejar las interacciones con la base de datos MySQL. SQLAlchemy es una herramienta poderosa que te permite definir modelos en Python que corresponden a tablas en la base de datos y realizar operaciones CRUD (crear, leer, actualizar, eliminar) de manera sencilla.
+
+Flask-Migrate: Has incluido Flask-Migrate para manejar las migraciones de la base de datos. Esto es importante porque te permitirá realizar cambios en la estructura de la base de datos (como agregar nuevas tablas o modificar las existentes) sin perder datos.
+
+Endpoints API: Los endpoints que has creado (/analyze, /test, /dbtest) permiten que tu aplicación Android se comunique con el servidor, enviando y recibiendo datos desde la base de datos MySQL. Esto es esencial para lograr la interacción que deseas entre la app y la base de datos.
