@@ -30,6 +30,7 @@ public class Usuario {
         this.lastname = lastname;
     }
 
+
     public String getEmail() {
         return email;
     }
