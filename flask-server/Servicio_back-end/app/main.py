@@ -34,24 +34,18 @@ def login_user():
     password = data.get('password')
 
     user = User.query.filter_by(email=email).first()
-    if not user:
+    if user is None:
         app.logger.debug(f'Usuario no encontrado: {email}')
         return jsonify({"error": "Usuario no encontrado"}), 404
 
-    app.logger.debug(f'Intento de inicio de sesión para: {email}')
-    app.logger.debug(f'Contraseña ingresada: {password}')
-    app.logger.debug(f'Hash de la contraseña almacenada: {user.password}')
-
-    if not check_password(password, user.password):
+    # Verifica la contraseña
+    if check_password(password, user.password):
+        app.logger.debug(f'Inicio de sesión exitoso para: {email}')
+        return jsonify({"message": "Inicio de sesión exitoso"}), 200
+    else:
         app.logger.debug(f'Contraseña incorrecta para el usuario: {email}')
         return jsonify({"error": "Contraseña incorrecta"}), 401
 
-    app.logger.debug(f'El usuario {email} ha iniciado sesión con éxito.')
-    return jsonify({
-        "message": "Inicio de sesión exitoso",
-        "success": True,
-        "username": user.name
-    }), 200
 
 
 @app.route('/register', methods=['POST'])
@@ -62,31 +56,33 @@ def register_user():
     name = data.get('name')
     lastname = data.get('lastname')
 
-    # Verificar si el usuario ya existe
-    if User.query.filter_by(email=email).first():
-        return jsonify({"error": "El usuario ya existe"}), 400
+    existing_user = User.query.filter_by(email=email).first()
+    if existing_user:
+        app.logger.debug(f'El email {email} ya está registrado.')
+        return jsonify({"error": "Usuario ya existe"}), 409
 
-    # Generar el hash de la contraseña
-    hashed_password = hash_password(password)
-    
-     # **Agrega este log para depurar**
-    app.logger.debug(f'Hash de la contraseña para el registro: {hashed_password}')
+    if not all([email, password, name, lastname]):
+        app.logger.error('Faltan campos requeridos en la solicitud de registro.')
+        return jsonify({"error": "Campos requeridos faltantes"}), 400
 
-    # Crear un nuevo usuario
-    new_user = User(
-        name=name,
-        lastname=lastname,
-        email=email,
-        password=hashed_password
-    )
-    app.logger.debug(f'Hash que se intentará guardar: {new_user.password}')
-    db.session.add(new_user)
-    db.session.commit()
+    # Generación del hash de la contraseña
+    hashed_password = hash_password(password)  # Genera el hash una vez
+    app.logger.debug(f'Hash que se intentará guardar: {hashed_password}')
     
-    # Verificar si el hash cambió después de guardar
-    app.logger.debug(f'Hash almacenado en la base de datos: {new_user.password}')
+    # Creación del nuevo usuario
+    new_user = User(email=email, password=hashed_password, name=name, lastname=lastname)
+
+    try:
+        db.session.add(new_user)
+        db.session.commit()
+        app.logger.debug(f'Usuario registrado: {new_user.email}, Hash: {new_user.password}')
+    except Exception as e:
+        app.logger.error(f'Error al registrar usuario: {e}')
+        db.session.rollback()
+        return jsonify({"error": "Error al registrar usuario"}), 500
 
     return jsonify({"message": "Usuario registrado exitosamente"}), 201
+
 
 
     
