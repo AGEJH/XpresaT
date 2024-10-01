@@ -1,6 +1,6 @@
-from flask import Flask, request, jsonify # type: ignore
+from flask import Flask, request, jsonify # type: ignore  #TRUNCATE para eliminar en sql registros
 from models import db, User, UserResponse  # Importar db y modelos
-from security import check_password, hash_password
+from security import check_password, hash_password, bcrypt
 from flask_cors import CORS # type: ignore # Manejar las solicitudes desde tu aplicación Android.
 from flask_migrate import Migrate  # type: ignore # Importar Flask-Migrate aquí, Flask-Migrate, es excelente para manejar las migraciones de la base de datos sin problemas.
 from config import Config  # Importa la configuración aquí
@@ -35,49 +35,60 @@ def login_user():
 
     user = User.query.filter_by(email=email).first()
     if not user:
-        app.logger.debug('Usuario no encontrado.')
+        app.logger.debug(f'Usuario no encontrado: {email}')
         return jsonify({"error": "Usuario no encontrado"}), 404
 
-    # Imprimir la contraseña y el hash para depuración
     app.logger.debug(f'Intento de inicio de sesión para: {email}')
     app.logger.debug(f'Contraseña ingresada: {password}')
-    app.logger.debug(f'Hash de la contraseña: {user.password}')
-    
-    #se compara la contraseña ingresada con la almacenada:
-    if not check_password(password, user.password): 
-        app.logger.debug('Contraseña incorrecta.')
+    app.logger.debug(f'Hash de la contraseña almacenada: {user.password}')
+
+    if not check_password(password, user.password):
+        app.logger.debug(f'Contraseña incorrecta para el usuario: {email}')
         return jsonify({"error": "Contraseña incorrecta"}), 401
 
     app.logger.debug(f'El usuario {email} ha iniciado sesión con éxito.')
     return jsonify({
         "message": "Inicio de sesión exitoso",
         "success": True,
-        "username": user.name  # Asegúrate de que este campo existe en tu modelo
+        "username": user.name
     }), 200
 
 
 @app.route('/register', methods=['POST'])
 def register_user():
-    name = request.json.get('name')
-    lastname = request.json.get('lastname')
-    email = request.json.get('email')
-    password = request.json.get('password')
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+    name = data.get('name')
+    lastname = data.get('lastname')
 
-    # Asegúrate de que el password no sea None o vacío
-    if password is None or password == '':
-        return jsonify({"error": "Password cannot be empty"}), 400
+    # Verificar si el usuario ya existe
+    if User.query.filter_by(email=email).first():
+        return jsonify({"error": "El usuario ya existe"}), 400
 
-    # Hasheamos la contraseña antes de guardarla
+    # Generar el hash de la contraseña
     hashed_password = hash_password(password)
-
-    try:
-        new_user = User(name=name, lastname=lastname, email=email, password=hashed_password)
-        db.session.add(new_user)
-        db.session.commit()
-        return jsonify({"message": "User registered successfully"}), 201
-    except Exception as e:
-        return jsonify({"error": str(e)}), 400
     
+     # **Agrega este log para depurar**
+    app.logger.debug(f'Hash de la contraseña para el registro: {hashed_password}')
+
+    # Crear un nuevo usuario
+    new_user = User(
+        name=name,
+        lastname=lastname,
+        email=email,
+        password=hashed_password
+    )
+    app.logger.debug(f'Hash que se intentará guardar: {new_user.password}')
+    db.session.add(new_user)
+    db.session.commit()
+    
+    # Verificar si el hash cambió después de guardar
+    app.logger.debug(f'Hash almacenado en la base de datos: {new_user.password}')
+
+    return jsonify({"message": "Usuario registrado exitosamente"}), 201
+
+
     
 
 @app.route('/analyze', methods=['POST'])
