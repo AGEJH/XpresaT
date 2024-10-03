@@ -23,7 +23,7 @@ class User(db.Model):
         self.name = name
         self.lastname = lastname
         self.email = email
-        self.password = hash_password(password)  # Usa bcrypt para hacer el hash, # Almacena la contraseña encriptada
+        self.password = hash_password(password) # Almacena la contraseña encriptada
 
  
         

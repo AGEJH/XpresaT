@@ -1,39 +1,35 @@
+import hashlib
 from flask import current_app # type: ignore
-import bcrypt  # type: ignore
 
-# Función para generar el hash de la contraseña usando bcrypt
+# Función para generar el hash de la contraseña usando SHA-256
 def hash_password(password):
-    current_app.logger.debug(f'Contraseña original: {password}')  # Log de la contraseña original
-    salt = bcrypt.gensalt()  # Genera un salt único para cada contraseña
-    current_app.logger.debug(f'Salt generado: {salt.decode("utf-8")}')  # Log del salt generado
-    hashed = bcrypt.hashpw(password.encode('utf-8'), salt)  # Crea el hash
-    current_app.logger.debug(f'Hash generado: {hashed.decode("utf-8")}')  # Log del hash generado
-    return hashed.decode('utf-8')  # Devuelve el hash como un string
+    """Hashea la contraseña original usando SHA-256."""
+    current_app.logger.debug(f'Contraseña original: {password}')  # Contraseña original
+    hashed = hashlib.sha256(password.encode('utf-8')).hexdigest()  # Crea el hash con SHA-256
+    current_app.logger.debug(f'Hash generado con SHA-256: {hashed}')  # Hash generado
+    return hashed  # Devuelve el hash generado
 
-# Función para verificar si el hash es de bcrypt
-def is_bcrypt_hash(hashed_password):
-    if isinstance(hashed_password, bytes):
-        hashed_password = hashed_password.decode('utf-8')
-    return hashed_password.startswith("$2b$")
-
-#Función para verificar la contraseña
+# Función para verificar la contraseña
 def check_password(password, hashed_password):
-    current_app.logger.debug(f'Contraseña a verificar: {password}')  # Log de la contraseña ingresada
-    current_app.logger.debug(f'Hash almacenado: {hashed_password}')  # Log del hash que está en la base de datos
-    
-    try:
-        # Verifica la contraseña con bcrypt
-        result = bcrypt.checkpw(password.encode('utf-8'), hashed_password.encode('utf-8'))
-        
-        if result:
-            current_app.logger.debug('La comparación de la contraseña fue exitosa.')
-            return True
-        else:
-            current_app.logger.debug('La comparación de la contraseña falló.')
-            return False
-    except Exception as e:
-        current_app.logger.error(f'Error al verificar la contraseña: {e}')
+    """Compara la contraseña original (en texto plano) con el hash almacenado."""
+    current_app.logger.debug(f'Contraseña a verificar: {password}')  # Contraseña ingresada en texto plano
+    current_app.logger.debug(f'Hash almacenado: {hashed_password}')  # Hash almacenado en la base de datos
+
+    # Genera el hash de la contraseña ingresada en texto plano
+    hashed_input = hashlib.sha256(password.encode('utf-8')).hexdigest()
+
+    current_app.logger.debug(f'Hash generado para la contraseña ingresada: {hashed_input}')  # Muestra el hash generado
+
+    # Compara el hash generado con el hash almacenado
+    if hashed_input == hashed_password:
+        current_app.logger.debug('La comparación de la contraseña fue exitosa.')
+        return True
+    else:
+        current_app.logger.debug('La comparación de la contraseña falló.')
         return False
+
+
+
 
 
 

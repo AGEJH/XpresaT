@@ -1,11 +1,11 @@
 from flask import Flask, request, jsonify # type: ignore  #TRUNCATE para eliminar en sql registros
 from models import db, User, UserResponse  # Importar db y modelos
-from security import check_password, hash_password, bcrypt
+from security import check_password, hash_password
 from flask_cors import CORS # type: ignore # Manejar las solicitudes desde tu aplicación Android.
 from flask_migrate import Migrate  # type: ignore # Importar Flask-Migrate aquí, Flask-Migrate, es excelente para manejar las migraciones de la base de datos sin problemas.
 from config import Config  # Importa la configuración aquí
 from nltk.tokenize import word_tokenize # type: ignore
-import nltk  # type: ignore
+import nltk  # type: ignore 
 import traceback
 nltk.download('punkt')
 
@@ -29,47 +29,60 @@ def home():
 # Endpoint de login
 @app.route('/login', methods=['POST'])
 def login_user():
+    """Inicia sesión del usuario."""
     data = request.get_json()
     email = data.get('email')
-    password = data.get('password')
+    password = data.get('password')  # Contraseña en texto plano
 
+    app.logger.debug(f'Intentando iniciar sesión con email: {email} y contraseña: {password}')
+
+    # Buscar al usuario por email
     user = User.query.filter_by(email=email).first()
-    if user is None:
-        app.logger.debug(f'Usuario no encontrado: {email}')
+
+    if not user:
+        app.logger.debug(f'El usuario con email {email} no existe.')
         return jsonify({"error": "Usuario no encontrado"}), 404
 
-    # Verifica la contraseña
-    if check_password(password, user.password):
-        app.logger.debug(f'Inicio de sesión exitoso para: {email}')
+    app.logger.debug(f'Hash almacenado para el usuario {email}: {user.password}')
+
+    # Verificar la contraseña ingresada comparando su hash con el hash almacenado
+    if check_password(password, user.password):  # Se pasa el hash de la base de datos
+        app.logger.debug(f'Contraseña correcta para el usuario: {email}')
         return jsonify({"message": "Inicio de sesión exitoso"}), 200
     else:
         app.logger.debug(f'Contraseña incorrecta para el usuario: {email}')
         return jsonify({"error": "Contraseña incorrecta"}), 401
 
 
-
+    
+    
+    
+ # En el registro de usuario
 @app.route('/register', methods=['POST'])
 def register_user():
+    """Registra a un nuevo usuario."""
     data = request.get_json()
     email = data.get('email')
-    password = data.get('password')
+    password = data.get('password')  # Contraseña en texto plano
     name = data.get('name')
     lastname = data.get('lastname')
 
+    # Verificar si el usuario ya existe
     existing_user = User.query.filter_by(email=email).first()
     if existing_user:
         app.logger.debug(f'El email {email} ya está registrado.')
         return jsonify({"error": "Usuario ya existe"}), 409
 
+    # Validación de campos
     if not all([email, password, name, lastname]):
         app.logger.error('Faltan campos requeridos en la solicitud de registro.')
         return jsonify({"error": "Campos requeridos faltantes"}), 400
 
-    # Generación del hash de la contraseña
-    hashed_password = hash_password(password)  # Genera el hash una vez
+    # Generar el hash de la contraseña y guardarlo
+    hashed_password = hash_password(password)  # Hashea solo la contraseña original
     app.logger.debug(f'Hash que se intentará guardar: {hashed_password}')
-    
-    # Creación del nuevo usuario
+
+    # Crear el nuevo usuario
     new_user = User(email=email, password=hashed_password, name=name, lastname=lastname)
 
     try:
@@ -84,8 +97,6 @@ def register_user():
     return jsonify({"message": "Usuario registrado exitosamente"}), 201
 
 
-
-    
 
 @app.route('/analyze', methods=['POST'])
 def analyze_text():
