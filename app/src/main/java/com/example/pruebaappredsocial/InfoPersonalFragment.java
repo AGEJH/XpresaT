@@ -22,7 +22,7 @@ public class InfoPersonalFragment extends Fragment {
     private TextView tvFullName, tvBirthDate, tvLocation;
 
     // Contraseña de ejemplo, más adelante se puede cambiar por la que esté en la base de datos.
-    private String examplePassword = "1234";
+    private String examplePassword = "angel123";
 
     @Nullable
     @Override
@@ -74,9 +74,9 @@ public class InfoPersonalFragment extends Fragment {
     // Método simulado para cargar la información del usuario
     private void loadUserInfo() {
         // Esto normalmente lo obtendrías de la base de datos
-        String fullName = "Juan Pérez";
-        String birthDate = "01/01/1990";
-        String location = "Ciudad de México";
+        String fullName = "Angel Jimenez";
+        String birthDate = "09/10/2002";
+        String location = "Manzanillo, Colima";
 
         tvFullName.setText(fullName);
         tvBirthDate.setText(birthDate);

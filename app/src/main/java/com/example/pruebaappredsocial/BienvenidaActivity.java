@@ -2,6 +2,7 @@ package com.example.pruebaappredsocial;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ public class BienvenidaActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("HomeActivity", "onCreate: HomeActivity creada");
         setContentView(R.layout.activity_bienvenida);
 
         // Configurar el TextView para manejar el click

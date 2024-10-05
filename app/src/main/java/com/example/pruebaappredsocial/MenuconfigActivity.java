@@ -83,7 +83,7 @@ public class MenuconfigActivity  extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Redirigir al LoginActivity
-                Intent intent = new Intent(MenuconfigActivity.this, LoginActivity.class);
+                Intent intent = new Intent(MenuconfigActivity.this, BienvenidaActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();

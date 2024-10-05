@@ -30,6 +30,6 @@
         android:fontFamily="@font/core_mellow_57_cn_medium"
         android:text="No hay notificaciones por el momento."
         android:textColor="@color/black"
-        android:textSize="26sp"
+        android:textSize="22sp"
         android:textStyle="bold" />
 </RelativeLayout>

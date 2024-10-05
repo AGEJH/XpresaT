@@ -2,6 +2,7 @@ package com.example.pruebaappredsocial;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -77,11 +79,19 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     ApiResponse apiResponse = response.body();
+                    Log.d("LoginActivity", "Respuesta del servidor: " + apiResponse.getMessage() + ", Success: " + apiResponse.isSuccess());
 
                     if (apiResponse.isSuccess()) {
                         // Guardar los datos del usuario y navegar a la pantalla principal
                         Toast.makeText(LoginActivity.this, "Inicio de sesión exitoso.", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        ArrayList<Post> postList = new ArrayList<>(); // Supón que aquí llenas tu lista de publicaciones
+
+                        // Aquí podrías llenar postList con los datos que tengas
+                        postList.add(new Post("Este es un post", "Autor1"));
+                        postList.add(new Post("Otro post", "Autor2"));
+
+                        intent.putParcelableArrayListExtra("posts", postList);
                         startActivity(intent);
                         finish();
                     } else {
@@ -89,25 +99,27 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Error: " + apiResponse.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    // Aquí registramos la respuesta del servidor para obtener más detalles
-                    int errorCode = response.code(); // Código de error HTTP
+                    int errorCode = response.code();
                     String errorBody = null;
                     if (response.errorBody() != null) {
                         try {
-                            errorBody = response.errorBody().string(); // Obtener cuerpo del error como String
+                            errorBody = response.errorBody().string();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
+                    Log.d("LoginActivity", "Error en la respuesta del servidor. Código: " + errorCode + ", Detalles: " + errorBody);
                     Toast.makeText(LoginActivity.this, "Error en la respuesta del servidor. Código: " + errorCode + ", Detalles: " + errorBody, Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
+                Log.d("LoginActivity", "Error de red: " + t.getMessage());
                 Toast.makeText(LoginActivity.this, "Error de red: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+
     }
 
 }

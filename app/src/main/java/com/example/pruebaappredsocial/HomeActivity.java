@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -22,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -45,7 +43,6 @@ public class HomeActivity extends AppCompatActivity {
     private DatabaseHelper dbHelper; // Instance of your SQLiteOpenHelper class
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,20 +50,29 @@ public class HomeActivity extends AppCompatActivity {
 
         postInput = findViewById(R.id.postInput);
         optionsLayout = findViewById(R.id.optionsLayout);
-        Button btnAddPhoto = findViewById(R.id.btnAddPhoto);
         imageViewSelected = findViewById(R.id.imageViewSelected);
         tvNoPosts = findViewById(R.id.tv_no_posts);
         recyclerViewPosts = findViewById(R.id.recyclerViewPosts);
 
         // Configurar el RecyclerView
         recyclerViewPosts.setLayoutManager(new LinearLayoutManager(this));
-        postAdapter = new PostAdapter(Collections.singletonList((Post) postList));
+
+        // Recibir el ArrayList<Post> de la actividad anterior
+        ArrayList<Post> postList = getIntent().getParcelableArrayListExtra("posts");
+
+        // Comprobar si la lista de posts no es nula
+        if (postList != null) {
+            postAdapter = new PostAdapter(postList); // Usar la lista recibida
+        } else {
+            postAdapter = new PostAdapter(new ArrayList<>()); // Crear una lista vacía si no hay posts
+        }
+
         recyclerViewPosts.setAdapter(postAdapter);
 
-        // Cargar publicaciones
+        // Cargar publicaciones (esto puede ser opcional si ya tienes publicaciones al iniciar)
         loadPosts();
 
-        // Menu de navegación
+        // Menú de navegación
         btnBack = findViewById(R.id.btnBack);
         btnHome = findViewById(R.id.btnHome);
         btnNotifications = findViewById(R.id.btnNotifications);
@@ -76,6 +82,7 @@ public class HomeActivity extends AppCompatActivity {
 
         // Establecer escuchadores para los botones
         setButtonListeners();
+
 
         postInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override

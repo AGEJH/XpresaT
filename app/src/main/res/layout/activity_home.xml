@@ -1,108 +1,127 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_gradient">
 
-    <include
-        android:id="@+id/menu_navigation"
-        layout="@layout/menu_navigation" />
-
-    <!-- Zona de Posteo -->
-    <TextView
-        android:id="@+id/btn_init"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="88dp"
-        android:background="@android:color/transparent"
-        android:fontFamily="@font/core_mellow_57_cn_medium"
-        android:text="Inicio"
-        android:textColor="@color/blanco_opaco"
-        android:textSize="39dp"
-        android:layout_marginLeft="152dp"
-        android:textStyle="bold" />
-
-    <!-- Contenedor para el icono de usuario y el EditText -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btn_init"
-        android:layout_marginTop="20dp"
-        android:padding="8dp">
+        android:layout_height="match_parent"
+        android:background="@drawable/background_gradient"
+        tools:layout_editor_absoluteX="43dp"
+        tools:layout_editor_absoluteY="227dp">
 
-        <!-- Icono de Usuario -->
-        <ImageView
-            android:id="@+id/profile_icon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentStart="true"
-            android:src="@drawable/usuario"
-            android:contentDescription="Icono de usuario"
-            android:layout_marginEnd="8dp"
-            android:scaleType="centerCrop" /> <!-- Para fondo circular -->
+        <include
+            android:id="@+id/menu_navigation"
+            layout="@layout/menu_navigation" />
 
-        <!-- EditText para Post Input -->
-        <EditText
-            android:id="@+id/postInput"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/profile_icon"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="8dp"
-            android:background="@android:color/transparent"
-            android:backgroundTint="@color/black"
-            android:textColorHint="@color/blanco_opaco"
-            android:fontFamily="@font/core_mellow_57_cn_medium"
-            android:hint="¡Postea lo que quieras expresar!"
-            android:padding="14dp"
-            android:textColor="@color/black" />
-
+        <!-- Zona de Posteo -->
         <TextView
-            android:id="@+id/tv_no_posts"
+            android:id="@+id/btn_init"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No tienes ninguna publicación"
-            android:textSize="18sp"
-            android:visibility="gone"
-            android:layout_centerInParent="true"
-            android:textColor="@color/black" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="152dp"
+            android:layout_marginTop="88dp"
+            android:background="@android:color/transparent"
+            android:fontFamily="@font/core_mellow_57_cn_medium"
+            android:text="Inicio"
+            android:textColor="@color/blanco_opaco"
+            android:textSize="39dp"
+            android:textStyle="bold" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewPosts"
+        <!-- Contenedor para el icono de usuario y el EditText -->
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/postInput"
-            android:layout_marginTop="33dp"
-            android:visibility="visible" />
+            android:layout_below="@id/btn_init"
+            android:layout_marginTop="20dp"
+            android:padding="8dp">
 
-    </RelativeLayout>
+            <!-- Icono de Usuario -->
+            <ImageView
+                android:id="@+id/profile_icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="Icono de usuario"
+                android:scaleType="centerCrop"
+                android:src="@drawable/usuario" /> <!-- Para fondo circular -->
 
-    <LinearLayout
-        android:id="@+id/optionsLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/postInput"
-        android:orientation="horizontal"
-        android:visibility="gone"
-        tools:ignore="NotSibling">
+            <!-- EditText para Post Input -->
+            <EditText
+                android:id="@+id/postInput"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="8dp"
+                android:layout_toEndOf="@id/profile_icon"
+                android:background="@android:color/transparent"
+                android:backgroundTint="@color/black"
+                android:fontFamily="@font/core_mellow_57_cn_medium"
+                android:hint="¡Postea lo que quieras expresar!"
+                android:padding="14dp"
+                android:textSize="22dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/blanco_opaco" />
+
+            <TextView
+                android:id="@+id/tv_no_posts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="380dp"
+                android:fontFamily="@font/core_mellow_57_cn_medium"
+                android:text="No tienes ninguna publicación"
+                android:textColor="@color/black"
+                android:textSize="26sp"
+                android:visibility="visible" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewPosts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/postInput"
+                android:layout_marginTop="184dp"
+                android:visibility="visible" />
+
+
+        </RelativeLayout>
 
         <Button
             android:id="@+id/btnAddPhoto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="224dp"
+            android:layout_marginLeft="77dp"
+            android:fontFamily="@font/core_mellow_57_cn_medium"
+            android:backgroundTint="@color/violeta_letras_botones"
             android:text="Cargar foto" />
 
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/optionsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/postInput"
+            android:layout_marginTop="230dp"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            tools:ignore="NotSibling">
 
-    <ImageView
-        android:id="@+id/imageViewSelected"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_below="@id/postInput"
-        android:layout_marginTop="6dp"
-        android:contentDescription="Selected Image"
-        android:scaleType="centerCrop"
-        tools:ignore="NotSibling" />
+        </LinearLayout>
 
-</RelativeLayout>
+        <ImageView
+            android:id="@+id/imageViewSelected"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@id/postInput"
+            android:layout_marginTop="-216dp"
+            android:contentDescription="Selected Image"
+            android:scaleType="centerCrop"
+            tools:ignore="NotSibling" />
+
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

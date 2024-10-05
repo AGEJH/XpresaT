@@ -45,7 +45,7 @@
         android:layout_marginTop="141dp"
         android:textSize="22dp"
         android:background="@drawable/button_style"
-        android:backgroundTint="@color/violeta_letras_botones"
+        android:backgroundTint="@color/azul_primario"
         android:text="Ingresar"
         android:textColor="#FFFFFF"
         android:fontFamily="@font/core_mellow_57_cn_medium"/>

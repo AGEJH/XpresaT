@@ -23,7 +23,7 @@
             android:background="@android:color/transparent"
             android:fontFamily="@font/core_mellow_57_cn_medium"
             android:text="Editar perfil"
-            android:textSize="39dp"
+            android:textSize="38dp"
             android:textStyle="bold"
             android:textColor="@color/blanco_opaco" />
 
