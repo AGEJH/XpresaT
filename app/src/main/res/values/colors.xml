@@ -3,6 +3,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="azul_primario">#3b82f6</color>
+    <color name="azul_cielo">#99D2FF</color>
+    <color name="violeta_pastel">#B28CF4</color>
     <color name="blanco_opaco">#f3f3f3</color>
     <color name="contorno">#0c0d0f</color>
     <color name="violeta_letras_botones">#7b8cee</color>
