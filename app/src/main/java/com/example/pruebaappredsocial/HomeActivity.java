@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -31,6 +32,7 @@ import retrofit2.Retrofit;
 
 public class HomeActivity extends AppCompatActivity {
 
+    // Definir variables globales
     private static final int PICK_IMAGE_REQUEST = 1;
     private ImageButton btnBack, btnHome, btnNotifications, btnVideos, btnProfile, btnMenu;
     private TextView textViewWelcome, tvNoPosts;
@@ -40,9 +42,10 @@ public class HomeActivity extends AppCompatActivity {
     private RecyclerView recyclerViewPosts;
     private PostAdapter postAdapter;
     private List<Post> postList = new ArrayList<>(); // Lista de publicaciones
-    private DatabaseHelper dbHelper; // Instance of your SQLiteOpenHelper class
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+   private Button btnAddPhoto;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,12 +98,29 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.btnAddPhoto).setOnClickListener(new View.OnClickListener() {
+        // Configurar el OnClickListener para cambiar la visibilidad del botón según el texto
+        postInput.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openFileChooser();
+                onClickButton(v);
             }
         });
+    }
+
+    // Lógica para manejar la visibilidad del botón
+    public void onClickButton(View v) {
+        // Obtener el texto del campo de entrada
+        String inputText = postInput.getText().toString().trim();
+
+        // Verificar si el campo de entrada está vacío
+        if (inputText.isEmpty()) {
+            btnAddPhoto.setVisibility(View.GONE); // Ocultar el botón si el campo está vacío
+        } else {
+            btnAddPhoto.setVisibility(View.VISIBLE); // Mostrar el botón si hay texto
+            // También puedes manejar otras vistas, como recyclerViewPosts y tvNoPosts
+            // recyclerViewPosts.setVisibility(View.VISIBLE);
+            // tvNoPosts.setVisibility(View.GONE);
+        }
     }
 
     private void loadPosts() {

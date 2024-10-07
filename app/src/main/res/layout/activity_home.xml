@@ -99,6 +99,7 @@
             android:layout_marginLeft="77dp"
             android:fontFamily="@font/core_mellow_57_cn_medium"
             android:backgroundTint="@color/violeta_letras_botones"
+            android:visibility="invisible"
             android:text="Cargar foto" />
 
         <LinearLayout
