@@ -42,7 +42,7 @@ public class BienvenidaActivity extends AppCompatActivity {
         // Cargar imagen circular con Glide en el ImageView
         ImageView ivLogo = findViewById(R.id.ivLogo);
         Glide.with(this)
-                .load(R.drawable.xpresat4)  // Carga la imagen desde los recursos
+                .load(R.drawable.xpresat5)  // Carga la imagen desde los recursos
                 .circleCrop()                // Aplica la transformación circular
                 .into(ivLogo);               // Coloca la imagen en el ImageView
     }

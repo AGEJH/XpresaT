@@ -11,14 +11,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
 
-    private final List<Post> postList;
+    private final ArrayList<Post> postList;
 
-    public PostAdapter(List<Post> postList) {
+    public PostAdapter(ArrayList<Post> postList) {
         this.postList = postList;
+    }
+
+    public void addPost(Post post) {
+        postList.add(0, post); // Agregar el nuevo post al inicio de la lista
+        notifyItemInserted(0); // Notificar al adaptador que un nuevo elemento fue insertado
     }
 
     @NonNull

@@ -8,10 +8,12 @@ public class Post implements Parcelable {
     private String author;
     private String username;
     private String userProfileImage;
+    private long timestamp; // Añadir el campo de marca de tiempo
 
-    public Post(String content, String author) {
+    public Post(String content, String author, long timestamp) {
         this.content = content;
         this.author = author;
+        this.timestamp = timestamp; // Asignar la marca de tiempo
     }
 
     protected Post(Parcel in) {
@@ -19,6 +21,7 @@ public class Post implements Parcelable {
         author = in.readString();
         username = in.readString();
         userProfileImage = in.readString();
+        timestamp = in.readLong(); // Leer el valor del Parcel
     }
 
     @Override
@@ -27,6 +30,7 @@ public class Post implements Parcelable {
         dest.writeString(author);
         dest.writeString(username);
         dest.writeString(userProfileImage);
+        dest.writeLong(timestamp); // Escribir el valor en el Parcel
     }
 
     @Override
@@ -61,5 +65,9 @@ public class Post implements Parcelable {
 
     public String getUserProfileImage() {
         return userProfileImage;
+    }
+
+    public long getTimestamp() {
+        return timestamp; // Getter para la marca de tiempo
     }
 }

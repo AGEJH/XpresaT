@@ -68,6 +68,7 @@
                 android:textColor="@color/black"
                 android:textColorHint="@color/blanco_opaco" />
 
+
             <TextView
                 android:id="@+id/tv_no_posts"
                 android:layout_width="wrap_content"
@@ -98,9 +99,20 @@
             android:layout_marginTop="224dp"
             android:layout_marginLeft="77dp"
             android:fontFamily="@font/core_mellow_57_cn_medium"
-            android:backgroundTint="@color/violeta_letras_botones"
-            android:visibility="invisible"
+            android:backgroundTint="@color/azul_primario"
+            android:visibility="gone"
             android:text="Cargar foto" />
+
+        <Button
+            android:id="@+id/btnPublish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="224dp"
+            android:layout_marginLeft="257dp"
+            android:backgroundTint="@color/azul_primario"
+            android:text="Publicar"
+            android:layout_gravity="center" />
+
 
         <LinearLayout
             android:id="@+id/optionsLayout"

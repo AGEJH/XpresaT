@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -44,7 +46,8 @@ public class HomeActivity extends AppCompatActivity {
     private List<Post> postList = new ArrayList<>(); // Lista de publicaciones
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-   private Button btnAddPhoto;
+   private Button btnAddPhoto, btnPublish;
+    private String content, author;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,8 @@ public class HomeActivity extends AppCompatActivity {
         imageViewSelected = findViewById(R.id.imageViewSelected);
         tvNoPosts = findViewById(R.id.tv_no_posts);
         recyclerViewPosts = findViewById(R.id.recyclerViewPosts);
+        btnPublish = findViewById(R.id.btnPublish);
+        btnAddPhoto = findViewById(R.id.btnAddPhoto);
 
         // Configurar el RecyclerView
         recyclerViewPosts.setLayoutManager(new LinearLayoutManager(this));
@@ -86,6 +91,42 @@ public class HomeActivity extends AppCompatActivity {
         // Establecer escuchadores para los botones
         setButtonListeners();
 
+        // Configurar el OnClickListener para el botón de publicar
+        btnPublish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String postContent = postInput.getText().toString().trim();
+                author = "Autor de ejemplo"; // Cambia esto según tu lógica para obtener el autor
+
+                if (!postContent.isEmpty()) {
+                    publishPost(postContent, author); // Publica el post
+                } else {
+                    Toast.makeText(HomeActivity.this, "El campo de publicación está vacío", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+        // Configurar el TextWatcher para el campo de texto de publicación
+        postInput.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().trim().isEmpty()) {
+                    btnAddPhoto.setVisibility(View.GONE); // Ocultar el botón si el campo está vacío
+                } else {
+                    btnAddPhoto.setVisibility(View.VISIBLE); // Mostrar el botón si hay texto
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
 
         postInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -97,30 +138,22 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
         });
-
-        // Configurar el OnClickListener para cambiar la visibilidad del botón según el texto
-        postInput.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickButton(v);
-            }
-        });
     }
+    private void publishPost(String content, String author) {
+        // Crear un nuevo objeto Post con el contenido ingresado
+        long timestamp = System.currentTimeMillis();
+        Post newPost = new Post(content, author, timestamp);
 
-    // Lógica para manejar la visibilidad del botón
-    public void onClickButton(View v) {
-        // Obtener el texto del campo de entrada
-        String inputText = postInput.getText().toString().trim();
 
-        // Verificar si el campo de entrada está vacío
-        if (inputText.isEmpty()) {
-            btnAddPhoto.setVisibility(View.GONE); // Ocultar el botón si el campo está vacío
-        } else {
-            btnAddPhoto.setVisibility(View.VISIBLE); // Mostrar el botón si hay texto
-            // También puedes manejar otras vistas, como recyclerViewPosts y tvNoPosts
-            // recyclerViewPosts.setVisibility(View.VISIBLE);
-            // tvNoPosts.setVisibility(View.GONE);
-        }
+        // Agregar el nuevo post a la lista de posts
+        postAdapter.addPost(newPost);
+
+        // Limpiar el campo de texto después de publicar
+        postInput.setText("");
+
+        // Desplegar el RecyclerView y ocultar el mensaje de "sin publicaciones"
+        recyclerViewPosts.setVisibility(View.VISIBLE);
+        tvNoPosts.setVisibility(View.GONE);
     }
 
     private void loadPosts() {
@@ -137,6 +170,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void setButtonListeners() {
+
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
