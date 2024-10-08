@@ -34,9 +34,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
+    public void onBindViewHolder(PostViewHolder holder, int position) {
         Post post = postList.get(position);
-        holder.bind(post);
+
+        // Asignar el contenido del post y el autor al TextView
+        holder.tvPostAuthor.setText(post.getAuthor());
+        holder.tvPostContent.setText(post.getContent());
+
+        // Si tienes una imagen de perfil, también puedes asignarla
+        // Usa Glide o cualquier otra librería para cargar la imagen si es necesario
+        // Glide.with(context).load(post.getUserProfileImage()).into(holder.imageViewProfile);
     }
 
     @Override
@@ -45,24 +52,24 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     }
 
     public class PostViewHolder extends RecyclerView.ViewHolder {
+        TextView tvPostAuthor, tvPostContent;
+        ImageView imageViewProfile;
 
-        private ImageView imageViewProfile;
-        private TextView textViewPost;
-
-        public PostViewHolder(@NonNull View itemView) {
+        public PostViewHolder(View itemView) {
             super(itemView);
+            tvPostAuthor = itemView.findViewById(R.id.tvPostAuthor);
+            tvPostContent = itemView.findViewById(R.id.tvPostContent);
             imageViewProfile = itemView.findViewById(R.id.imageViewProfile);
-            textViewPost = itemView.findViewById(R.id.tvPostAuthor);
         }
 
-        public void bind(Post post) {
+    public void bind(Post post) {
             // Cargar la imagen de perfil usando Glide
             Glide.with(itemView.getContext())
                     .load(post.getUserProfileImage())  // URL de la imagen de perfil
                     .placeholder(R.drawable.ic_profile)  // Imagen de carga
                     .into(imageViewProfile);
 
-            textViewPost.setText(post.getUsername());
+        tvPostContent.setText(post.getContent());
         }
     }
 }
