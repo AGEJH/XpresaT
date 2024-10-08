@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.bumptech.glide.Glide;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,7 +50,14 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(this, "Por favor, complete todos los campos.", Toast.LENGTH_LONG).show();
             }
         });
+        // Cargar imagen circular con Glide en el ImageView
+        ImageView imageViewLogo = findViewById(R.id.imageViewLogo);
+        Glide.with(this)
+                .load(R.drawable.xpresat5)  // Carga la imagen desde los recursos
+                .circleCrop()                // Aplica la transformación circular
+                .into(imageViewLogo);               // Coloca la imagen en el ImageView
     }
+
 
     private boolean validateLoginForm() {
         String correo = editTextCorreo.getText().toString().trim();
@@ -88,8 +98,9 @@ public class LoginActivity extends AppCompatActivity {
                         ArrayList<Post> postList = new ArrayList<>(); // Supón que aquí llenas tu lista de publicaciones
 
                         // Aquí podrías llenar postList con los datos que tengas
-                        postList.add(new Post("Este es un post", "Autor1"));
-                        postList.add(new Post("Otro post", "Autor2"));
+                        long timestamp = System.currentTimeMillis(); // Obtener la marca de tiempo actual
+                        postList.add(new Post("Este es un post", "Autor1", timestamp));
+                        postList.add(new Post("Otro post", "Autor2", timestamp));
 
                         intent.putParcelableArrayListExtra("posts", postList);
                         startActivity(intent);
