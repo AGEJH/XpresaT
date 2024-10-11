@@ -1,6 +1,6 @@
-from flask_sqlalchemy import SQLAlchemy # type: ignore
+from flask_sqlalchemy import SQLAlchemy, relationship, Integer # type: ignore
 from datetime import datetime
-from security import hash_password  # Importa la función hash_password de security.py
+#from security import hash_password  # Importa la función hash_password de security.py
 
 
 db = SQLAlchemy() 
@@ -11,7 +11,10 @@ class UserResponse(db.Model):
     email = db.Column(db.String(255), unique=True, nullable=False)
     response = db.Column(db.String(1024), nullable=False)
     sentiment_score = db.Column(db.Float, nullable=False)
-
+    
+     # Relación con los amigos
+    friends_sent = db.relationship('Friend', foreign_keys='Friend.sender_id', backref='sender', lazy='dynamic')
+    friends_received = db.relationship('Friend', foreign_keys='Friend.receptor_id', backref='receiver', lazy='dynamic')
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
@@ -23,9 +26,7 @@ class User(db.Model):
         self.name = name
         self.lastname = lastname
         self.email = email
-        self.password = hash_password(password) # Almacena la contraseña encriptada
-
- 
+        self.password = password                  #hash_password(password) # Almacena la contraseña encriptada
         
 class Recover(db.Model):
     __tablename__ = 'recover'
@@ -132,11 +133,12 @@ class Comment(db.Model):
 class Friend(db.Model):
     __tablename__ = 'friend'
     id = db.Column(db.Integer, primary_key=True)
-    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    receptor_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    is_accepted = db.Column(db.Boolean, default=False)
-    is_readed = db.Column(db.Boolean, default=False)
-    created_at = db.Column(db.DateTime)
+    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'))  # Usuario que envía la solicitud
+    receptor_id = db.Column(db.Integer, db.ForeignKey('user.id'))  # Usuario que recibe la solicitud
+    is_accepted = db.Column(db.Boolean, default=False)  # Indica si la solicitud fue aceptada
+    is_readed = db.Column(db.Boolean, default=False)  # Indica si fue leída la solicitud
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)  # Fecha de creación
+
 
 class Conversation(db.Model):
     __tablename__ = 'conversation'
