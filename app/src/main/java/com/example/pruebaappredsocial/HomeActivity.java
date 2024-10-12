@@ -38,7 +38,7 @@ public class HomeActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private ImageButton btnBack, btnHome, btnNotifications, btnVideos, btnProfile, btnMenu;
     private TextView textViewWelcome, tvNoPosts;
-    private ImageView imageViewSelected;
+    private ImageView imageViewSelected,  btnSearchFriends;
     private EditText postInput;
     private LinearLayout optionsLayout;
     private RecyclerView recyclerViewPosts;
@@ -61,6 +61,16 @@ public class HomeActivity extends AppCompatActivity {
         recyclerViewPosts = findViewById(R.id.recyclerViewPosts);
         btnPublish = findViewById(R.id.btnPublish);
         btnAddPhoto = findViewById(R.id.btnAddPhoto);
+        btnSearchFriends = findViewById(R.id.btnSearchFriends);
+
+        // Configura el OnClickListener para el botón de búsqueda de amigos
+        btnSearchFriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, SearchFriendsActivity.class);
+                startActivity(intent); // Inicia la actividad de búsqueda de amigos
+            }
+        });
 
         // Configurar el RecyclerView
         recyclerViewPosts.setLayoutManager(new LinearLayoutManager(this));
@@ -155,19 +165,37 @@ public class HomeActivity extends AppCompatActivity {
         recyclerViewPosts.setVisibility(View.VISIBLE);
         tvNoPosts.setVisibility(View.GONE);
     }
-
     private void loadPosts() {
-        // Aquí es donde deberías cargar las publicaciones de tu base de datos o API
-        // Por ahora lo dejaremos vacío para simular que no hay publicaciones
+        String currentUsername = "usuarioActual";  // Obtén el nombre de usuario real
+        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        Call<List<Post>> call = apiService.getPosts(currentUsername);
 
-        if (postList.isEmpty()) {
-            recyclerViewPosts.setVisibility(View.GONE);
-            tvNoPosts.setVisibility(View.VISIBLE);
-        } else {
-            recyclerViewPosts.setVisibility(View.VISIBLE);
-            tvNoPosts.setVisibility(View.GONE);
-        }
+        call.enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    postList.clear();
+                    postList.addAll(response.body());
+                    postAdapter.notifyDataSetChanged();
+
+                    recyclerViewPosts.setVisibility(View.VISIBLE);
+                    tvNoPosts.setVisibility(View.GONE);
+                } else {
+                    recyclerViewPosts.setVisibility(View.GONE);
+                    tvNoPosts.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
+                Toast.makeText(HomeActivity.this, "Error al cargar publicaciones", Toast.LENGTH_SHORT).show();
+                recyclerViewPosts.setVisibility(View.GONE);
+                tvNoPosts.setVisibility(View.VISIBLE);
+            }
+        });
     }
+
+
 
     private void setButtonListeners() {
 

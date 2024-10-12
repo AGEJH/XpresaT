@@ -17,6 +17,17 @@
             android:id="@+id/menu_navigation"
             layout="@layout/menu_navigation" />
 
+        <ImageButton
+            android:id="@+id/btnSearchFriends"
+            android:layout_width="34dp"
+            android:layout_height="33dp"
+            android:layout_marginStart="29dp"
+            android:src="@drawable/ic_lupa"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="84dp"
+            android:layout_marginEnd="23dp"/>
+
         <!-- Zona de Posteo -->
         <TextView
             android:id="@+id/btn_init"
@@ -31,6 +42,7 @@
             android:textColor="@color/blanco_opaco"
             android:textSize="39dp"
             android:textStyle="bold" />
+
 
         <!-- Contenedor para el icono de usuario y el EditText -->
         <RelativeLayout
