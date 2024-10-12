@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify # type: ignore  #TRUNCATE para eliminar en sql registros
-from models import db, User, UserResponse  # Importar db y modelos
+from models import db, User, UserResponse, Amigo  # Importar db y modelos
 #from security import check_password, hash_password
 from flask_cors import CORS # type: ignore # Manejar las solicitudes desde tu aplicación Android.
 from flask_migrate import Migrate  # type: ignore # Importar Flask-Migrate aquí, Flask-Migrate, es excelente para manejar las migraciones de la base de datos sin problemas.
@@ -45,7 +45,74 @@ def login_user():
     
     
     
- # En el registro de usuario
+# Endpoint Buscar usuarios por nombre o email
+@app.route('/buscar_usuarios', methods=['GET'])
+def buscar_usuarios():
+    query = request.args.get('query')
+
+    if not query:
+        return jsonify({"error": "No se proporcionó un término de búsqueda"}), 400
+
+    usuarios = User.query.filter((User.name.ilike(f"%{query}%")) | (User.email.ilike(f"%{query}%"))).all()     # Buscar usuarios que coincidan con el nombre o el email
+
+
+    if not usuarios:
+        return jsonify({"message": "No se encontraron usuarios"}), 200
+
+  
+    usuarios_lista = [{"id": user.id, "nombre": user.name, "email": user.email} for user in usuarios]   # Serializar los usuarios encontrados (convertir de formato JSON a bytes)
+
+    return jsonify({"usuarios": usuarios_lista}), 200
+
+    
+    
+# Endpoint Enviar solicitud de amistad
+@app.route('/enviar_solicitud', methods=['POST'])
+def enviar_solicitud():
+    data = request.get_json()
+    usuario_id = data.get('usuario_id')
+    amigo_id = data.get('amigo_id')
+
+    if not usuario_id or not amigo_id:
+        return jsonify({"error": "Datos faltantes para la solicitud"}), 400
+
+    solicitud_existente = Amigo.query.filter_by(usuario_id=usuario_id, amigo_id=amigo_id).first()     # Verificar si ya existe una relación de amistad o solicitud pendiente
+
+    if solicitud_existente:
+        return jsonify({"error": "La solicitud de amistad ya existe o la persona ya es tu amigo"}), 409
+
+    nueva_solicitud = Amigo(usuario_id=usuario_id, amigo_id=amigo_id, estado='pendiente')     # Crear una nueva solicitud de amistad (estado 'pendiente')
+    db.session.add(nueva_solicitud)
+    db.session.commit()
+
+    return jsonify({"message": "Solicitud de amistad enviada con éxito"}), 201
+
+
+
+# Endpoint Aceptar solicitud de amistad
+@app.route('/aceptar_solicitud', methods=['POST'])
+def aceptar_solicitud():
+    data = request.get_json()
+    usuario_id = data.get('usuario_id')
+    amigo_id = data.get('amigo_id')
+
+    if not usuario_id or not amigo_id:
+        return jsonify({"error": "Datos faltantes"}), 400
+
+    # Buscar la solicitud de amistad
+    solicitud = Amigo.query.filter_by(usuario_id=amigo_id, amigo_id=usuario_id, estado='pendiente').first()
+
+    if not solicitud:
+        return jsonify({"error": "Solicitud de amistad no encontrada"}), 404
+
+    # Actualizar el estado a 'aceptado'
+    solicitud.estado = 'aceptado'
+    db.session.commit()
+
+    return jsonify({"message": "Solicitud de amistad aceptada"}), 200
+
+
+    
 # Endpoint de registro
 @app.route('/register', methods=['POST'])
 def register_user():
