@@ -1,7 +1,8 @@
-from flask_sqlalchemy import SQLAlchemy, relationship, Integer # type: ignore
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import relationship
+from sqlalchemy import Integer
 from datetime import datetime
 #from security import hash_password  # Importa la función hash_password de security.py
-
 
 db = SQLAlchemy() 
 
@@ -12,9 +13,6 @@ class UserResponse(db.Model):
     response = db.Column(db.String(1024), nullable=False)
     sentiment_score = db.Column(db.Float, nullable=False)
     
-     # Relación con los amigos
-    friends_sent = db.relationship('Friend', foreign_keys='Friend.sender_id', backref='sender', lazy='dynamic')
-    friends_received = db.relationship('Friend', foreign_keys='Friend.receptor_id', backref='receiver', lazy='dynamic')
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
@@ -27,6 +25,20 @@ class User(db.Model):
         self.lastname = lastname
         self.email = email
         self.password = password                  #hash_password(password) # Almacena la contraseña encriptada
+        
+ 
+ # Relación con los amigos
+    friends_sent = db.relationship('Friend', foreign_keys='Friend.sender_id', backref='sender', lazy='dynamic')
+    friends_received = db.relationship('Friend', foreign_keys='Friend.receptor_id', backref='receiver', lazy='dynamic')
+
+class Friend(db.Model):
+    __tablename__ = 'friend'
+    id = db.Column(db.Integer, primary_key=True)
+    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'))  # Usuario que envía la solicitud
+    receptor_id = db.Column(db.Integer, db.ForeignKey('user.id'))  # Usuario que recibe la solicitud
+    is_accepted = db.Column(db.Boolean, default=False)  # Indica si la solicitud fue aceptada
+    is_readed = db.Column(db.Boolean, default=False)  # Indica si fue leída la solicitud
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)  # Fecha de creación       
         
 class Recover(db.Model):
     __tablename__ = 'recover'
@@ -128,18 +140,7 @@ class Comment(db.Model):
     comment_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
     content = db.Column(db.Text)
     created_at = db.Column(db.DateTime)
-
-
-class Friend(db.Model):
-    __tablename__ = 'friend'
-    id = db.Column(db.Integer, primary_key=True)
-    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'))  # Usuario que envía la solicitud
-    receptor_id = db.Column(db.Integer, db.ForeignKey('user.id'))  # Usuario que recibe la solicitud
-    is_accepted = db.Column(db.Boolean, default=False)  # Indica si la solicitud fue aceptada
-    is_readed = db.Column(db.Boolean, default=False)  # Indica si fue leída la solicitud
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)  # Fecha de creación
-
-
+    
 class Conversation(db.Model):
     __tablename__ = 'conversation'
     id = db.Column(db.Integer, primary_key=True)
@@ -183,7 +184,3 @@ class Team(db.Model):
     
     def __repr__(self):
         return f'<User {self.username}>'
-    
-     
-    
-    

@@ -1,8 +1,8 @@
-from flask import Flask, request, jsonify # type: ignore  #TRUNCATE para eliminar en sql registros
-from models import db, User, UserResponse, Amigo  # Importar db y modelos
+from flask import Flask, request, jsonify    # type: ignore  #TRUNCATE para eliminar en sql registros
+from models import db, User, UserResponse, Friend
+from flask_migrate import Migrate      # type: ignore # Importar Flask-Migrate aquí, Flask-Migrate, es excelente para manejar las migraciones de la base de datos sin problemas.
 #from security import check_password, hash_password
 from flask_cors import CORS # type: ignore # Manejar las solicitudes desde tu aplicación Android.
-from flask_migrate import Migrate  # type: ignore # Importar Flask-Migrate aquí, Flask-Migrate, es excelente para manejar las migraciones de la base de datos sin problemas.
 from config import Config  # Importa_la_configuración aquí
 from nltk.tokenize import word_tokenize # type: ignore
 import nltk  # type: ignore 
@@ -16,8 +16,9 @@ diccionario_emociones = {
 
 app = Flask(__name__)  
 app.config.from_object(Config)  # Cargar configuración
-db.init_app(app)  # Inicializar SQLAlchemy con la app de Flask
 migrate = Migrate(app, db)  # Inicializar Flask-Migrate aquí
+
+db.init_app(app)  # Inicializar SQLAlchemy con la app de Flask
 CORS(app)  # Aplicar CORS a la app
 
 
@@ -46,12 +47,12 @@ def login_user():
     
     
 # Endpoint Buscar usuarios por nombre o email
-@app.route('/buscar_usuarios', methods=['GET'])
+@app.route('/buscar_usuarios', methods=['POST'])
 def buscar_usuarios():
     query = request.args.get('query')
 
     if not query:
-        return jsonify({"error": "No se proporcionó un término de búsqueda"}), 400
+        return jsonify({"error": "No se proporciono un termino de búsqueda"}), 400
 
     usuarios = User.query.filter((User.name.ilike(f"%{query}%")) | (User.email.ilike(f"%{query}%"))).all()     # Buscar usuarios que coincidan con el nombre o el email
 
@@ -76,12 +77,12 @@ def enviar_solicitud():
     if not usuario_id or not amigo_id:
         return jsonify({"error": "Datos faltantes para la solicitud"}), 400
 
-    solicitud_existente = Amigo.query.filter_by(usuario_id=usuario_id, amigo_id=amigo_id).first()     # Verificar si ya existe una relación de amistad o solicitud pendiente
+    solicitud_existente = Friend.query.filter_by(usuario_id=usuario_id, amigo_id=amigo_id).first()     # Verificar si ya existe una relación de amistad o solicitud pendiente
 
     if solicitud_existente:
         return jsonify({"error": "La solicitud de amistad ya existe o la persona ya es tu amigo"}), 409
 
-    nueva_solicitud = Amigo(usuario_id=usuario_id, amigo_id=amigo_id, estado='pendiente')     # Crear una nueva solicitud de amistad (estado 'pendiente')
+    nueva_solicitud = Friend(usuario_id=usuario_id, amigo_id=amigo_id, estado='pendiente')     # Crear una nueva solicitud de amistad (estado 'pendiente')
     db.session.add(nueva_solicitud)
     db.session.commit()
 
@@ -100,7 +101,7 @@ def aceptar_solicitud():
         return jsonify({"error": "Datos faltantes"}), 400
 
     # Buscar la solicitud de amistad
-    solicitud = Amigo.query.filter_by(usuario_id=amigo_id, amigo_id=usuario_id, estado='pendiente').first()
+    solicitud = Friend.query.filter_by(usuario_id=amigo_id, amigo_id=usuario_id, estado='pendiente').first()
 
     if not solicitud:
         return jsonify({"error": "Solicitud de amistad no encontrada"}), 404
@@ -110,7 +111,6 @@ def aceptar_solicitud():
     db.session.commit()
 
     return jsonify({"message": "Solicitud de amistad aceptada"}), 200
-
 
     
 # Endpoint de registro

@@ -1,0 +1,2 @@
+python -m site --user-site    
+-> Para confirmar que el entorno virtual está activo, puedes ejecutar el siguiente comando en la terminal donde activaste el entorno:
