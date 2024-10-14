@@ -1,17 +1,15 @@
 package com.example.pruebaappredsocial;
 
-import com.google.firebase.firestore.auth.User;
-
 import java.util.List;
 
 public class SearchUsersResponse {
-    private List<User> usuarios;
+    private List<Usuario> usuarios;  // Cambiar 'User' por 'Usuario'
 
-    public List<User> getUsuarios() {
+    public List<Usuario> getUsuarios() {
         return usuarios;
     }
 
-    public void setUsuarios(List<User> usuarios) {
+    public void setUsuarios(List<Usuario> usuarios) {
         this.usuarios = usuarios;
     }
 }

@@ -74,14 +74,14 @@ public class SearchFriendsActivity extends AppCompatActivity {
     // Lógica para buscar usuarios en la base de datos a través del servidor
     private void searchUsers(String query) {
         ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-        Call<List<Usuario>> call = apiService.searchUsers(query); // Llamada a tu API
+        Call<SearchUsersResponse> call = apiService.searchUsers(query); // Cambiado si usas SearchUsersResponse
 
-        call.enqueue(new Callback<List<Usuario>>() {
+        call.enqueue(new Callback<SearchUsersResponse>() {
             @Override
-            public void onResponse(Call<List<Usuario>> call, Response<List<Usuario>> response) {
+            public void onResponse(Call<SearchUsersResponse> call, Response<SearchUsersResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     userList.clear();
-                    userList.addAll(response.body()); // Agregar los resultados
+                    userList.addAll(response.body().getUsuarios()); // Obtener los usuarios de la respuesta
                     userAdapter.notifyDataSetChanged(); // Notificar al adaptador sobre los nuevos datos
                 } else {
                     Toast.makeText(SearchFriendsActivity.this, "No se encontraron usuarios", Toast.LENGTH_SHORT).show();
@@ -89,7 +89,7 @@ public class SearchFriendsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<Usuario>> call, Throwable t) {
+            public void onFailure(Call<SearchUsersResponse> call, Throwable t) {
                 Toast.makeText(SearchFriendsActivity.this, "Error en la búsqueda: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

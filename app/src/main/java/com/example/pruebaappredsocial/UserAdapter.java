@@ -63,8 +63,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             // Llamada para enviar solicitud de amistad usando Retrofit
             ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
 
-            // Crear el cuerpo de la solicitud (si se necesita un cuerpo con la solicitud, puedes añadirlo)
-            Call<ApiResponse> call = apiService.sendFriendRequest(usuario.getEmail());
+            // Crear el objeto FriendRequest con el email del usuario
+            FriendRequest friendRequest = new FriendRequest(usuario.getEmail());
+
+            // Llamada a la API con el objeto FriendRequest
+            Call<ApiResponse> call = apiService.sendFriendRequest(friendRequest);
 
             call.enqueue(new Callback<ApiResponse>() {
                 @Override
@@ -76,6 +79,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
                         Toast.makeText(itemView.getContext(), "No se pudo enviar la solicitud", Toast.LENGTH_SHORT).show();
                     }
                 }
+
                 @Override
                 public void onFailure(Call<ApiResponse> call, Throwable t) {
                     // Mostrar un mensaje en caso de fallo de la solicitud
@@ -83,6 +87,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
                 }
             });
         }
+
     }
 }
 
