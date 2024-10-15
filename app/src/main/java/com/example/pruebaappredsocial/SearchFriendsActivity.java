@@ -29,6 +29,8 @@ public class SearchFriendsActivity extends AppCompatActivity {
     private Button buttonSearch;
     private UserAdapter userAdapter; // Para mostrar los resultados de búsqueda
     private List<Usuario> userList = new ArrayList<>(); // Lista de resultados de búsqueda
+    private String currentUserEmail; // Inicializa con el email del usuario actual
+    private String currentUserName;  // Inicializa con el nombre del usuario actual
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +42,13 @@ public class SearchFriendsActivity extends AppCompatActivity {
         recyclerViewFriends = findViewById(R.id.recyclerViewResults);
         buttonSearch = findViewById(R.id.buttonSearch);
 
+        // Obtener el email y nombre del usuario actual (implementa esta lógica según tu app)
+        currentUserEmail = getCurrentUserEmail();
+        currentUserName = getCurrentUserName();
+
         // Configurar RecyclerView
         recyclerViewFriends.setLayoutManager(new LinearLayoutManager(this));
-        userAdapter = new UserAdapter(userList); // Inicializar el adaptador con una lista vacía
+        userAdapter = new UserAdapter(userList, currentUserEmail, currentUserName); // Inicializar el adaptador
         recyclerViewFriends.setAdapter(userAdapter);
 
         // Listener del botón de búsqueda
@@ -109,5 +115,14 @@ public class SearchFriendsActivity extends AppCompatActivity {
             }
         });
     }
-}
 
+    private String getCurrentUserEmail() {
+        // Implementa tu lógica para obtener el email del usuario actual
+        return "user@example.com"; // Reemplaza con tu lógica
+    }
+
+    private String getCurrentUserName() {
+        // Implementa tu lógica para obtener el nombre del usuario actual
+        return "Nombre de Usuario"; // Reemplaza con tu lógica
+    }
+}

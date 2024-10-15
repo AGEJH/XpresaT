@@ -18,10 +18,15 @@ import retrofit2.Response;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
 
-    private final List<Usuario> userList;  // Cambiamos de 'User' a 'Usuario'
+    private final List<Usuario> userList;  // Lista de usuarios
+    private final String currentUserEmail;  // Correo del usuario actual
+    private final String currentUserName;   // Nombre del usuario actual
 
-    public UserAdapter(List<Usuario> userList) {
+    // Constructor para recibir la lista de usuarios y los datos del usuario actual
+    public UserAdapter(List<Usuario> userList, String currentUserEmail, String currentUserName) {
         this.userList = userList;
+        this.currentUserEmail = currentUserEmail;  // Inicializa la variable de instancia
+        this.currentUserName = currentUserName;    // Inicializa la variable de instancia
     }
 
     @NonNull
@@ -33,8 +38,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
-        Usuario usuario = userList.get(position);  // Cambiamos de 'User' a 'Usuario'
-        holder.bind(usuario);
+        Usuario usuario = userList.get(position);
+        // Aquí se pasa el usuario actual junto con el usuario de la lista
+        holder.bind(usuario, currentUserEmail, currentUserName);
     }
 
     @Override
@@ -43,30 +49,33 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     }
 
     public static class UserViewHolder extends RecyclerView.ViewHolder {
-        TextView tvUserName;
+        TextView tvUserName, tvUserEmail;
         Button btnSendRequest;
 
         public UserViewHolder(View itemView) {
             super(itemView);
             tvUserName = itemView.findViewById(R.id.tvUserName);
+            tvUserEmail = itemView.findViewById(R.id.tvUserEmail);
             btnSendRequest = itemView.findViewById(R.id.btnSendRequest);
         }
 
-        public void bind(Usuario usuario) {  // Cambiamos de 'User' a 'Usuario'
-            tvUserName.setText(usuario.getName() + " " + usuario.getLastname());
+        public void bind(Usuario usuario, String currentUserEmail, String currentUserName) {
+            tvUserName.setText(usuario.getName());
+            tvUserEmail.setText(usuario.getEmail());
 
             // Enviar solicitud de amistad
-            btnSendRequest.setOnClickListener(v -> sendFriendRequest(usuario));
+            btnSendRequest.setOnClickListener(v -> sendFriendRequest(usuario, currentUserEmail, currentUserName));
         }
 
-        private void sendFriendRequest(Usuario usuario) {
-            // Llamada para enviar solicitud de amistad usando Retrofit
+        private void sendFriendRequest(Usuario usuario, String currentUserEmail, String currentUserName) {
             ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
 
-            // Crear el objeto FriendRequest con el email del usuario
-            FriendRequest friendRequest = new FriendRequest(usuario.getEmail());
+            // Crea la solicitud con los datos disponibles
+            FriendRequest friendRequest = new FriendRequest(
+                    currentUserEmail, currentUserName,  // Datos del usuario actual
+                    usuario.getEmail(), usuario.getName()  // Datos del amigo
+            );
 
-            // Llamada a la API con el objeto FriendRequest
             Call<ApiResponse> call = apiService.sendFriendRequest(friendRequest);
 
             call.enqueue(new Callback<ApiResponse>() {
@@ -75,19 +84,15 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
                     if (response.isSuccessful() && response.body() != null) {
                         Toast.makeText(itemView.getContext(), "Solicitud de amistad enviada con éxito", Toast.LENGTH_SHORT).show();
                     } else {
-                        // Mostrar error si la solicitud no fue exitosa
                         Toast.makeText(itemView.getContext(), "No se pudo enviar la solicitud", Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<ApiResponse> call, Throwable t) {
-                    // Mostrar un mensaje en caso de fallo de la solicitud
                     Toast.makeText(itemView.getContext(), "Error al enviar la solicitud de amistad: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         }
-
     }
 }
-

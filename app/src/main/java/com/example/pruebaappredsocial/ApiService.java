@@ -2,6 +2,7 @@ package com.example.pruebaappredsocial;
 
 import java.util.List;
 
+import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -37,4 +38,6 @@ public interface ApiService {
     // Endpoint para obtener publicaciones del usuario y sus amigos
     @GET("/get_posts")
     Call<List<Post>> getPosts(@Query("username") String username);
+
+    Call<ApiResponse> uploadImage(MultipartBody.Part body);
 }
