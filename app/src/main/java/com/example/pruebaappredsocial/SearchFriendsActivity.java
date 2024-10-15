@@ -3,6 +3,7 @@ package com.example.pruebaappredsocial;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,6 +12,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,24 +77,37 @@ public class SearchFriendsActivity extends AppCompatActivity {
     // Lógica para buscar usuarios en la base de datos a través del servidor
     private void searchUsers(String query) {
         ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-        Call<SearchUsersResponse> call = apiService.searchUsers(query); // Cambiado si usas SearchUsersResponse
+        Call<SearchUsersResponse> call = apiService.searchUsers(query);
 
         call.enqueue(new Callback<SearchUsersResponse>() {
             @Override
             public void onResponse(Call<SearchUsersResponse> call, Response<SearchUsersResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    // Imprimir la respuesta completa en JSON para depurar
+                    Log.d("RespuestaCompleta", new Gson().toJson(response.body()));
+
+                    // Recorrer la lista de usuarios y mostrar su información
+                    for (Usuario usuario : response.body().getUsuarios()) {
+                        Log.d("Usuario", "Nombre: " + usuario.getName() + ", Apellido: " + usuario.getLastname());
+                    }
+
                     userList.clear();
-                    userList.addAll(response.body().getUsuarios()); // Obtener los usuarios de la respuesta
-                    userAdapter.notifyDataSetChanged(); // Notificar al adaptador sobre los nuevos datos
+                    userList.addAll(response.body().getUsuarios());
+                    userAdapter.notifyDataSetChanged(); // Actualizar el adaptador con los nuevos datos
                 } else {
+                    // Si no se encontraron usuarios, imprime el código de respuesta para mayor información
+                    Log.e("Error", "Código de respuesta: " + response.code());
                     Toast.makeText(SearchFriendsActivity.this, "No se encontraron usuarios", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<SearchUsersResponse> call, Throwable t) {
+                // Imprimir el mensaje de error para depuración
+                Log.e("Error", "Error en la búsqueda: " + t.getMessage());
                 Toast.makeText(SearchFriendsActivity.this, "Error en la búsqueda: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 }
+

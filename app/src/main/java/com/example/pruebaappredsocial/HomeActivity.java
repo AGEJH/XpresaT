@@ -166,7 +166,12 @@ public class HomeActivity extends AppCompatActivity {
         tvNoPosts.setVisibility(View.GONE);
     }
     private void loadPosts() {
-        String currentUsername = "usuarioActual";  // Obtén el nombre de usuario real
+        String currentUsername = getEmailFromLocalStorage();  // Obtén el email o el nombre de usuario desde el almacenamiento local
+        if (currentUsername == null) {
+            Toast.makeText(HomeActivity.this, "Usuario no encontrado", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
         Call<List<Post>> call = apiService.getPosts(currentUsername);
 
@@ -194,6 +199,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
+
 
 
 

@@ -2,6 +2,7 @@ package com.example.pruebaappredsocial;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -31,7 +32,7 @@ public interface ApiService {
 
     // Endpoint para aceptar solicitud de amistad
     @POST("/aceptar_solicitud")
-    Call<ApiResponse> acceptFriendRequest(@Body FriendRequest friendRequest);
+    Call<ResponseBody> acceptFriendRequest(@Body FriendRequest friendRequest);
 
     // Endpoint para obtener publicaciones del usuario y sus amigos
     @GET("/get_posts")

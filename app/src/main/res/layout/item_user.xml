@@ -39,7 +39,7 @@
         android:id="@+id/btnSendRequest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Añadir"
+        android:text="Agregar"
         android:textSize="14sp"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"

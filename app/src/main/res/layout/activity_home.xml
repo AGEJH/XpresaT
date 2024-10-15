@@ -10,12 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/background_gradient"
-        tools:layout_editor_absoluteX="43dp"
-        tools:layout_editor_absoluteY="227dp">
+        tools:layout_editor_absoluteX="-83dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <include
             android:id="@+id/menu_navigation"
             layout="@layout/menu_navigation" />
+
+        <!-- Zona de Posteo -->
 
         <ImageButton
             android:id="@+id/btnSearchFriends"
@@ -26,9 +28,9 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="84dp"
-            android:layout_marginEnd="23dp"/>
+            android:layout_marginEnd="12dp"
+            android:scaleType="centerCrop"/>
 
-        <!-- Zona de Posteo -->
         <TextView
             android:id="@+id/btn_init"
             android:layout_width="wrap_content"
@@ -76,9 +78,9 @@
                 android:fontFamily="@font/core_mellow_57_cn_medium"
                 android:hint="¡Postea lo que quieras expresar!"
                 android:padding="14dp"
-                android:textSize="22dp"
                 android:textColor="@color/black"
-                android:textColorHint="@color/blanco_opaco" />
+                android:textColorHint="@color/blanco_opaco"
+                android:textSize="22dp" />
 
 
             <TextView
@@ -108,22 +110,22 @@
             android:id="@+id/btnAddPhoto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="224dp"
             android:layout_marginLeft="77dp"
-            android:fontFamily="@font/core_mellow_57_cn_medium"
+            android:layout_marginTop="224dp"
             android:backgroundTint="@color/azul_primario"
-            android:visibility="gone"
-            android:text="Cargar foto" />
+            android:fontFamily="@font/core_mellow_57_cn_medium"
+            android:text="Cargar foto"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/btnPublish"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="224dp"
+            android:layout_gravity="center"
             android:layout_marginLeft="257dp"
+            android:layout_marginTop="224dp"
             android:backgroundTint="@color/azul_primario"
-            android:text="Publicar"
-            android:layout_gravity="center" />
+            android:text="Publicar" />
 
 
         <LinearLayout

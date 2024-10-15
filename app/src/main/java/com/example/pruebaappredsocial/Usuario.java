@@ -1,7 +1,11 @@
 package com.example.pruebaappredsocial;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Usuario {
+    @SerializedName("nombre")
     private String name;
+    @SerializedName("apellido")
     private String lastname;
     private String email;
     private String password;
