@@ -35,7 +35,7 @@ class Friend(db.Model):
     __tablename__ = 'friend'
     id = db.Column(db.Integer, primary_key=True)
     sender_id = db.Column(db.Integer, db.ForeignKey('user.id'))  # Usuario que envía la solicitud
-    receptor_id = db.Column(db.Integer, db.ForeignKey('user.id'))  # Usuario que recibe la solicitud
+    receptor_id = db.Column(db.Integer, db.ForeignKey('amigo.id'))  # Usuario que recibe la solicitud
     is_accepted = db.Column(db.Boolean, default=False)  # Indica si la solicitud fue aceptada
     is_readed = db.Column(db.Boolean, default=False)  # Indica si fue leída la solicitud
     created_at = db.Column(db.DateTime, default=datetime.utcnow)  # Fecha de creación       

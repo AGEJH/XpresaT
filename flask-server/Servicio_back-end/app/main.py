@@ -47,7 +47,7 @@ def login_user():
     
     
 # Endpoint Buscar usuarios por nombre o email
-@app.route('/buscar_usuarios', methods=['POST'])
+@app.route('/buscar_usuarios', methods=['GET'])
 def buscar_usuarios():
     query = request.args.get('query')
 
@@ -71,18 +71,37 @@ def buscar_usuarios():
 @app.route('/enviar_solicitud', methods=['POST'])
 def enviar_solicitud():
     data = request.get_json()
-    usuario_id = data.get('usuario_id')
-    amigo_id = data.get('amigo_id')
+    email_usuario = data.get('email_usuario')
+    nombre_usuario = data.get('nombre_usuario')
+    email_amigo = data.get('email_amigo')
+    nombre_amigo = data.get('nombre_amigo')
 
-    if not usuario_id or not amigo_id:
-        return jsonify({"error": "Datos faltantes para la solicitud"}), 400
+    # Buscar al usuario por correo o por nombre
+    if email_usuario:
+        usuario = User.query.filter_by(email=email_usuario).first()
+    elif nombre_usuario:
+        usuario = User.query.filter_by(name=nombre_usuario).first()
+    else:
+        return jsonify({"error": "Debe proporcionar el correo o el nombre del usuario"}), 400
 
-    solicitud_existente = Friend.query.filter_by(usuario_id=usuario_id, amigo_id=amigo_id).first()     # Verificar si ya existe una relación de amistad o solicitud pendiente
+    # Buscar al amigo por correo o por nombre
+    if email_amigo:
+        amigo = User.query.filter_by(email=email_amigo).first()
+    elif nombre_amigo:
+        amigo = User.query.filter_by(name=nombre_amigo).first()
+    else:
+        return jsonify({"error": "Debe proporcionar el correo o el nombre del amigo"}), 400
 
+    if not usuario or not amigo:
+        return jsonify({"error": "Usuario o amigo no encontrado"}), 404
+
+    # Verificar si ya existe una solicitud o una amistad
+    solicitud_existente = Friend.query.filter_by(usuario_id=usuario.id, amigo_id=amigo.id).first()
     if solicitud_existente:
         return jsonify({"error": "La solicitud de amistad ya existe o la persona ya es tu amigo"}), 409
 
-    nueva_solicitud = Friend(usuario_id=usuario_id, amigo_id=amigo_id, estado='pendiente')     # Crear una nueva solicitud de amistad (estado 'pendiente')
+    # Crear nueva solicitud de amistad
+    nueva_solicitud = Friend(usuario_id=usuario.id, amigo_id=amigo.id, estado='pendiente')
     db.session.add(nueva_solicitud)
     db.session.commit()
 
