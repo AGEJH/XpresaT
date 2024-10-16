@@ -46,7 +46,7 @@ public class HomeActivity extends AppCompatActivity {
     private List<Post> postList = new ArrayList<>(); // Lista de publicaciones
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-   private Button btnAddPhoto, btnPublish;
+    private Button btnAddPhoto, btnPublish;
     private String content, author;
 
     @Override

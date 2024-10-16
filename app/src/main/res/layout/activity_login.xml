@@ -7,32 +7,45 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background_gradient"
     tools:context=".LoginActivity">
 
-    <!-- Título Iniciar sesión -->
 
-    <!-- Logo centralizado -->
-
-    <!-- Campo de texto para correo -->
+    <!-- Flecha de regreso -->
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="23dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Back"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.032"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/textViewLoginTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:text="Iniciar sesión"
-        android:textSize="32sp"
+        android:layout_marginTop="77dp"
+        android:text="Inicio de sesión"
+        android:textSize="46sp"
         android:textStyle="bold"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.191"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:fontFamily="@font/core_mellow_57_cn_medium"
+        />
 
     <ImageView
         android:id="@+id/imageViewLogo"
-        android:layout_width="97dp"
-        android:layout_height="100dp"
+        android:layout_width="130dp"
+        android:layout_height="140dp"
         android:layout_marginTop="56dp"
-        android:src="@drawable/xpresat4"
+        android:src="@drawable/xpresat5"
         android:background="@android:color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,6 +64,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_marginStart="32dp"
         android:layout_marginTop="76dp"
         android:layout_marginEnd="32dp"
+        android:textSize="24sp"
         android:background="@drawable/button_style"
         android:backgroundTint="@color/blanco_opaco"
         android:hint="Correo"
@@ -60,7 +74,9 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageViewLogo" />
+        app:layout_constraintTop_toBottomOf="@id/imageViewLogo"
+        android:fontFamily="@font/core_mellow_57_cn_medium"
+        />
 
     <EditText
         android:id="@+id/editTextPassword"
@@ -69,6 +85,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_marginStart="32dp"
         android:layout_marginTop="48dp"
         android:layout_marginEnd="32dp"
+        android:textSize="24sp"
         android:background="@drawable/button_style"
         android:backgroundTint="@color/blanco_opaco"
         android:hint="Contraseña"
@@ -78,45 +95,52 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextEmail" />
+        app:layout_constraintTop_toBottomOf="@id/editTextEmail"
+        android:fontFamily="@font/core_mellow_57_cn_medium" />
 
     <Button
         android:id="@+id/buttonLogin"
         android:layout_width="296dp"
         android:layout_height="57dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="45dp"
         android:layout_marginEnd="32dp"
+        android:textSize="25sp"
         android:backgroundTint="@color/azul_primario"
         android:text="Iniciar sesión"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextPassword" />
+        app:layout_constraintTop_toBottomOf="@id/editTextPassword"
+        android:fontFamily="@font/core_mellow_57_cn_medium" />
 
     <TextView
         android:id="@+id/textViewPregunta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="18dp"
+        android:textSize="21sp"
         android:text="¿Aún no tienes cuenta?"
         android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttonLogin" />
+        app:layout_constraintTop_toBottomOf="@id/buttonLogin"
+        android:fontFamily="@font/core_mellow_57_cn_medium" />
 
     <TextView
         android:id="@+id/textViewRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="59dp"
         android:text="¡Crea una aquí!"
         android:textColor="#0000FF"
         android:textStyle="bold"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/buttonLogin"
-        android:usesCleartextTraffic="true" />
+        android:usesCleartextTraffic="true"
+        android:fontFamily="@font/core_mellow_57_cn_medium" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,15 +8,33 @@
     android:background="@drawable/background_gradient"
     tools:context=".RegisterActivity">
 
+
+    <!-- Flecha de regreso -->
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="24dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Back"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.032"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
     <TextView
         android:id="@+id/textView26"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="59dp"
         android:text="Registro"
         android:textColor="#050505"
-        android:textSize="39sp"
+        android:textSize="46sp"
         android:textStyle="bold"
+        android:fontFamily="@font/core_mellow_57_cn_medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -34,10 +52,11 @@
         android:textAlignment="center"
         android:textColor="#050505"
         android:textColorHint="#B3040404"
-        android:textSize="19sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/tapellido"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView26" />
+        app:layout_constraintTop_toBottomOf="@+id/textView26"
+        android:fontFamily="@font/core_mellow_57_cn_medium" />
 
     <EditText
         android:id="@+id/tapellido"
@@ -52,10 +71,11 @@
         android:textAlignment="center"
         android:textColor="#0B0A0A"
         android:textColorHint="#B3000000"
-        android:textSize="19sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tnombre"
-        app:layout_constraintTop_toBottomOf="@+id/textView26" />
+        app:layout_constraintTop_toBottomOf="@+id/textView26"
+        android:fontFamily="@font/core_mellow_57_cn_medium" />
 
     <EditText
         android:id="@+id/tcorreo"
@@ -70,11 +90,13 @@
         android:textAlignment="center"
         android:textColor="#090909"
         android:textColorHint="#B3000000"
-        android:textSize="19sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tnombre" />
+        app:layout_constraintTop_toBottomOf="@+id/tnombre"
+        android:fontFamily="@font/core_mellow_57_cn_medium"
+        />
 
     <EditText
         android:id="@+id/tcontraseña"
@@ -91,11 +113,12 @@
         android:textAlignment="center"
         android:textColor="#131313"
         android:textColorHint="#B3000000"
-        android:textSize="19sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tcorreo" />
+        app:layout_constraintTop_toBottomOf="@+id/tcorreo"
+        android:fontFamily="@font/core_mellow_57_cn_medium" />
 
     <EditText
         android:id="@+id/tcontraseña2"
@@ -112,11 +135,12 @@
         android:textAlignment="center"
         android:textColor="#020202"
         android:textColorHint="#B3000000"
-        android:textSize="19sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tcontraseña" />
+        app:layout_constraintTop_toBottomOf="@+id/tcontraseña"
+        android:fontFamily="@font/core_mellow_57_cn_medium" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_registrarse"
@@ -125,6 +149,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="68dp"
         android:layout_marginEnd="32dp"
+        android:textSize="24sp"
         android:backgroundTint="@color/azul_primario"
         android:background="@drawable/button_style"
         android:text="Registrarse"
@@ -133,5 +158,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tcontraseña2"
-        android:usesCleartextTraffic="true" />
+        android:usesCleartextTraffic="true"
+        android:fontFamily="@font/core_mellow_57_cn_medium"
+            />
 </androidx.constraintlayout.widget.ConstraintLayout>

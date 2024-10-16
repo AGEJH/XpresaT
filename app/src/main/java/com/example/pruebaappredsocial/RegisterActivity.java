@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +19,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private EditText editTextNombre, editTextApellido, editTextCorreo, editTextContraseña, editTextRepetirContraseña;
     private Button btn_registrarse;
+    private ImageButton btn_back;
     private static final String TAG = "RegisterActivity";
 
     @Override
@@ -31,12 +33,18 @@ public class RegisterActivity extends AppCompatActivity {
         editTextContraseña = findViewById(R.id.tcontraseña);
         editTextRepetirContraseña = findViewById(R.id.tcontraseña2);
         btn_registrarse = findViewById(R.id.btn_registrarse);
+        btn_back = findViewById(R.id.btnBack);
+
+        btn_back.setOnClickListener(v -> {
+            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+            startActivity(intent);
+        });
 
         btn_registrarse.setOnClickListener(v -> {
             if (validateRegistrationForm()) {
                 registrarUsuario();
             } else {
-                Toast.makeText(this, "Por favor, complete todos los campos correctamente y asegúrese de que las contraseñas coincidan.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Por favor, complete todos los campos y asegúrese de que las contraseñas coincidan.", Toast.LENGTH_LONG).show();
             }
         });
     }

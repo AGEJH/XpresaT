@@ -1,10 +1,12 @@
 package com.example.pruebaappredsocial;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,12 +29,16 @@ public class LoginActivity extends AppCompatActivity {
     private Button btn_login;
     private TextView textViewRegister;
 
+    private ImageButton btn_back;
 
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        btn_back = findViewById(R.id.btnBack);
         editTextCorreo = findViewById(R.id.editTextEmail);
         editTextContraseña = findViewById(R.id.editTextPassword);
         btn_login = findViewById(R.id.buttonLogin);
@@ -40,6 +46,11 @@ public class LoginActivity extends AppCompatActivity {
 
         textViewRegister.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
+        });
+
+        btn_back.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, BienvenidaActivity.class);
             startActivity(intent);
         });
 
