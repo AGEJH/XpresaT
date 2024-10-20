@@ -46,6 +46,51 @@ def login_user():
     
     
     
+#Endpoint de registro
+@app.route('/register', methods=['POST'])
+def register_user():
+    # Imprimir el cuerpo de la solicitud
+    print("Solicitud recibida:", request.json)
+    
+    """Registra a un nuevo usuario."""
+    data = request.get_json()
+
+    # Extraer datos del JSON con los nombres correctos que llegan desde el cliente
+    email = data.get('email')
+    password = data.get('password')  # Contraseña en texto plano
+    name = data.get('nombre')        # Cambiado a 'nombre'
+    lastname = data.get('apellido')  # Cambiado a 'apellido'
+
+    # Verificar si el usuario ya existe
+    existing_user = User.query.filter_by(email=email).first()
+    if existing_user:
+        app.logger.debug(f'El email {email} ya está registrado.')
+        return jsonify({"error": "Usuario ya existe"}), 409
+
+    # Validación de campos
+    if not all([email, password, name, lastname]):
+        app.logger.error('Faltan campos requeridos en la solicitud de registro.')
+        return jsonify({"error": "Campos requeridos faltantes"}), 400
+
+    # Guardar la contraseña en texto plano (sin hash)
+    app.logger.debug(f'Contraseña en texto plano que se intenta guardar: {password}')
+
+    # Crear el nuevo usuario
+    new_user = User(email=email, password=password, name=name, lastname=lastname)
+
+    try:
+        db.session.add(new_user)
+        db.session.commit()
+        app.logger.debug(f'Usuario registrado: {new_user.email}, Contraseña: {new_user.password}')
+    except Exception as e:
+        app.logger.error(f'Error al registrar usuario: {e}')
+        db.session.rollback()
+        return jsonify({"error": "Error al registrar usuario"}), 500
+
+    return jsonify({"message": "Usuario registrado exitosamente"}), 201
+    
+    
+    
 # Endpoint Buscar usuarios por nombre o email
 @app.route('/buscar_usuarios', methods=['GET'])
 def buscar_usuarios():
@@ -130,48 +175,6 @@ def aceptar_solicitud():
     db.session.commit()
 
     return jsonify({"message": "Solicitud de amistad aceptada"}), 200
-
-    
-# Endpoint de registro
-@app.route('/register', methods=['POST'])
-def register_user():
-    """Registra a un nuevo usuario."""
-    data = request.get_json()
-    
-    # Extraer datos del JSON
-    email = data.get('email')
-    password = data.get('password')  # Contraseña en texto plano
-    name = data.get('name')
-    lastname = data.get('lastname')
-
-    # Verificar si el usuario ya existe
-    existing_user = User.query.filter_by(email=email).first()
-    if existing_user:
-        app.logger.debug(f'El email {email} ya está registrado.')
-        return jsonify({"error": "Usuario ya existe"}), 409
-
-    # Validación de campos
-    if not all([email, password, name, lastname]):
-        app.logger.error('Faltan campos requeridos en la solicitud de registro.')
-        return jsonify({"error": "Campos requeridos faltantes"}), 400
-
-    # Guardar la contraseña en texto plano (sin hash)
-    app.logger.debug(f'Contraseña en texto plano que se intenta guardar: {password}')
-
-    # Crear el nuevo usuario
-    new_user = User(email=email, password=password, name=name, lastname=lastname)  # Aquí guardamos directamente la contraseña en texto plano
-
-    try:
-        db.session.add(new_user)
-        db.session.commit()
-        app.logger.debug(f'Usuario registrado: {new_user.email}, Contraseña: {new_user.password}')
-    except Exception as e:
-        app.logger.error(f'Error al registrar usuario: {e}')
-        db.session.rollback()
-        return jsonify({"error": "Error al registrar usuario"}), 500
-
-    return jsonify({"message": "Usuario registrado exitosamente"}), 201
-
 
 
 @app.route('/analyze', methods=['POST'])
