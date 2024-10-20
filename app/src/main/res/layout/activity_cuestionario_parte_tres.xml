@@ -1,0 +1,93 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_gradient"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Parte III (Final)"
+            android:textColor="@color/black"
+            android:paddingBottom="16dp"/>
+
+        <!-- Instrucciones -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Instrucciones: Por favor lea cuidadosamente los tres casos siguientes y responda las preguntas del punto 2."
+            android:textColor="@color/black"
+            android:paddingBottom="16dp"/>
+
+        <!-- Caso 1 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Caso (a) Un hombre (una mujer) tiene mucho éxito en su vida. Aquello que siempre deseaba no lo pudo lograr, en cambio, con el tiempo, se procuró una buena posición y puede esperar un futuro sin sobresaltos."
+            android:paddingBottom="8dp"/>
+
+        <!-- Caso 2 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Caso (b) Un hombre (una mujer) se empeñó en una tarea que eligió como meta. A pesar de constantes fracasos todavía se aferra a ella. Por esa causa ha debido renunciar a muchas cosas y ha logrado muy poco beneficio."
+            android:paddingBottom="8dp"/>
+
+        <!-- Caso 3 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Caso (c) Un hombre (una mujer) ha establecido un compromiso entre sus deseos y las circunstancias que la vida le impone. Cumple con sus obligaciones mansamente, aunque sin gusto, pero mientras tanto, cuando es posible se dedica a sus ambiciones privadas."
+            android:paddingBottom="16dp"/>
+
+        <!-- Pregunta 1: ¿Quién es más feliz? -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1. ¿Cuál de estos hombres (mujeres) era más feliz?" />
+        <EditText
+            android:id="@+id/edit_text_feliz"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Escriba su respuesta aquí" />
+
+        <!-- Pregunta 2: ¿Quién sufre más? -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2. ¿Cuál de estos hombres (mujeres) sufre más?"
+            android:paddingTop="16dp"/>
+        <EditText
+            android:id="@+id/edit_text_sufre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Escriba su respuesta aquí" />
+
+        <!-- Pregunta 3: Describa su propio caso -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3. Describa su propio caso en pocas frases, poniendo lo que siempre ha buscado, lo que alcanzó y qué actitud tiene hacia ello."
+            android:paddingTop="16dp"/>
+        <EditText
+            android:id="@+id/edit_text_propio_caso"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Escriba su respuesta aquí" />
+
+        <!-- Botón para enviar el cuestionario -->
+        <Button
+            android:id="@+id/btn_submit_parte_iii"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enviar"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="@color/azul_primario"
+            android:layout_marginTop="24dp" />
+    </LinearLayout>
+</ScrollView>

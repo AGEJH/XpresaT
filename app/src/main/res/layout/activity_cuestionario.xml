@@ -1,0 +1,332 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_gradient"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Título del cuestionario -->
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="A continuación responderás un cuestionario."
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:paddingBottom="16dp"/>
+
+        <!--Primera parte del cuestionario -->
+        <TextView
+            android:id="@+id/tv_parte_uno"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="Parte I"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:paddingBottom="16dp"/>
+
+        <!-- Instrucciones -->
+        <TextView
+            android:id="@+id/tv_instructions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Instrucciones: Léanse las siguientes afirmaciones y seleccione su respuesta."
+            android:textSize="16sp"
+            android:paddingBottom="16dp" />
+
+        <!-- Pregunta 1 -->
+        <TextView
+            android:id="@+id/tv_question1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1. Si soy honesto, prefiero una vida agradable, pacífica, sin grandes dificultades, con suficiente sostén financiero."
+            android:paddingBottom="8dp" />
+
+        <RadioGroup
+            android:id="@+id/rg_question1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RadioButton
+                android:id="@+id/rb_question1_option1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="De acuerdo" />
+            <RadioButton
+                android:id="@+id/rb_question1_option2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No estoy seguro" />
+            <RadioButton
+                android:id="@+id/rb_question1_option3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="En desacuerdo" />
+        </RadioGroup>
+
+        <!-- Pregunta 2 -->
+        <TextView
+            android:id="@+id/tv_question2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2. Tengo conceptos definidos acerca de lo que quisiera llegar a ser y en qué me gustaría triunfar..."
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp" />
+
+        <RadioGroup
+            android:id="@+id/rg_question2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RadioButton
+                android:id="@+id/rb_question2_option1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="De acuerdo" />
+            <RadioButton
+                android:id="@+id/rb_question2_option2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No estoy seguro" />
+            <RadioButton
+                android:id="@+id/rb_question2_option3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="En desacuerdo" />
+        </RadioGroup>
+
+        <!-- Pregunta 3 -->
+        <TextView
+            android:id="@+id/tv_question3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3. Me siento bien solamente en el refugio de un hogar, en el círculo de la familia y quisiera hacer lo posible para procurarles una base igual a los hijos."
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp" />
+
+        <RadioGroup
+            android:id="@+id/rg_question3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RadioButton
+                android:id="@+id/rb_question3_option1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="De acuerdo" />
+            <RadioButton
+                android:id="@+id/rb_question3_option2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No estoy seguro" />
+            <RadioButton
+                android:id="@+id/rb_question3_option3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="En desacuerdo" />
+        </RadioGroup>
+
+        <!-- Pregunta 4 -->
+        <TextView
+            android:id="@+id/tv_question4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4. En mi trabajo profesional, que realizo en la actualidad o para el que me estoy preparando, encuentro mi realización."
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp" />
+
+        <RadioGroup
+            android:id="@+id/rg_question4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RadioButton
+                android:id="@+id/rb_question4_option1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="De acuerdo" />
+            <RadioButton
+                android:id="@+id/rb_question4_option2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No estoy seguro" />
+            <RadioButton
+                android:id="@+id/rb_question4_option3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="En desacuerdo" />
+        </RadioGroup>
+
+        <!-- Pregunta 5 -->
+        <TextView
+            android:id="@+id/tv_question5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5. Tengo compromisos y relaciones con una o más personas, el cumplimiento de los cuales me da satisfacción."
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp" />
+
+        <RadioGroup
+            android:id="@+id/rg_question5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RadioButton
+                android:id="@+id/rb_question5_option1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="De acuerdo" />
+            <RadioButton
+                android:id="@+id/rb_question5_option2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No estoy seguro" />
+            <RadioButton
+                android:id="@+id/rb_question5_option3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="En desacuerdo" />
+        </RadioGroup>
+
+        <!-- Pregunta 6 -->
+        <TextView
+            android:id="@+id/tv_question6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="6. Existe una especialidad que me interesa notablemente sobre la que quisiera aprender cada vez más y de la cual me ocupo en cuanto tengo tiempo."
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp" />
+
+        <RadioGroup
+            android:id="@+id/rg_question6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RadioButton
+                android:id="@+id/rb_question6_option1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="De acuerdo" />
+            <RadioButton
+                android:id="@+id/rb_question6_option2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No estoy seguro" />
+            <RadioButton
+                android:id="@+id/rb_question6_option3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="En desacuerdo" />
+        </RadioGroup>
+
+        <!-- Pregunta 7 -->
+        <TextView
+            android:id="@+id/tv_question7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="7. Gozo con experiencias de determinada clase (placer en el arte, contemplación de la naturaleza) y no quisiera verme privado de ellas."
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp" />
+
+        <RadioGroup
+            android:id="@+id/rg_question7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RadioButton
+                android:id="@+id/rb_question7_option1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="De acuerdo" />
+            <RadioButton
+                android:id="@+id/rb_question7_option2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No estoy seguro" />
+            <RadioButton
+                android:id="@+id/rb_question7_option3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="En desacuerdo" />
+        </RadioGroup>
+
+        <!-- Pregunta 8 -->
+        <TextView
+            android:id="@+id/tv_question8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="8. Creo firmemente en una misión religiosa o política (o una misión de servicio para el progreso) y me pongo a su disposición."
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp" />
+
+        <RadioGroup
+            android:id="@+id/rg_question8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RadioButton
+                android:id="@+id/rb_question8_option1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="De acuerdo" />
+            <RadioButton
+                android:id="@+id/rb_question8_option2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No estoy seguro" />
+            <RadioButton
+                android:id="@+id/rb_question8_option3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="En desacuerdo" />
+        </RadioGroup>
+
+        <!-- Pregunta 9 -->
+        <TextView
+            android:id="@+id/tv_question9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="9. Mi vida se halla oscurecida por la necesidad, la preocupación, pero me estoy esforzando por mejorar esta situación."
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp" />
+
+        <RadioGroup
+            android:id="@+id/rg_question9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RadioButton
+                android:id="@+id/rb_question9_option1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="De acuerdo" />
+            <RadioButton
+                android:id="@+id/rb_question9_option2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No estoy seguro" />
+            <RadioButton
+                android:id="@+id/rb_question9_option3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="En desacuerdo" />
+        </RadioGroup>
+
+        
+        <Button
+            android:id="@+id/btn_next_part"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Siguiente sección"
+            android:backgroundTint="@color/azul_primario"
+            android:layout_marginTop="24dp" />
+
+    </LinearLayout>
+
+</ScrollView>

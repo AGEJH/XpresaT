@@ -36,7 +36,7 @@ public class RegisterActivity extends AppCompatActivity {
         btn_back = findViewById(R.id.btnBack);
 
         btn_back.setOnClickListener(v -> {
-            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+         Intent intent = new Intent(RegisterActivity.this, CuestionarioActivity.class);
             startActivity(intent);
         });
 

@@ -1,0 +1,219 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_gradient">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/text_instructions_part2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="Parte II: Marque por favor, con qué frecuencia tuvo las siguientes experiencias"
+            android:textSize="18sp"
+            android:paddingBottom="16dp" />
+
+        <!-- Pregunta 1 -->
+        <TextView
+            android:id="@+id/tv_question1_part2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1. Sentimientos de rabia porque pensó que todo lo que realizó hasta ahora fue inútil."
+            android:paddingBottom="8dp" />
+
+        <RadioGroup
+            android:id="@+id/rg_question1_part2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RadioButton android:id="@+id/rb_question1_option1_part2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Frecuentemente (a menudo)" />
+            <RadioButton android:id="@+id/rb_question1_option2_part2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="De vez en cuando" />
+            <RadioButton android:id="@+id/rb_question1_option3_part2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nunca" />
+        </RadioGroup>
+
+        <!-- Pregunta 2 -->
+        <TextView
+            android:id="@+id/tv_question2_part2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2. El deseo de volver a ser niño y comenzar de nuevo."
+            android:paddingBottom="8dp" />
+
+        <RadioGroup
+            android:id="@+id/rg_question2_part2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RadioButton android:id="@+id/rb_question2_option1_part2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Frecuentemente (a menudo)" />
+            <RadioButton android:id="@+id/rb_question2_option2_part2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="De vez en cuando" />
+            <RadioButton android:id="@+id/rb_question2_option3_part2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nunca" />
+        </RadioGroup>
+
+        <!-- Pregunta 3 -->
+        <TextView
+            android:id="@+id/tv_question3_part2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3. Ha observado que trata de hacer su vida más llena de contenido de lo que realmente es para sí mismo y para los demás.."
+            android:paddingBottom="8dp" />
+
+        <RadioGroup
+            android:id="@+id/rg_question3_part2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RadioButton android:id="@+id/rb_question3_option1_part2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Frecuentemente (a menudo)" />
+            <RadioButton android:id="@+id/rb_question3_option2_part2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="De vez en cuando" />
+            <RadioButton android:id="@+id/rb_question3_option3_part2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nunca" />
+        </RadioGroup>
+
+        <!-- Pregunta 4 -->
+        <TextView
+            android:id="@+id/tv_question4_part2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4. La aversión de cargarse con pensamientos profundos y eventualmente incómodos sobre su actividad."
+            android:paddingBottom="8dp" />
+
+        <RadioGroup
+            android:id="@+id/rg_question4_part2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RadioButton android:id="@+id/rb_question4_option1_part2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Frecuentemente (a menudo)" />
+            <RadioButton android:id="@+id/rb_question4_option2_part2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="De vez en cuando" />
+            <RadioButton android:id="@+id/rb_question4_option3_part2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nunca" />
+        </RadioGroup>
+
+        <!-- Pregunta 5 -->
+        <TextView
+            android:id="@+id/tv_question5_part2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5. La esperanza de transformar en un hecho positivo un propósito fallido o una desgracia, poniendo todo su esfuerzo."
+            android:paddingBottom="8dp" />
+
+        <RadioGroup
+            android:id="@+id/rg_question5_part2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RadioButton android:id="@+id/rb_question5_option1_part2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Frecuentemente (a menudo)" />
+            <RadioButton android:id="@+id/rb_question5_option2_part2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="De vez en cuando" />
+            <RadioButton android:id="@+id/rb_question5_option3_part2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nunca" />
+        </RadioGroup>
+
+        <!-- Pregunta 6 -->
+        <TextView
+            android:id="@+id/tv_question6_part2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="6. Un impulso de desasosiego que se apodera de Ud. contrariando su buen juicio, y que atrae una torturante falta de interés en todo lo que se le brinda."
+            android:paddingBottom="8dp" />
+
+        <RadioGroup
+            android:id="@+id/rg_question6_part2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RadioButton android:id="@+id/rb_question6_option1_part2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Frecuentemente (a menudo)" />
+            <RadioButton android:id="@+id/rb_question6_option2_part2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="De vez en cuando" />
+            <RadioButton android:id="@+id/rb_question6_option3_part2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nunca" />
+        </RadioGroup>
+
+        <!-- Pregunta 7 -->
+        <TextView
+            android:id="@+id/tv_question7_part2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="7. El pensamiento de que, ante la muerte, tendría que admitir que no valió la pena vivir."
+            android:paddingBottom="8dp" />
+
+        <RadioGroup
+            android:id="@+id/rg_question7_part2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RadioButton android:id="@+id/rb_question7_option1_part2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Frecuentemente (a menudo)" />
+            <RadioButton android:id="@+id/rb_question7_option2_part2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="De vez en cuando" />
+            <RadioButton android:id="@+id/rb_question7_option3_part2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nunca" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btn_submit_part2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/azul_primario"
+            android:text="Siguiente sección"
+            android:layout_marginTop="16dp" />
+
+    </LinearLayout>
+</ScrollView>
