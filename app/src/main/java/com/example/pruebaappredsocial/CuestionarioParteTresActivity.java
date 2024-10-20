@@ -30,14 +30,16 @@ public class CuestionarioParteTresActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (validateAnswers()) {
-                    // Pasar a la Parte II del cuestionario
+                    // Mostrar mensaje de éxito
+                    Toast.makeText(CuestionarioParteTresActivity.this, "¡Formulario completado con éxito!", Toast.LENGTH_SHORT).show();
+
+                    // Pasar a la LoginActivity después de que el mensaje aparece
                     Intent intent = new Intent(CuestionarioParteTresActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }
             }
         });
     }
-
     // Validar que el usuario haya respondido todas las preguntas
     private boolean validateAnswers() {
         if (editTextFeliz.getText().toString().trim().isEmpty()) {

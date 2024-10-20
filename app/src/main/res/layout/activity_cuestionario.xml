@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:text="A continuación responderás un cuestionario."
+            android:text="A continuación responderás brevemente el siguiente cuestionario."
             android:textStyle="bold"
             android:textSize="18sp"
             android:paddingBottom="16dp"/>
@@ -325,7 +325,8 @@
             android:layout_height="wrap_content"
             android:text="Siguiente sección"
             android:backgroundTint="@color/azul_primario"
-            android:layout_marginTop="24dp" />
+            android:layout_marginLeft="220dp"
+            android:layout_marginTop="26dp" />
 
     </LinearLayout>
 

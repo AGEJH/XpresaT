@@ -213,6 +213,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/azul_primario"
             android:text="Siguiente sección"
+            android:layout_marginLeft="220dp"
             android:layout_marginTop="16dp" />
 
     </LinearLayout>

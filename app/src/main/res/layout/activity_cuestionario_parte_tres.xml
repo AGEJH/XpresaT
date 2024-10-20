@@ -88,6 +88,6 @@
             android:text="Enviar"
             android:layout_gravity="center_horizontal"
             android:backgroundTint="@color/azul_primario"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="38dp" />
     </LinearLayout>
 </ScrollView>
