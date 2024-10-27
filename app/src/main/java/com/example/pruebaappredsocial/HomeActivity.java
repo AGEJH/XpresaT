@@ -29,7 +29,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
+
 
 
 public class HomeActivity extends AppCompatActivity {
@@ -215,11 +215,11 @@ public class HomeActivity extends AppCompatActivity {
         // Oculta emotionLayout después de seleccionar una emoción
         emotionLayout.setVisibility(View.GONE);
     }
-
+    //***DEJAR ESTO PENDIENTE toast de usuario no encontrado***
     private void loadPosts() {
         String currentUsername = getEmailFromLocalStorage();  // Obtén el email o el nombre de usuario desde el almacenamiento local
         if (currentUsername == null) {
-            Toast.makeText(HomeActivity.this, "Usuario no encontrado", Toast.LENGTH_SHORT).show();
+            Toast.makeText(HomeActivity.this, " ", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -320,8 +320,8 @@ public class HomeActivity extends AppCompatActivity {
             Glide.with(this).load(imageUri).into(imageViewSelected);
         }
     }
-
-    private void retrieveAndStoreUsername() {
+        //      ***  ESTO SE QUEDA PENDIENTE POR ACOMODAR ***
+    /*private void retrieveAndStoreUsername() {
         String email = getEmailFromLocalStorage();  // Obtener el email del usuario desde el almacenamiento local
 
         if (email != null) {
@@ -351,7 +351,7 @@ public class HomeActivity extends AppCompatActivity {
         } else {
             textViewWelcome.setText("Bienvenido a XpresaT (usuario no encontrado)");
         }
-    }
+    } */
 
     private String getEmailFromLocalStorage() {
         SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);

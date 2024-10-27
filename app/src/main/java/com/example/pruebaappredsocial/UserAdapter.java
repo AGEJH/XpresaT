@@ -1,5 +1,6 @@
 package com.example.pruebaappredsocial;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,7 +85,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
                     if (response.isSuccessful() && response.body() != null) {
                         Toast.makeText(itemView.getContext(), "Solicitud de amistad enviada con éxito", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(itemView.getContext(), "No se pudo enviar la solicitud", Toast.LENGTH_SHORT).show();
+                        try {
+                            String errorBody = response.errorBody().string();
+                            Log.e("UserAdapter", "Error en la respuesta: " + errorBody);
+                            Toast.makeText(itemView.getContext(), "Error en la solicitud: " + errorBody, Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            Log.e("UserAdapter", "Error al leer el cuerpo de respuesta: " + e.getMessage());
+                        }
                     }
                 }
 
