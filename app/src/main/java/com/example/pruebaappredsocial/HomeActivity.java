@@ -40,7 +40,7 @@ public class HomeActivity extends AppCompatActivity {
     private TextView textViewWelcome, tvNoPosts;
     private ImageView imageViewSelected,  btnSearchFriends;
     private EditText postInput;
-    private LinearLayout optionsLayout;
+    private LinearLayout optionsLayout, emotionLayout;
     private RecyclerView recyclerViewPosts;
     private PostAdapter postAdapter;
     private List<Post> postList = new ArrayList<>(); // Lista de publicaciones
@@ -62,8 +62,39 @@ public class HomeActivity extends AppCompatActivity {
         btnPublish = findViewById(R.id.btnPublish);
         btnAddPhoto = findViewById(R.id.btnAddPhoto);
         btnSearchFriends = findViewById(R.id.btnSearchFriends);
+        emotionLayout = findViewById(R.id.emotionLayout);
 
-        // Configura el OnClickListener para el botón de búsqueda de amigos
+        postInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    emotionLayout.setVisibility(View.VISIBLE); // Muestra los iconos de emociones
+                } else {
+                    emotionLayout.setVisibility(View.GONE); // Oculta los iconos cuando pierde el enfoque
+                }
+            }
+        });
+
+        // Paso 1: Inicializar layout y las 5 emociones
+        ImageView[] emotionIcons = new ImageView[5]; // Ejemplo con 5 emociones
+
+        emotionIcons[0] = findViewById(R.id.emoji_feliz);
+        emotionIcons[1] = findViewById(R.id.emoji_triste);
+        emotionIcons[2] = findViewById(R.id.emoji_enojado);
+        emotionIcons[3] = findViewById(R.id.emoji_con_miedo);
+        emotionIcons[4] = findViewById(R.id.emoji_sorprendido);
+
+        // Paso 2: Configura el listener para selección de emoción
+        for (ImageView icon : emotionIcons) {
+            icon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mostrarEmocionSeleccionada(v); // Envía el View en lugar de ImageView
+                }
+            });
+        }
+
+            // Configura el OnClickListener para el botón de búsqueda de amigos
         btnSearchFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,7 +137,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String postContent = postInput.getText().toString().trim();
-                author = "Autor de ejemplo"; // Cambia esto según tu lógica para obtener el autor
+                author = "Usuario"; // Cambia esto según tu lógica para obtener el autor
 
                 if (!postContent.isEmpty()) {
                     publishPost(postContent, author); // Publica el post
@@ -149,6 +180,8 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
+
+
     private void publishPost(String content, String author) {
         // Crear un nuevo objeto Post con el contenido ingresado
         long timestamp = System.currentTimeMillis();
@@ -165,6 +198,31 @@ public class HomeActivity extends AppCompatActivity {
         recyclerViewPosts.setVisibility(View.VISIBLE);
         tvNoPosts.setVisibility(View.GONE);
     }
+
+    // Paso 3: Define el método para mostrar emoción seleccionada fuera de `onCreate`
+    private void mostrarEmocionSeleccionada(View view) {
+        String emotionText = "";
+
+        // Convertimos `view` a `ImageView`
+        ImageView selectedEmotion = (ImageView) view;
+
+        // Determina la emoción seleccionada según el ID del icono
+        if (selectedEmotion.getId() == R.id.emoji_feliz) {
+            emotionText = "Feliz";
+        } else if (selectedEmotion.getId() == R.id.emoji_triste) {
+            emotionText = "Triste";
+        } else if (selectedEmotion.getId() == R.id.emoji_enojado) {
+            emotionText = "Enojado";
+        } else if (selectedEmotion.getId() == R.id.emoji_sorprendido) {
+            emotionText = "Sorprendido";
+        } else if (selectedEmotion.getId() == R.id.emoji_con_miedo) {
+            emotionText = "Miedo";
+        }
+
+        // Muestra la emoción seleccionada
+        Toast.makeText(this, "Emoción seleccionada" + emotionText, Toast.LENGTH_SHORT).show();
+    }
+
     private void loadPosts() {
         String currentUsername = getEmailFromLocalStorage();  // Obtén el email o el nombre de usuario desde el almacenamiento local
         if (currentUsername == null) {

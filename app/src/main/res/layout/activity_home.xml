@@ -82,6 +82,48 @@
                 android:textColorHint="@color/blanco_opaco"
                 android:textSize="22dp" />
 
+            <LinearLayout
+                android:id="@+id/emotionLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/emoji_feliz"
+                    android:layout_width="39dp"
+                    android:layout_height="39dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_feliz" />
+
+                <ImageView
+                    android:id="@+id/emoji_triste"
+                    android:layout_width="39dp"
+                    android:layout_height="39dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_triste" />
+
+                <ImageView
+                    android:id="@+id/emoji_enojado"
+                    android:layout_width="39dp"
+                    android:layout_height="39dp"
+                    android:src="@drawable/ic_enojado" />
+
+                <ImageView
+                    android:id="@+id/emoji_con_miedo"
+                    android:layout_width="39dp"
+                    android:layout_height="39dp"
+                    android:src="@drawable/ic_miedo" />
+
+                <ImageView
+                    android:id="@+id/emoji_sorprendido"
+                    android:layout_width="39dp"
+                    android:layout_height="39dp"
+                    android:src="@drawable/ic_sorprendido" />
+
+            </LinearLayout>
+
 
             <TextView
                 android:id="@+id/tv_no_posts"
@@ -101,7 +143,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/postInput"
                 android:layout_marginTop="184dp"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
 
         </RelativeLayout>

@@ -36,7 +36,7 @@ public class RegisterActivity extends AppCompatActivity {
         btn_back = findViewById(R.id.btnBack);
 
         btn_back.setOnClickListener(v -> {
-         Intent intent = new Intent(RegisterActivity.this, CuestionarioActivity.class);
+         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
             startActivity(intent);
         });
 
@@ -89,7 +89,7 @@ public class RegisterActivity extends AppCompatActivity {
                     ApiResponse apiResponse = response.body();
                     Log.d(TAG, "Respuesta del servidor: " + apiResponse.getMessage());
                     Toast.makeText(RegisterActivity.this, apiResponse.getMessage(), Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                    Intent intent = new Intent(RegisterActivity.this, CuestionarioActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
