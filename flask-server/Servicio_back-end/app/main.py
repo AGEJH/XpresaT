@@ -19,7 +19,7 @@ app.config.from_object(Config)  # Cargar configuración
 migrate = Migrate(app, db)  # Inicializar Flask-Migrate aquí
 
 db.init_app(app)  # Inicializar SQLAlchemy con la app de Flask
-CORS(app)  # Aplicar CORS a la app
+CORS(app, methods=["POST"]) # Aplicar CORS a la app
 
 
 @app.route('/')
@@ -156,7 +156,7 @@ def enviar_solicitud():
 
 # Endpoint Aceptar solicitud de amistad
 @app.route('/aceptar_solicitud', methods=['POST'])
-def aceptar_solicitud():
+def aceptar_soli():
     data = request.get_json()
     usuario_id = data.get('usuario_id')
     amigo_id = data.get('amigo_id')
