@@ -87,13 +87,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:visibility="gone"
-                android:gravity="center">
+                android:layout_marginTop="115dp"
+                android:gravity="center"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/emoji_feliz"
                     android:layout_width="39dp"
                     android:layout_height="39dp"
+                    android:layout_marginEnd="10dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_feliz" />
 
@@ -101,6 +103,7 @@
                     android:id="@+id/emoji_triste"
                     android:layout_width="39dp"
                     android:layout_height="39dp"
+                    android:layout_marginEnd="10dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_triste" />
 
@@ -108,18 +111,21 @@
                     android:id="@+id/emoji_enojado"
                     android:layout_width="39dp"
                     android:layout_height="39dp"
+                    android:layout_marginEnd="10dp"
                     android:src="@drawable/ic_enojado" />
 
                 <ImageView
                     android:id="@+id/emoji_con_miedo"
                     android:layout_width="39dp"
                     android:layout_height="39dp"
+                    android:layout_marginEnd="10dp"
                     android:src="@drawable/ic_miedo" />
 
                 <ImageView
                     android:id="@+id/emoji_sorprendido"
                     android:layout_width="39dp"
                     android:layout_height="39dp"
+                    android:layout_marginEnd="10dp"
                     android:src="@drawable/ic_sorprendido" />
 
             </LinearLayout>

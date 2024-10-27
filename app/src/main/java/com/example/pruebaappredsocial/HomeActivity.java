@@ -64,32 +64,33 @@ public class HomeActivity extends AppCompatActivity {
         btnSearchFriends = findViewById(R.id.btnSearchFriends);
         emotionLayout = findViewById(R.id.emotionLayout);
 
+        // Mostrar emotionLayout cuando el EditText recibe el enfoque
         postInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    emotionLayout.setVisibility(View.VISIBLE); // Muestra los iconos de emociones
+                    emotionLayout.setVisibility(View.VISIBLE);
+                    Log.d("HomeActivity", "emotionLayout se muestra");
                 } else {
-                    emotionLayout.setVisibility(View.GONE); // Oculta los iconos cuando pierde el enfoque
+                    emotionLayout.setVisibility(View.GONE);
+                    Log.d("HomeActivity", "emotionLayout se oculta");
                 }
             }
         });
 
-        // Paso 1: Inicializar layout y las 5 emociones
-        ImageView[] emotionIcons = new ImageView[5]; // Ejemplo con 5 emociones
-
+        // Inicializar íconos de emoción y configurar onClickListener para cada uno
+        ImageView[] emotionIcons = new ImageView[5];
         emotionIcons[0] = findViewById(R.id.emoji_feliz);
         emotionIcons[1] = findViewById(R.id.emoji_triste);
         emotionIcons[2] = findViewById(R.id.emoji_enojado);
         emotionIcons[3] = findViewById(R.id.emoji_con_miedo);
         emotionIcons[4] = findViewById(R.id.emoji_sorprendido);
 
-        // Paso 2: Configura el listener para selección de emoción
         for (ImageView icon : emotionIcons) {
             icon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mostrarEmocionSeleccionada(v); // Envía el View en lugar de ImageView
+                    mostrarEmocionSeleccionada(v);
                 }
             });
         }
@@ -137,7 +138,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String postContent = postInput.getText().toString().trim();
-                author = "Usuario"; // Cambia esto según tu lógica para obtener el autor
+                author = "Autor de ejemplo"; // Cambia esto según tu lógica para obtener el autor
 
                 if (!postContent.isEmpty()) {
                     publishPost(postContent, author); // Publica el post
@@ -166,17 +167,6 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-            }
-        });
-
-        postInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (hasFocus) {
-                    optionsLayout.setVisibility(View.VISIBLE);
-                } else {
-                    optionsLayout.setVisibility(View.GONE);
-                }
             }
         });
     }
@@ -220,7 +210,10 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         // Muestra la emoción seleccionada
-        Toast.makeText(this, "Emoción seleccionada" + emotionText, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Emoción seleccionada: " + emotionText, Toast.LENGTH_SHORT).show();
+
+        // Oculta emotionLayout después de seleccionar una emoción
+        emotionLayout.setVisibility(View.GONE);
     }
 
     private void loadPosts() {
