@@ -1,5 +1,6 @@
-from flask import Flask, request, jsonify    # type: ignore  #TRUNCATE para eliminar en sql registros
-from models import db, User, UserResponse, Friend
+from flask import Flask, request, jsonify  # type: ignore          #TRUNCATE sirve para eliminar en sql registros
+from datetime import datetime
+from models import db, User, UserResponse, Friend  # Asegúrate de importar la instancia de tu base de datos
 from flask_migrate import Migrate      # type: ignore # Importar Flask-Migrate aquí, Flask-Migrate, es excelente para manejar las migraciones de la base de datos sin problemas.
 #from security import check_password, hash_password
 from flask_cors import CORS # type: ignore # Manejar las solicitudes desde tu aplicación Android.
@@ -116,47 +117,37 @@ def buscar_usuarios():
 @app.route('/enviar_solicitud', methods=['POST'])
 def enviar_solicitud():
     data = request.get_json()
-    email_usuario = data.get('email_usuario')
-    nombre_usuario = data.get('nombre_usuario')
-    email_amigo = data.get('email_amigo')
-    nombre_amigo = data.get('nombre_amigo')
+    email_usuario = data.get("email_usuario")
+    email_amigo = data.get("email_amigo")
+    
+    # Obtén los usuarios por su correo
+    sender = User.query.filter_by(email=email_usuario).first()
+    receptor = User.query.filter_by(email=email_amigo).first()
 
-    # Buscar al usuario por correo o por nombre
-    if email_usuario:
-        usuario = User.query.filter_by(email=email_usuario).first()
-    elif nombre_usuario:
-        usuario = User.query.filter_by(name=nombre_usuario).first()
-    else:
-        return jsonify({"error": "Debe proporcionar el correo o el nombre del usuario"}), 400
-
-    # Buscar al amigo por correo o por nombre
-    if email_amigo:
-        amigo = User.query.filter_by(email=email_amigo).first()
-    elif nombre_amigo:
-        amigo = User.query.filter_by(name=nombre_amigo).first()
-    else:
-        return jsonify({"error": "Debe proporcionar el correo o el nombre del amigo"}), 400
-
-    if not usuario or not amigo:
+    # Verifica si ambos usuarios existen
+    if not sender or not receptor:
         return jsonify({"error": "Usuario o amigo no encontrado"}), 404
-
-    # Verificar si ya existe una solicitud o una amistad
-    solicitud_existente = Friend.query.filter_by(usuario_id=usuario.id, amigo_id=amigo.id).first()
+    
+    #Verificar solicitud pendiente entre sender_id y receptor_id para evitar duplicados
+    solicitud_existente = Friend.query.filter_by(sender_id=sender.id, receptor_id=receptor.id, is_accepted=False).first()
     if solicitud_existente:
-        return jsonify({"error": "La solicitud de amistad ya existe o la persona ya es tu amigo"}), 409
+        return jsonify({"message": "Ya existe una solicitud de amistad pendiente"}), 400
 
-    # Crear nueva solicitud de amistad
-    nueva_solicitud = Friend(usuario_id=usuario.id, amigo_id=amigo.id, estado='pendiente')
-    db.session.add(nueva_solicitud)
-    db.session.commit()
-
-    return jsonify({"message": "Solicitud de amistad enviada con éxito"}), 201
+    # Inserta la solicitud de amistad
+    try:
+        nueva_solicitud = Friend(sender_id=sender.id, receptor_id=receptor.id, is_accepted=False, is_readed=False)
+        db.session.add(nueva_solicitud)
+        db.session.commit()
+        return jsonify({"message": "Solicitud de amistad enviada exitosamente"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
 
 
 
 # Endpoint Aceptar solicitud de amistad
 @app.route('/aceptar_solicitud', methods=['POST'])
-def aceptar_soli():
+def aceptar_solicitud():
     data = request.get_json()
     usuario_id = data.get('usuario_id')
     amigo_id = data.get('amigo_id')
@@ -165,13 +156,13 @@ def aceptar_soli():
         return jsonify({"error": "Datos faltantes"}), 400
 
     # Buscar la solicitud de amistad
-    solicitud = Friend.query.filter_by(usuario_id=amigo_id, amigo_id=usuario_id, estado='pendiente').first()
+    solicitud = Friend.query.filter_by(sender_id=amigo_id, receptor_id=usuario_id, is_accepted=False).first()
 
     if not solicitud:
         return jsonify({"error": "Solicitud de amistad no encontrada"}), 404
 
-    # Actualizar el estado a 'aceptado'
-    solicitud.estado = 'aceptado'
+    # Actualizar el estado a aceptado
+    solicitud.is_accepted = True
     db.session.commit()
 
     return jsonify({"message": "Solicitud de amistad aceptada"}), 200
