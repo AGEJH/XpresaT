@@ -119,20 +119,19 @@ def enviar_solicitud():
     data = request.get_json()
     email_usuario = data.get("email_usuario")
     email_amigo = data.get("email_amigo")
-    
+
+    # Debugging logs
+    print(f"Email Usuario: {email_usuario}, Email Amigo: {email_amigo}")
+
     # Obtén los usuarios por su correo
     sender = User.query.filter_by(email=email_usuario).first()
     receptor = User.query.filter_by(email=email_amigo).first()
 
     # Verifica si ambos usuarios existen
     if not sender or not receptor:
+        print("Usuario o amigo no encontrado")
         return jsonify({"error": "Usuario o amigo no encontrado"}), 404
     
-    #Verificar solicitud pendiente entre sender_id y receptor_id para evitar duplicados
-    solicitud_existente = Friend.query.filter_by(sender_id=sender.id, receptor_id=receptor.id, is_accepted=False).first()
-    if solicitud_existente:
-        return jsonify({"message": "Ya existe una solicitud de amistad pendiente"}), 400
-
     # Inserta la solicitud de amistad
     try:
         nueva_solicitud = Friend(sender_id=sender.id, receptor_id=receptor.id, is_accepted=False, is_readed=False)
@@ -142,6 +141,7 @@ def enviar_solicitud():
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
+
 
 
 
