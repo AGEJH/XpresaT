@@ -87,14 +87,11 @@ public class LoginActivity extends AppCompatActivity {
 
         // Crear el objeto de petición de inicio de sesión
         LoginRequest loginRequest = new LoginRequest(email, password);
-
         // Obtener la instancia de Retrofit
         Retrofit retrofit = RetrofitClient.getClient();
         ApiService apiService = retrofit.create(ApiService.class);
-
         // Hacer la llamada a la API
         Call<ApiResponse> call = apiService.loginUser(loginRequest);
-
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
@@ -103,6 +100,10 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d("LoginActivity", "Respuesta del servidor: " + apiResponse.getMessage() + ", Success: " + apiResponse.isSuccess());
 
                     if (apiResponse.isSuccess()) {
+                        // Guardar el correo electrónico en SharedPreferences
+                        getSharedPreferences("MyAppPrefs", MODE_PRIVATE).edit()
+                                .putString("email", email)
+                                .apply();
                         // Guardar los datos del usuario y navegar a la pantalla principal
                         Toast.makeText(LoginActivity.this, "Inicio de sesión exitoso.", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);

@@ -89,6 +89,10 @@ public class RegisterActivity extends AppCompatActivity {
                     ApiResponse apiResponse = response.body();
                     Log.d(TAG, "Respuesta del servidor: " + apiResponse.getMessage());
                     Toast.makeText(RegisterActivity.this, apiResponse.getMessage(), Toast.LENGTH_LONG).show();
+                    // Guardar el correo electrónico en SharedPreferences
+                    getSharedPreferences("MyAppPrefs", MODE_PRIVATE).edit()
+                            .putString("email", email)
+                            .apply();
                     Intent intent = new Intent(RegisterActivity.this, CuestionarioActivity.class);
                     startActivity(intent);
                     finish();

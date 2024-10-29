@@ -47,6 +47,12 @@ public class SearchFriendsActivity extends AppCompatActivity {
         currentUserEmail = getCurrentUserEmail();
         currentUserName = getCurrentUserName();
 
+        if (currentUserEmail == null) {
+            Log.e("Error", "Email del usuario actual no se encontró en SharedPreferences");
+        } else {
+            Log.d("Info", "Email del usuario actual: " + currentUserEmail);
+        }
+
         // Configurar RecyclerView
         recyclerViewFriends.setLayoutManager(new LinearLayoutManager(this));
         userAdapter = new UserAdapter(userList, currentUserEmail, currentUserName); // Inicializar el adaptador
@@ -124,7 +130,7 @@ public class SearchFriendsActivity extends AppCompatActivity {
     }
 
     private String getCurrentUserName() {
-        // Obtén el nombre del usuario almacenado en SharedPreferences
-        return getSharedPreferences("MyAppPrefs", MODE_PRIVATE).getString("name", "");
+        // Implementa la lógica de obtención del nombre, similar al email, si es necesario.
+        return "Nombre de Usuario";
     }
 }
