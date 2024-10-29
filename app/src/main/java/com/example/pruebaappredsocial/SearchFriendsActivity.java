@@ -1,5 +1,6 @@
 package com.example.pruebaappredsocial;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -117,12 +118,13 @@ public class SearchFriendsActivity extends AppCompatActivity {
     }
 
     private String getCurrentUserEmail() {
-        // Implementa tu lógica para obtener el email del usuario actual
-        return "user@example.com"; // Reemplaza con tu lógica
+        // Llama a `getEmailFromLocalStorage` en HomeActivity para obtener el email desde SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        return sharedPreferences.getString("email", null); // Obtén el email en lugar del valor estático
     }
 
     private String getCurrentUserName() {
-        // Implementa tu lógica para obtener el nombre del usuario actual
-        return "Nombre de Usuario"; // Reemplaza con tu lógica
+        // Obtén el nombre del usuario almacenado en SharedPreferences
+        return getSharedPreferences("MyAppPrefs", MODE_PRIVATE).getString("name", "");
     }
 }
