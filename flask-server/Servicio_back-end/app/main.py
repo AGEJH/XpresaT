@@ -114,7 +114,7 @@ def buscar_usuarios():
     
     
 # Endpoint Enviar solicitud de amistad
-@app.route('/enviar_solicitud', methods=['POST'])
+@app.route('/enviar_solicitud', methods=['POST']) 
 def enviar_solicitud():
     data = request.get_json()
     email_usuario = data.get("email_usuario")
@@ -131,8 +131,16 @@ def enviar_solicitud():
     if not sender or not receptor:
         print("Usuario o amigo no encontrado")
         return jsonify({"error": "Usuario o amigo no encontrado"}), 404
-    
-    # Inserta la solicitud de amistad
+
+    # Verifica si la solicitud ya existe y no ha sido aceptada
+    solicitud_existente = Friend.query.filter_by(
+        sender_id=sender.id, receptor_id=receptor.id, is_accepted=False
+    ).first()
+
+    if solicitud_existente:
+        return jsonify({"error": "Solicitud ya enviada"}), 400
+
+    # Inserta la solicitud de amistad si no existe
     try:
         nueva_solicitud = Friend(sender_id=sender.id, receptor_id=receptor.id, is_accepted=False, is_readed=False)
         db.session.add(nueva_solicitud)

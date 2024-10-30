@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -81,6 +82,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
                 public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                     if (response.isSuccessful() && response.body() != null) {
                         Toast.makeText(itemView.getContext(), "Solicitud de amistad enviada con éxito", Toast.LENGTH_SHORT).show();
+
+                        // Cambia el texto del botón y lo desactiva
+                        btnSendRequest.setText("Solicitud enviada");
+                        btnSendRequest.setEnabled(false);
+                        btnSendRequest.setBackgroundTintList(
+                                ContextCompat.getColorStateList(itemView.getContext(), R.color.black)
+                        );
                     } else {
                         try {
                             String errorBody = response.errorBody().string();
