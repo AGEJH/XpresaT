@@ -1,6 +1,6 @@
-from flask import Flask, request, jsonify  # type: ignore          #TRUNCATE sirve para eliminar en sql registros
+from flask import Flask, request, jsonify, session  # type: ignore          #TRUNCATE sirve para eliminar en sql registros
 from datetime import datetime
-from models import db, User, UserResponse, Friend  # Asegúrate de importar la instancia de tu base de datos
+from models import Post, db, User, UserResponse, Friend  # Asegúrate de importar la instancia de tu base de datos
 from flask_migrate import Migrate      # type: ignore # Importar Flask-Migrate aquí, Flask-Migrate, es excelente para manejar las migraciones de la base de datos sin problemas.
 #from security import check_password, hash_password
 from flask_cors import CORS # type: ignore # Manejar las solicitudes desde tu aplicación Android.
@@ -141,7 +141,39 @@ def enviar_solicitud():
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
+    
+    
+    
+@app.route('/obtener_solicitudes', methods=['GET'])
+def obtener_solicitudes():
+    email_usuario = request.args.get('email_usuario')
+    if not email_usuario:
+        return jsonify({"error": "Falta el parámetro 'email_usuario'"}), 400
 
+    try:
+        # Obtener el usuario receptor basado en el email
+        usuario_receptor = db.session.query(User).filter_by(email=email_usuario).first()
+        if not usuario_receptor:
+            return jsonify({"error": "Usuario no encontrado"}), 404
+
+        # Obtener solicitudes pendientes dirigidas a este usuario
+        solicitudes = db.session.query(Friend).filter_by(
+            receptor_id=usuario_receptor.id,
+            is_accepted=False
+        ).all()
+
+        # Serializar los datos de las solicitudes
+        solicitudes_data = [{
+            "sender_id": solicitud.sender_id,
+            "receptor_id": solicitud.receptor_id,
+            "is_accepted": solicitud.is_accepted,
+            "is_readed": solicitud.is_readed,
+            "created_at": solicitud.created_at
+        } for solicitud in solicitudes]
+
+        return jsonify(solicitudes_data), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 
@@ -166,6 +198,36 @@ def aceptar_solicitud():
     db.session.commit()
 
     return jsonify({"message": "Solicitud de amistad aceptada"}), 200
+
+
+
+@app.route('/get_posts', methods=['GET'])
+def get_posts():
+    username = request.args.get('username')
+    if not username:
+        return jsonify({"error": "Falta el parámetro 'username'"}), 400
+
+    try:
+        # Obtener el usuario por nombre de usuario
+        usuario = db.session.query(User).filter_by(username=username).first()
+        if not usuario:
+            return jsonify({"error": "Usuario no encontrado"}), 404
+
+        # Obtener publicaciones del usuario
+        posts = db.session.query(Post).filter_by(author=username).all()
+        
+        # Serializar los datos de las publicaciones
+        posts_data = [{
+            "content": post.content,
+            "author": post.author,
+            "created_at": post.created_at
+        } for post in posts]
+        
+        return jsonify(posts_data), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 
 
 @app.route('/analyze', methods=['POST'])
