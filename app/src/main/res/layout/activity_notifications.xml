@@ -4,13 +4,14 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_gradient">
 
-
+    <!-- Barra de menú -->
     <include
         android:id="@+id/menu_navigation"
         layout="@layout/menu_navigation" />
 
+    <!-- Título de Notificaciones -->
     <TextView
-        android:id="@+id/btn_notinifaction"
+        android:id="@+id/btn_notification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -19,17 +20,33 @@
         android:fontFamily="@font/core_mellow_57_cn_medium"
         android:text="Notificaciones"
         android:textColor="@color/blanco_opaco"
-        android:textSize="39dp"
+        android:textSize="30sp"
         android:textStyle="bold" />
 
+    <!-- Mensaje de notificaciones vacías -->
     <TextView
-        android:id="@+id/textViewNotifications"
+        android:id="@+id/textViewNoNotifications"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/btn_notification"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/core_mellow_57_cn_medium"
         android:text="No hay notificaciones por el momento."
         android:textColor="@color/black"
-        android:textSize="22sp"
-        android:textStyle="bold" />
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <!-- RecyclerView para mostrar solicitudes de amistad -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewFriendRequests"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/btn_notification"
+        android:layout_marginTop="20dp"
+        android:padding="16dp"
+        android:visibility="visible" />
+
 </RelativeLayout>
+

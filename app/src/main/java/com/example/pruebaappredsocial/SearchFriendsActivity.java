@@ -1,5 +1,6 @@
 package com.example.pruebaappredsocial;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,6 +34,8 @@ public class SearchFriendsActivity extends AppCompatActivity {
     private List<Usuario> userList = new ArrayList<>(); // Lista de resultados de búsqueda
     private String currentUserEmail; // Inicializa con el email del usuario actual
     private String currentUserName;  // Inicializa con el nombre del usuario actual
+    private ImageButton btnBack, btnHome, btnNotifications, btnVideos, btnProfile, btnMenu;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +46,14 @@ public class SearchFriendsActivity extends AppCompatActivity {
         editTextSearch = findViewById(R.id.editTextSearch);
         recyclerViewFriends = findViewById(R.id.recyclerViewResults);
         buttonSearch = findViewById(R.id.buttonSearch);
-
+        btnBack = findViewById(R.id.btnBack);
+        btnHome = findViewById(R.id.btnHome);
+        btnNotifications = findViewById(R.id.btnNotifications);
+        btnVideos = findViewById(R.id.btnVideos);
+        btnProfile = findViewById(R.id.btnProfile);
+        btnMenu = findViewById(R.id.btnMenu);
+        // Configurar escuchadores de botones
+        setButtonListeners();
         // Obtener el email y nombre del usuario actual (implementa esta lógica según tu app)
         currentUserEmail = getCurrentUserEmail();
         currentUserName = getCurrentUserName();
@@ -58,6 +69,8 @@ public class SearchFriendsActivity extends AppCompatActivity {
         userAdapter = new UserAdapter(userList, currentUserEmail, currentUserName); // Inicializar el adaptador
         recyclerViewFriends.setAdapter(userAdapter);
 
+
+
         // Listener del botón de búsqueda
         buttonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +83,7 @@ public class SearchFriendsActivity extends AppCompatActivity {
                 }
             }
         });
+
 
         // Listener para detectar cambios en el campo de búsqueda (opcional si quieres búsqueda en tiempo real)
         editTextSearch.addTextChangedListener(new TextWatcher() {
@@ -121,6 +135,14 @@ public class SearchFriendsActivity extends AppCompatActivity {
                 Toast.makeText(SearchFriendsActivity.this, "Error en la búsqueda: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    private void setButtonListeners() {
+        btnBack.setOnClickListener(v -> onBackPressed());
+        btnHome.setOnClickListener(v -> startActivity(new Intent(this, HomeActivity.class)));
+        btnNotifications.setOnClickListener(v -> startActivity(new Intent(this, NotificationsActivity.class)));
+        btnVideos.setOnClickListener(v -> startActivity(new Intent(this, VideosActivity.class)));
+        btnProfile.setOnClickListener(v -> startActivity(new Intent(this, EditProfileActivity.class)));
+        btnMenu.setOnClickListener(v -> startActivity(new Intent(this, MenuconfigActivity.class)));
     }
 
     private String getCurrentUserEmail() {

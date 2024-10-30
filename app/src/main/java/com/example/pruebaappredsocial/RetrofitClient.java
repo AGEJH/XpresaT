@@ -16,4 +16,8 @@ public class RetrofitClient {
         }
         return retrofit;
     }
+    // Método para obtener una instancia de ApiService
+    public static ApiService getApiService() {
+        return getClient().create(ApiService.class);
+    }
 }
