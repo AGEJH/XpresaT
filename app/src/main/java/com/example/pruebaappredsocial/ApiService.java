@@ -30,6 +30,10 @@ public interface ApiService {
     @POST("/enviar_solicitud")
     Call<ApiResponse> sendFriendRequest(@Body FriendRequest friendRequest);
 
+    // Endpoint para verificar el estado de amistad
+    @GET("/friend_status")
+    Call<FriendStatusResponse> getFriendStatus(@Query("email_usuario") String emailUsuario, @Query("email_amigo") String emailAmigo);
+
     // Endpoint para obtener solicitudes de amistad
     @GET("/obtener_solicitudes")
     Call<List<FriendRequest>> getFriendRequests(@Query("email_usuario") String emailUsuario);
