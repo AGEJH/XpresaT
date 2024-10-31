@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -64,14 +65,23 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             tvUserName.setText(usuario.getName());
             tvUserEmail.setText(usuario.getEmail());
 
-            // Verifica el estado de amistad
-            checkFriendStatus(usuario, currentUserEmail);
+            Log.d("UserAdapter", "Email del usuario actual: " + currentUserEmail);
+            Log.d("UserAdapter", "Email del usuario en la lista: " + usuario.getEmail());
 
+            // Verifica el estado de amistad
+            if (currentUserEmail != null && !currentUserEmail.isEmpty()) {
+                checkFriendStatus(usuario, currentUserEmail);
+            }
             // Configura el listener para enviar solicitud de amistad
-            btnSendRequest.setOnClickListener(v -> sendFriendRequest(usuario, currentUserEmail, currentUserName));
+            btnSendRequest.setOnClickListener(v -> sendFriendRequest(usuario, currentUserEmail));
         }
 
         private void checkFriendStatus(Usuario usuario, String currentUserEmail) {
+            if (currentUserEmail == null || currentUserEmail.isEmpty() || usuario.getEmail() == null || usuario.getEmail().isEmpty()) {
+                Log.e("UserAdapter", "Emails vacíos, no se puede verificar el estado de amistad.");
+                return;
+            }
+
             ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
             Call<FriendStatusResponse> call = apiService.getFriendStatus(currentUserEmail, usuario.getEmail());
 
@@ -102,40 +112,34 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             });
         }
 
-        private void sendFriendRequest(Usuario usuario, String currentUserEmail, String currentUserName) {
+        private void sendFriendRequest(Usuario usuario, String currentUserEmail) {
+            if (currentUserEmail == null || currentUserEmail.isEmpty() || usuario.getEmail() == null || usuario.getEmail().isEmpty()) {
+                Log.e("UserAdapter", "Emails vacíos, no se puede enviar solicitud de amistad.");
+                return;
+            }
+
             ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
             FriendRequest friendRequest = new FriendRequest(currentUserEmail, usuario.getEmail());
 
             Call<ApiResponse> call = apiService.sendFriendRequest(friendRequest);
-
-            apiService.getFriendStatus(currentUserEmail, usuario.getEmail()).enqueue(new Callback<FriendStatusResponse>() {
+            call.enqueue(new Callback<ApiResponse>() {
                 @Override
-                public void onResponse(Call<FriendStatusResponse> call, Response<FriendStatusResponse> response) {
+                public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                     if (response.isSuccessful() && response.body() != null) {
-                        FriendStatusResponse status = response.body();
-
-                        if (status.isFriend()) {
-                            btnSendRequest.setText("Amigo");
-                            btnSendRequest.setEnabled(false);
-                            btnSendRequest.setBackgroundTintList(
-                                    ContextCompat.getColorStateList(itemView.getContext(), R.color.azul_primario)
-                            );
-                        } else if (status.isRequestSent()) {
-                            btnSendRequest.setText("Solicitud enviada");
-                            btnSendRequest.setEnabled(false);
-                            btnSendRequest.setBackgroundTintList(
-                                    ContextCompat.getColorStateList(itemView.getContext(), R.color.black)
-                            );
-                        } else {
-                            btnSendRequest.setText("Enviar solicitud");
-                            btnSendRequest.setEnabled(true);
-                        }
+                        btnSendRequest.setText("Solicitud enviada");
+                        btnSendRequest.setEnabled(false);
+                        btnSendRequest.setBackgroundTintList(
+                                ContextCompat.getColorStateList(itemView.getContext(), R.color.black)
+                        );
+                        Toast.makeText(itemView.getContext(), "Solicitud de amistad enviada con éxito", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Log.e("UserAdapter", "Error en la respuesta de solicitud de amistad.");
                     }
                 }
 
                 @Override
-                public void onFailure(Call<FriendStatusResponse> call, Throwable t) {
-                    Log.e("UserAdapter", "Error al verificar el estado de amistad: " + t.getMessage());
+                public void onFailure(Call<ApiResponse> call, Throwable t) {
+                    Log.e("UserAdapter", "Error al enviar la solicitud de amistad: " + t.getMessage());
                 }
             });
         }

@@ -218,8 +218,10 @@ public class HomeActivity extends AppCompatActivity {
     //***DEJAR ESTO PENDIENTE toast de usuario no encontrado***
     private void loadPosts() {
         String currentUsername = getEmailFromLocalStorage();  // Obtén el email o el nombre de usuario desde el almacenamiento local
-        if (currentUsername == null) {
-            Toast.makeText(HomeActivity.this, " ", Toast.LENGTH_SHORT).show();
+        Log.d("HomeActivity", "Email del usuario actual: " + currentUsername);  // Log para verificar el valor
+
+        if (currentUsername == null || currentUsername.isEmpty()) {
+            Toast.makeText(HomeActivity.this, "No se encontró el email del usuario", Toast.LENGTH_SHORT).show();
             return;
         }
 
