@@ -182,8 +182,45 @@ def obtener_solicitudes():
         return jsonify(solicitudes_data), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+    
 
+@app.route('/friend_status', methods=['GET'])
+def friend_status():
+    # Obtiene los parámetros de la URL
+    email_usuario = request.args.get('email_usuario')
+    email_amigo = request.args.get('email_amigo')
 
+    # Verificación de que ambos correos están presentes
+    if not email_usuario or not email_amigo:
+        return jsonify({"error": "Ambos emails deben ser proporcionados"}), 400
+
+    # Busca los usuarios por email en la base de datos
+    usuario = User.query.filter_by(email=email_usuario).first()
+    amigo = User.query.filter_by(email=email_amigo).first()
+
+    if not usuario or not amigo:
+        return jsonify({"error": "Usuario o amigo no encontrado"}), 404
+
+    # Busca la relación de amistad en la tabla Friend
+    friend_request = Friend.query.filter(
+        ((Friend.sender_id == usuario.id) & (Friend.receptor_id == amigo.id)) |
+        ((Friend.sender_id == amigo.id) & (Friend.receptor_id == usuario.id))
+    ).first()
+
+    if friend_request:
+        if friend_request.is_accepted:
+            # Son amigos
+            return jsonify({"is_friend": True, "is_request_sent": False})
+        else:
+            # Hay una solicitud pendiente
+            return jsonify({"is_friend": False, "is_request_sent": True})
+    else:
+        # No son amigos ni hay solicitud pendiente
+        return jsonify({"is_friend": False, "is_request_sent": False})
+    
+    
+    
 
 # Endpoint Aceptar solicitud de amistad
 @app.route('/aceptar_solicitud', methods=['POST'])
