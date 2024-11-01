@@ -119,7 +119,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             }
 
             ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-            FriendRequest friendRequest = new FriendRequest(currentUserEmail, usuario.getEmail());
+            FriendRequest friendRequest = new FriendRequest(currentUserEmail, usuario.getEmail(), "", "");
 
             Call<ApiResponse> call = apiService.sendFriendRequest(friendRequest);
             call.enqueue(new Callback<ApiResponse>() {

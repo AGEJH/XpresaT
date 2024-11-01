@@ -5,9 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
 public class FriendRequestAdapter extends RecyclerView.Adapter<FriendRequestAdapter.ViewHolder> {
@@ -30,9 +33,11 @@ public class FriendRequestAdapter extends RecyclerView.Adapter<FriendRequestAdap
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         FriendRequest request = friendRequests.get(position);
-        holder.emailTextView.setText(request.getEmail_amigo());
-
-        // Acción para aceptar solicitud
+        // Configurar nombre y apellido del amigo
+        holder.friendNameTextView.setText(request.getNombreAmigo());
+        holder.friendLastNameTextView.setText(request.getApellidoAmigo());
+        // Aquí puedes cargar la imagen del ícono del amigo, si tienes una URL o recurso
+        // Por ejemplo, usando Glide o Picasso:
         holder.acceptButton.setOnClickListener(v -> {
             acceptFriendRequest(request);
             friendRequests.remove(position);
@@ -40,7 +45,6 @@ public class FriendRequestAdapter extends RecyclerView.Adapter<FriendRequestAdap
             notifyItemRangeChanged(position, friendRequests.size());
         });
 
-        // Acción para rechazar solicitud
         holder.rejectButton.setOnClickListener(v -> {
             rejectFriendRequest(request);
             friendRequests.remove(position);
@@ -55,26 +59,25 @@ public class FriendRequestAdapter extends RecyclerView.Adapter<FriendRequestAdap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView emailTextView;
+        ImageView friendIconImageView;
+        TextView friendNameTextView, friendLastNameTextView;
         Button acceptButton, rejectButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            emailTextView = itemView.findViewById(R.id.emailTextView);
+            friendIconImageView = itemView.findViewById(R.id.friendIconImageView);
+            friendNameTextView = itemView.findViewById(R.id.friendNameTextView);
+            friendLastNameTextView = itemView.findViewById(R.id.friendLastNameTextView);
             acceptButton = itemView.findViewById(R.id.acceptButton);
             rejectButton = itemView.findViewById(R.id.rejectButton);
         }
     }
 
     private void acceptFriendRequest(FriendRequest request) {
-        // Aquí puedes implementar la lógica para aceptar la solicitud de amistad
-        // Usando el servicio API o cualquier otra lógica necesaria.
-        // Por ejemplo:
-        // ApiService.acceptFriendRequest(request);
+        // Implementa la lógica para aceptar la solicitud
     }
 
     private void rejectFriendRequest(FriendRequest request) {
-        // Aquí puedes implementar la lógica para rechazar la solicitud de amistad
-        // Usando el servicio API o cualquier otra lógica necesaria.
+        // Implementa la lógica para rechazar la solicitud
     }
 }

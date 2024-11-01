@@ -208,17 +208,22 @@ def friend_status():
         ((Friend.sender_id == amigo.id) & (Friend.receptor_id == usuario.id))
     ).first()
 
+    # Construir la respuesta con nombre y apellido del amigo
+    response_data = {
+        "is_friend": False,
+        "is_request_sent": False,
+        "nombreAmigo": amigo.name,
+        "apellidoAmigo": amigo.lastname
+    }
+
     if friend_request:
         if friend_request.is_accepted:
-            # Son amigos
-            return jsonify({"is_friend": True, "is_request_sent": False})
+            response_data["is_friend"] = True
         else:
-            # Hay una solicitud pendiente
-            return jsonify({"is_friend": False, "is_request_sent": True})
-    else:
-        # No son amigos ni hay solicitud pendiente
-        return jsonify({"is_friend": False, "is_request_sent": False})
-    
+            response_data["is_request_sent"] = True
+
+    return jsonify(response_data)
+
     
     
 
