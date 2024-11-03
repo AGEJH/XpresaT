@@ -3,6 +3,7 @@ package com.example.pruebaappredsocial;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -70,6 +71,7 @@ public class NotificationsActivity extends AppCompatActivity {
                     friendRequests.clear();
                     friendRequests.addAll(response.body());
                     adapter.notifyDataSetChanged();
+                    Log.d("FriendRequests", "Respuesta: " + response.body().toString());
 
                     // Mostrar u ocultar el RecyclerView o el mensaje de notificaciones vacías
                     if (friendRequests.isEmpty()) {

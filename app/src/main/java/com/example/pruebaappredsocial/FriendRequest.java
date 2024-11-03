@@ -1,10 +1,12 @@
 package com.example.pruebaappredsocial;
 
 public class FriendRequest {
+
+    private String nombreAmigo;
+    private String apellidoAmigo;
     private String email_usuario;
     private String email_amigo;
-   private String nombreAmigo;
-    private String apellidoAmigo;
+
 
     public FriendRequest(String email_usuario, String email_amigo, String nombreAmigo, String apellidoAmigo) {
         this.email_usuario = email_usuario;

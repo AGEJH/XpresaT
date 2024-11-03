@@ -33,11 +33,15 @@ public class FriendRequestAdapter extends RecyclerView.Adapter<FriendRequestAdap
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         FriendRequest request = friendRequests.get(position);
+
         // Configurar nombre y apellido del amigo
         holder.friendNameTextView.setText(request.getNombreAmigo());
         holder.friendLastNameTextView.setText(request.getApellidoAmigo());
+
         // Aquí puedes cargar la imagen del ícono del amigo, si tienes una URL o recurso
         // Por ejemplo, usando Glide o Picasso:
+
+        // Configura los botones de aceptar y rechazar
         holder.acceptButton.setOnClickListener(v -> {
             acceptFriendRequest(request);
             friendRequests.remove(position);
