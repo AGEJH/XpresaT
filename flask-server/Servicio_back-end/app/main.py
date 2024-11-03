@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, session  # type: ignore          #TRUNCATE sirve para eliminar en sql registros
+from flask import Flask, logging, request, jsonify, session  # type: ignore          #TRUNCATE sirve para eliminar en sql registros
 from datetime import datetime
 from models import Post, db, User, UserResponse, Friend  # Asegúrate de importar la instancia de tu base de datos
 from flask_migrate import Migrate      # type: ignore # Importar Flask-Migrate aquí, Flask-Migrate, es excelente para manejar las migraciones de la base de datos sin problemas.
@@ -253,22 +253,22 @@ def aceptar_solicitud():
 
 @app.route('/get_posts', methods=['GET'])
 def get_posts():
-    username = request.args.get('username')
+    name = request.args.get('name')
 
     # Verificar si el parámetro 'username' está presente
-    if not username:
-        logging.warning("Solicitud sin 'username' proporcionado")
+    if not name:
+        logging.warning("Solicitud sin 'name' proporcionado")
         return jsonify({"error": "username is required"}), 400
 
     try:
         # Obtener el usuario por nombre de usuario
-        usuario = db.session.query(User).filter_by(username=username).first()
+        usuario = db.session.query(User).filter_by(name=name).first()
         if not usuario:
-            logging.info(f"Usuario '{username}' no encontrado")
+            logging.info(f"Usuario '{name}' no encontrado")
             return jsonify({"error": "Usuario no encontrado"}), 404
 
         # Obtener publicaciones del usuario
-        posts = db.session.query(Post).filter_by(author=username).all()
+        posts = db.session.query(Post).filter_by(author=name).all()
         
         # Serializar los datos de las publicaciones
         posts_data = [{
@@ -277,12 +277,12 @@ def get_posts():
             "created_at": post.created_at
         } for post in posts]
 
-        logging.info(f"Posts obtenidos exitosamente para el usuario '{username}': {len(posts)} publicaciones")
+        logging.info(f"Posts obtenidos exitosamente para el usuario '{name}': {len(posts)} publicaciones")
         return jsonify(posts_data), 200
 
     except Exception as e:
         # Registrar la excepción detalladamente
-        logging.error(f"Error al obtener posts para el usuario '{username}': {str(e)}", exc_info=True)
+        logging.error(f"Error al obtener posts para el usuario '{name}': {str(e)}", exc_info=True)
         return jsonify({"error": "Ocurrió un error al obtener las publicaciones"}), 500
 
 
