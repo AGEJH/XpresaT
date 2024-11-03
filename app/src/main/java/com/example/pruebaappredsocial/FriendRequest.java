@@ -1,11 +1,19 @@
 package com.example.pruebaappredsocial;
 
+import com.google.gson.annotations.SerializedName;
+
 public class FriendRequest {
 
+    @SerializedName("nombre_amigo")
     private String nombreAmigo;
+
+    @SerializedName("apellido_amigo")
     private String apellidoAmigo;
-    private String email_usuario;
+
+    @SerializedName("email_amigo")
     private String email_amigo;
+
+    private String email_usuario;
 
 
     public FriendRequest(String email_usuario, String email_amigo, String nombreAmigo, String apellidoAmigo) {
@@ -27,6 +35,14 @@ public class FriendRequest {
     }
     public String getApellidoAmigo() {
         return apellidoAmigo;
+    }
+
+    @Override
+    public String toString() {
+        return "FriendRequest{" +
+                "email_amigo='" + email_amigo + '\'' +
+                ", nombre_amigo='" + nombreAmigo + '\'' +  // Ajusta según los nombres de las variables
+                '}';
     }
 
 

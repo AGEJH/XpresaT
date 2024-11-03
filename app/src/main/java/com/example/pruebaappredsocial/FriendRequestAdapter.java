@@ -1,6 +1,7 @@
 package com.example.pruebaappredsocial;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,7 @@ public class FriendRequestAdapter extends RecyclerView.Adapter<FriendRequestAdap
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         FriendRequest request = friendRequests.get(position);
-
+        Log.d("FriendRequestAdapter", "Nombre: " + request.getNombreAmigo() + ", Email: " + request.getEmail_amigo());
         // Configurar nombre y apellido del amigo
         holder.friendNameTextView.setText(request.getNombreAmigo());
         holder.friendLastNameTextView.setText(request.getApellidoAmigo());
