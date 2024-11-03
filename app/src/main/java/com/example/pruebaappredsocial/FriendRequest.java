@@ -6,7 +6,6 @@ public class FriendRequest {
 
     @SerializedName("nombre_amigo")
     private String nombreAmigo;
-
     @SerializedName("apellido_amigo")
     private String apellidoAmigo;
 
