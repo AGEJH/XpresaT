@@ -1,4 +1,4 @@
-from flask import Flask, logging, request, jsonify, session  # type: ignore          #TRUNCATE sirve para eliminar en sql registros
+from flask import Flask, request, jsonify, session  # type: ignore          #TRUNCATE sirve para eliminar en sql registros
 from datetime import datetime
 from models import Post, db, User, UserResponse, Friend  # Asegúrate de importar la instancia de tu base de datos
 from flask_migrate import Migrate      # type: ignore # Importar Flask-Migrate aquí, Flask-Migrate, es excelente para manejar las migraciones de la base de datos sin problemas.
@@ -8,6 +8,10 @@ from config import Config  # Importa_la_configuración aquí
 from nltk.tokenize import word_tokenize # type: ignore
 import nltk  # type: ignore 
 import traceback
+import logging
+
+logging.basicConfig(level=logging.INFO)  # Configuración básica, se puede ajustar el nivel
+
 nltk.download('punkt')
 
 diccionario_emociones = {
@@ -170,18 +174,23 @@ def obtener_solicitudes():
             is_accepted=False
         ).all()
 
-        # Serializar los datos de las solicitudes
+        # Serializar los datos de las solicitudes incluyendo nombre y apellido del remitente
         solicitudes_data = [{
             "sender_id": solicitud.sender_id,
             "receptor_id": solicitud.receptor_id,
             "is_accepted": solicitud.is_accepted,
             "is_readed": solicitud.is_readed,
-            "created_at": solicitud.created_at
+            "created_at": solicitud.created_at,
+            "email_amigo": solicitud.sender.email,          # Agregar el email del remitente
+            "nombre_amigo": solicitud.sender.name,          # Agregar el nombre del remitente
+            "apellido_amigo": solicitud.sender.lastname     # Agregar el apellido del remitente
         } for solicitud in solicitudes]
 
         return jsonify(solicitudes_data), 200
     except Exception as e:
+        app.logger.error(f"Error al obtener solicitudes: {str(e)}", exc_info=True)
         return jsonify({"error": str(e)}), 500
+
     
     
 
