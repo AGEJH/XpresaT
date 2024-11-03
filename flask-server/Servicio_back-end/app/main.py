@@ -254,13 +254,17 @@ def aceptar_solicitud():
 @app.route('/get_posts', methods=['GET'])
 def get_posts():
     username = request.args.get('username')
+
+    # Verificar si el parámetro 'username' está presente
     if not username:
-        return jsonify({"error": "Falta el parámetro 'username'"}), 400
+        logging.warning("Solicitud sin 'username' proporcionado")
+        return jsonify({"error": "username is required"}), 400
 
     try:
         # Obtener el usuario por nombre de usuario
         usuario = db.session.query(User).filter_by(username=username).first()
         if not usuario:
+            logging.info(f"Usuario '{username}' no encontrado")
             return jsonify({"error": "Usuario no encontrado"}), 404
 
         # Obtener publicaciones del usuario
@@ -272,10 +276,14 @@ def get_posts():
             "author": post.author,
             "created_at": post.created_at
         } for post in posts]
-        
+
+        logging.info(f"Posts obtenidos exitosamente para el usuario '{username}': {len(posts)} publicaciones")
         return jsonify(posts_data), 200
+
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        # Registrar la excepción detalladamente
+        logging.error(f"Error al obtener posts para el usuario '{username}': {str(e)}", exc_info=True)
+        return jsonify({"error": "Ocurrió un error al obtener las publicaciones"}), 500
 
 
 
