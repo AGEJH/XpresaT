@@ -234,7 +234,7 @@ def friend_status():
     return jsonify(response_data)
 
     
-    
+
 
 # Endpoint Aceptar solicitud de amistad
 @app.route('/aceptar_solicitud', methods=['POST'])

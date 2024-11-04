@@ -42,6 +42,7 @@ public interface ApiService {
     @POST("/aceptar_solicitud")
     Call<ResponseBody> acceptFriendRequest(@Body FriendRequest friendRequest);
 
+
     // Método para rechazar la solicitud de amistad
     @POST("/reject_friend_request")
     Call<ResponseBody> rejectFriendRequest(@Body FriendRequest request);

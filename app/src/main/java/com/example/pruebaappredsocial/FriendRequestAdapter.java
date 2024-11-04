@@ -130,6 +130,7 @@ public class FriendRequestAdapter extends RecyclerView.Adapter<FriendRequestAdap
         });
     }
 
+
     private void updateFriendRequestsList() {
         // Actualiza la lista de solicitudes de amistad según la lógica de tu aplicación
     }
