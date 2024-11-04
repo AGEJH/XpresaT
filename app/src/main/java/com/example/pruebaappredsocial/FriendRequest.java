@@ -25,7 +25,6 @@ public class FriendRequest {
     public String getEmail_usuario() {
         return email_usuario;
     }
-
     public String getEmail_amigo() {
         return email_amigo;
     }

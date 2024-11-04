@@ -38,10 +38,13 @@ public interface ApiService {
     @GET("/obtener_solicitudes")
     Call<List<FriendRequest>> getFriendRequests(@Query("email_usuario") String emailUsuario);
 
-
     // Endpoint para aceptar solicitud de amistad
     @POST("/aceptar_solicitud")
     Call<ResponseBody> acceptFriendRequest(@Body FriendRequest friendRequest);
+
+    // Método para rechazar la solicitud de amistad
+    @POST("/reject_friend_request")
+    Call<ResponseBody> rejectFriendRequest(@Body FriendRequest request);
 
     // Endpoint para obtener publicaciones del usuario y sus amigos
     @GET("/get_posts")

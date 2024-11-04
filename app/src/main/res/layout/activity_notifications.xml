@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="103dp"
         android:background="@android:color/transparent"
         android:fontFamily="@font/core_mellow_57_cn_medium"
         android:text="Notificaciones"
@@ -36,7 +36,7 @@
         android:textColor="@color/black"
         android:textSize="23sp"
         android:textStyle="bold"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <!-- RecyclerView para mostrar solicitudes de amistad -->
     <androidx.recyclerview.widget.RecyclerView
@@ -44,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/btn_notification"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="89dp"
         android:padding="16dp"
         android:visibility="visible" />
 

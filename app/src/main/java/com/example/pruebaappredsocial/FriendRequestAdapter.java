@@ -8,11 +8,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FriendRequestAdapter extends RecyclerView.Adapter<FriendRequestAdapter.ViewHolder> {
 
@@ -35,14 +41,10 @@ public class FriendRequestAdapter extends RecyclerView.Adapter<FriendRequestAdap
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         FriendRequest request = friendRequests.get(position);
         Log.d("FriendRequestAdapter", "Nombre: " + request.getNombreAmigo() + ", Email: " + request.getEmail_amigo());
-        // Configurar nombre y apellido del amigo
+
         holder.friendNameTextView.setText(request.getNombreAmigo());
         holder.friendLastNameTextView.setText(request.getApellidoAmigo());
 
-        // Aquí puedes cargar la imagen del ícono del amigo, si tienes una URL o recurso
-        // Por ejemplo, usando Glide o Picasso:
-
-        // Configura los botones de aceptar y rechazar
         holder.acceptButton.setOnClickListener(v -> {
             acceptFriendRequest(request);
             friendRequests.remove(position);
@@ -79,10 +81,56 @@ public class FriendRequestAdapter extends RecyclerView.Adapter<FriendRequestAdap
     }
 
     private void acceptFriendRequest(FriendRequest request) {
-        // Implementa la lógica para aceptar la solicitud
+        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        Call<ResponseBody> call = apiService.acceptFriendRequest(request);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(context, "Solicitud de amistad aceptada", Toast.LENGTH_SHORT).show();
+                    updateFriendRequestsList();
+                } else {
+                    Toast.makeText(context, "Error al aceptar la solicitud", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(context, "Error de conexión", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void rejectFriendRequest(FriendRequest request) {
-        // Implementa la lógica para rechazar la solicitud
+        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        Call<ResponseBody> call = apiService.rejectFriendRequest(request);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        String message = response.body().string();
+                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                        updateFriendRequestsList();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Toast.makeText(context, "Error al procesar la respuesta", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(context, "Error al rechazar la solicitud", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(context, "Error de conexión", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void updateFriendRequestsList() {
+        // Actualiza la lista de solicitudes de amistad según la lógica de tu aplicación
     }
 }
