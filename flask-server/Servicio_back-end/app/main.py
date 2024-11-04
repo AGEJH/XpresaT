@@ -243,20 +243,63 @@ def aceptar_solicitud():
     usuario_id = data.get('usuario_id')
     amigo_id = data.get('amigo_id')
 
+    # Validar los datos recibidos
     if not usuario_id or not amigo_id:
         return jsonify({"error": "Datos faltantes"}), 400
 
-    # Buscar la solicitud de amistad
-    solicitud = Friend.query.filter_by(sender_id=amigo_id, receptor_id=usuario_id, is_accepted=False).first()
+    try:
+        # Verificar si ambos usuarios existen
+        usuario = User.query.get(usuario_id)
+        amigo = User.query.get(amigo_id)
+        if not usuario or not amigo:
+            return jsonify({"error": "Usuario o amigo no encontrado"}), 404
 
-    if not solicitud:
+        # Buscar la solicitud de amistad pendiente
+        solicitud = Friend.query.filter_by(sender_id=amigo_id, receptor_id=usuario_id, is_accepted=False).first()
+        
+        if not solicitud:
+            return jsonify({"error": "Solicitud de amistad no encontrada"}), 404
+
+        # Actualizar el estado a aceptado
+        solicitud.is_accepted = True
+        db.session.commit()
+
+        # (Opcional) Crear una relación bidireccional
+        # nueva_relacion = Friend(sender_id=usuario_id, receptor_id=amigo_id, is_accepted=True)
+        # db.session.add(nueva_relacion)
+        # db.session.commit()
+
+        return jsonify({"message": "Solicitud de amistad aceptada", "usuario": usuario.name, "amigo": amigo.name}), 200
+
+    except Exception as e:
+        db.session.rollback()  # Revertir cambios en caso de error
+        return jsonify({"error": "Ocurrió un error al procesar la solicitud", "details": str(e)}), 500
+
+
+
+@app.route('/reject_friend_request', methods=['POST'])
+def reject_friend_request():
+    data = request.json
+    email_usuario = data.get('email_usuario')
+    email_amigo = data.get('email_amigo')
+    
+    # Obtén los IDs de los usuarios a partir de sus correos electrónicos
+    usuario = User.query.filter_by(email=email_usuario).first()
+    amigo = User.query.filter_by(email=email_amigo).first()
+    
+    if not usuario or not amigo:
+        return jsonify({"error": "Usuario o amigo no encontrado"}), 404
+    
+    # Busca la solicitud de amistad en la tabla friend
+    solicitud = Friend.query.filter_by(sender_id=amigo.id, receptor_id=usuario.id, is_accepted=0).first()
+    
+    if solicitud:
+        # Opción 1: Eliminar la solicitud de amistad
+        db.session.delete(solicitud)
+        db.session.commit()
+        return jsonify({"message": "Solicitud de amistad rechazada"}), 200
+    else:
         return jsonify({"error": "Solicitud de amistad no encontrada"}), 404
-
-    # Actualizar el estado a aceptado
-    solicitud.is_accepted = True
-    db.session.commit()
-
-    return jsonify({"message": "Solicitud de amistad aceptada"}), 200
 
 
 
