@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +22,8 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText editTextNombre, editTextApellido, editTextCorreo, editTextContraseña, editTextRepetirContraseña;
     private Button btn_registrarse;
     private ImageButton btn_back;
+    private CheckBox checkboxTerminos;
+    private TextView tvTerminos;
     private static final String TAG = "RegisterActivity";
 
     @Override
@@ -34,21 +38,32 @@ public class RegisterActivity extends AppCompatActivity {
         editTextRepetirContraseña = findViewById(R.id.tcontraseña2);
         btn_registrarse = findViewById(R.id.btn_registrarse);
         btn_back = findViewById(R.id.btnBack);
+        // Inicialización de checkbox y TextView para términos
+        checkboxTerminos = findViewById(R.id.checkbox_terminos);
+        tvTerminos = findViewById(R.id.tv_terminos);
 
-        btn_back.setOnClickListener(v -> {
-         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+        // Redirigir a términos y condiciones al hacer clic
+        tvTerminos.setOnClickListener(v -> {
+            Intent intent = new Intent(RegisterActivity.this, TerminosActivity.class);
             startActivity(intent);
         });
 
+        // Evento para el botón de registro
         btn_registrarse.setOnClickListener(v -> {
-            if (validateRegistrationForm()) {
+            if (validateRegistrationForm() && checkboxTerminos.isChecked()) {
                 registrarUsuario();
+            } else if (!checkboxTerminos.isChecked()) {
+                Toast.makeText(this, "Acepte los términos y condiciones para continuar.", Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(this, "Por favor, complete todos los campos y asegúrese de que las contraseñas coincidan.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Complete todos los campos y asegúrese de que las contraseñas coincidan.", Toast.LENGTH_LONG).show();
             }
         });
+        // Configura el botón de regreso
+        btn_back.setOnClickListener(v -> {
+            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+            startActivity(intent);
+        });
     }
-
     private boolean validateRegistrationForm() {
         String correo = editTextCorreo.getText().toString().trim();
         if (!correo.endsWith("@ucol.mx")) {

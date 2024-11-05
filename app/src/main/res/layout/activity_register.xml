@@ -82,7 +82,7 @@
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="32dp"
         android:background="@drawable/button_style"
         android:backgroundTint="@color/blanco_opaco"
@@ -103,7 +103,7 @@
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="32dp"
         android:background="@drawable/button_style"
         android:backgroundTint="@color/blanco_opaco"
@@ -142,12 +142,40 @@
         app:layout_constraintTop_toBottomOf="@+id/tcontraseña"
         android:fontFamily="@font/core_mellow_57_cn_medium" />
 
+    <CheckBox
+        android:id="@+id/checkbox_terminos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Acepto los términos y condiciones"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tcontraseña2"
+        android:backgroundTint="@color/azul_primario"
+        android:layout_marginStart="32dp"
+        android:textColor="#0A0A0A"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_terminos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Leer términos y condiciones"
+        android:textColor="@color/azul_primario"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkbox_terminos"
+        android:layout_marginStart="32dp" />
+
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_registrarse"
         android:layout_width="0dp"
         android:layout_height="66dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="61dp"
+        android:layout_marginTop="55dp"
         android:layout_marginEnd="32dp"
         android:textSize="24sp"
         android:backgroundTint="@color/azul_primario"
@@ -157,7 +185,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tcontraseña2"
+        app:layout_constraintTop_toBottomOf="@+id/tv_terminos"
         android:usesCleartextTraffic="true"
         android:fontFamily="@font/core_mellow_57_cn_medium" />
 </androidx.constraintlayout.widget.ConstraintLayout>

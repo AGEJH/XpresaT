@@ -59,6 +59,9 @@ xmlns:tools="http://schemas.android.com/tools">
 
         <activity android:name=".CuestionarioParteTresActivity" />
 
+        <activity android:name=".TerminosActivity" />
+
+
 
     </application>
 
