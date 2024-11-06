@@ -38,7 +38,28 @@ class Friend(db.Model):
     receptor_id = db.Column(db.Integer, db.ForeignKey('user.id'))  # Usuario que recibe la solicitud
     is_accepted = db.Column(db.Boolean, default=False)  # Indica si la solicitud fue aceptada
     is_readed = db.Column(db.Boolean, default=False)  # Indica si fue leída la solicitud
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)  # Fecha de creación       
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)  # Fecha de creación    
+    
+    
+class Like(db.Model):
+    __tablename__ = 'like'
+    id = db.Column(db.Integer, primary_key=True)
+    type_id = db.Column(db.Integer)  # 1 = Post, 2 = Comment
+    ref_id = db.Column(db.Integer)   # ID del post o comentario al que se le da like
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    
+class Comment(db.Model):
+    __tablename__ = 'comment'
+    id = db.Column(db.Integer, primary_key=True)
+    type_id = db.Column(db.Integer)
+    ref_id = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    comment_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
+    content = db.Column(db.Text)
+    created_at = db.Column(db.DateTime)
+   
         
 class Recover(db.Model):
     __tablename__ = 'recover'
@@ -131,16 +152,6 @@ class Heart(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     created_at = db.Column(db.DateTime)
 
-class Comment(db.Model):
-    __tablename__ = 'comment'
-    id = db.Column(db.Integer, primary_key=True)
-    type_id = db.Column(db.Integer)
-    ref_id = db.Column(db.Integer)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    comment_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
-    content = db.Column(db.Text)
-    created_at = db.Column(db.DateTime)
-    
 class Conversation(db.Model):
     __tablename__ = 'conversation'
     id = db.Column(db.Integer, primary_key=True)

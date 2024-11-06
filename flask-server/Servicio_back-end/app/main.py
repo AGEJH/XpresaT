@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, session  # type: ignore          #TRUNCATE sirve para eliminar en sql registros
 from datetime import datetime
-from models import Post, db, User, UserResponse, Friend  # Asegúrate de importar la instancia de tu base de datos
+from models import Comment, Like, Post, db, User, UserResponse, Friend  # Asegúrate de importar la instancia de tu base de datos
 from flask_migrate import Migrate      # type: ignore # Importar Flask-Migrate aquí, Flask-Migrate, es excelente para manejar las migraciones de la base de datos sin problemas.
 #from security import check_password, hash_password
 from flask_cors import CORS # type: ignore # Manejar las solicitudes desde tu aplicación Android.
@@ -300,6 +300,60 @@ def reject_friend_request():
         return jsonify({"message": "Solicitud de amistad rechazada"}), 200
     else:
         return jsonify({"error": "Solicitud de amistad no encontrada"}), 404
+
+
+#a Post para Crear un comentario
+@app.route('/posts/<int:post_id>/comments', methods=['POST'])
+def create_comment(post_id):
+    data = request.json
+    new_comment = Comment(
+        type_id=1,  # Tipo 1 para post
+        ref_id=post_id,
+        user_id=data['user_id'],
+        comment_id=data.get('parent_comment_id'),  # Puede ser None si es un comentario principal
+        content=data['content']
+    )
+    db.session.add(new_comment)
+    db.session.commit()
+    return jsonify({'message': 'Comentario creado', 'comment_id': new_comment.id}), 201
+
+
+
+# Recupera todos los comentarios de un post, organizándolos en una estructura jerárquica.
+@app.route('/posts/<int:post_id>/comments', methods=['GET'])
+def get_comments(post_id):
+    comments = Comment.query.filter_by(type_id=1, ref_id=post_id).all()
+    comments_list = [
+        {
+            'id': comment.id,
+            'content': comment.content,
+            'user_id': comment.user_id,
+            'parent_comment_id': comment.comment_id,
+            'created_at': comment.created_at
+        }
+        for comment in comments
+    ]
+    return jsonify(comments_list), 200
+
+
+
+#permite dar o quitar un like, dependiendo de si el like ya existe.
+@app.route('/<int:type_id>/<int:ref_id>/like', methods=['POST'])
+def toggle_like(type_id, ref_id):
+    data = request.json
+    user_id = data['user_id']
+    
+    existing_like = Like.query.filter_by(type_id=type_id, ref_id=ref_id, user_id=user_id).first()
+    if existing_like:
+        db.session.delete(existing_like)
+        db.session.commit()
+        return jsonify({'message': 'Like removido'}), 200
+    else:
+        new_like = Like(type_id=type_id, ref_id=ref_id, user_id=user_id)
+        db.session.add(new_like)
+        db.session.commit()
+        return jsonify({'message': 'Like agregado'}), 201
+
 
 
 
