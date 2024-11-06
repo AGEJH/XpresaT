@@ -149,6 +149,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/postInput"
                 android:layout_marginTop="184dp"
+                android:background="@android:color/transparent"
                 android:visibility="gone" />
 
 

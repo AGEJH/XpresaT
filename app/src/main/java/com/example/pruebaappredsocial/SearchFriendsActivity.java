@@ -16,8 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.Gson;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,15 +73,20 @@ public class SearchFriendsActivity extends AppCompatActivity {
         buttonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String query = editTextSearch.getText().toString();
+                String query = editTextSearch.getText().toString().trim();
                 if (!query.isEmpty()) {
-                    searchUsers(query); // Realizar la búsqueda
+                    try {
+                        searchUsers(query); // Realizar la búsqueda
+                    } catch (Exception e) {
+                        // Captura cualquier excepción y muestra un mensaje sin detener la actividad
+                        Toast.makeText(SearchFriendsActivity.this, "Error al realizar la búsqueda", Toast.LENGTH_SHORT).show();
+                        Log.e("SearchError", "Error en la búsqueda: ", e);
+                    }
                 } else {
                     Toast.makeText(SearchFriendsActivity.this, "Por favor, ingrese un nombre o email", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
 
         // Listener para detectar cambios en el campo de búsqueda (opcional si quieres búsqueda en tiempo real)
         editTextSearch.addTextChangedListener(new TextWatcher() {
@@ -110,19 +113,19 @@ public class SearchFriendsActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<SearchUsersResponse> call, Response<SearchUsersResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    // Imprimir la respuesta completa en JSON para depurar
-                    Log.d("RespuestaCompleta", new Gson().toJson(response.body()));
-
-                    // Recorrer la lista de usuarios y mostrar su información
-                    for (Usuario usuario : response.body().getUsuarios()) {
-                        Log.d("Usuario", "Nombre: " + usuario.getName() + ", Apellido: " + usuario.getLastname());
+                    // Verificar que la lista de usuarios no sea null
+                    List<Usuario> usuarios = response.body().getUsuarios();
+                    if (usuarios != null && !usuarios.isEmpty()) {
+                        // Limpiar la lista y agregar los nuevos resultados
+                        userList.clear();
+                        userList.addAll(usuarios);
+                        userAdapter.notifyDataSetChanged(); // Actualizar el adaptador con los nuevos datos
+                    } else {
+                        // Mostrar mensaje si no se encontraron usuarios
+                        Toast.makeText(SearchFriendsActivity.this, "No se encontró a la persona", Toast.LENGTH_SHORT).show();
                     }
-
-                    userList.clear();
-                    userList.addAll(response.body().getUsuarios());
-                    userAdapter.notifyDataSetChanged(); // Actualizar el adaptador con los nuevos datos
                 } else {
-                    // Si no se encontraron usuarios, imprime el código de respuesta para mayor información
+                    // Si la respuesta no fue exitosa o no contiene datos
                     Log.e("Error", "Código de respuesta: " + response.code());
                     Toast.makeText(SearchFriendsActivity.this, "No se encontraron usuarios", Toast.LENGTH_SHORT).show();
                 }
@@ -130,7 +133,6 @@ public class SearchFriendsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<SearchUsersResponse> call, Throwable t) {
-                // Imprimir el mensaje de error para depuración
                 Log.e("Error", "Error en la búsqueda: " + t.getMessage());
                 Toast.makeText(SearchFriendsActivity.this, "Error en la búsqueda: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
