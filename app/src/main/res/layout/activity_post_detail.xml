@@ -1,0 +1,66 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Contenido del Post -->
+    <TextView
+        android:id="@+id/post_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="#000000"
+        android:text="Post content goes here" />
+
+    <!-- Sección de Like -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingTop="8dp">
+
+        <ImageButton
+            android:id="@+id/like_button"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_like"
+            android:text="Like" />
+
+        <TextView
+            android:id="@+id/like_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="0 likes" />
+    </LinearLayout>
+
+    <!-- RecyclerView para Comentarios -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/comments_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingTop="14dp" />
+
+    <!-- Campo de entrada para agregar comentario -->
+    <EditText
+        android:id="@+id/comment_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Comentar ..."
+        android:layout_marginTop="8dp" />
+
+    <!-- Botón para enviar comentario -->
+    <Button
+        android:id="@+id/send_comment_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/azul_primario"
+        android:layout_gravity="end"
+        android:text="Send" />
+
+</LinearLayout>

@@ -1,7 +1,6 @@
 package com.example.pruebaappredsocial;
 
 import java.util.List;
-
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -9,7 +8,9 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
+
 
 public interface ApiService {
     @Headers({"Content-Type: application/json"})
@@ -50,6 +51,18 @@ public interface ApiService {
     // Endpoint para obtener publicaciones del usuario y sus amigos
     @GET("/get_posts")
     Call<List<Post>> getPosts(@Query("username") String username);
+
+    @GET("posts/{post_id}")
+    Call<Post> getPostDetails(@Path("post_id") int postId);
+
+    @POST("posts/{post_id}/like")
+    Call<LikeResponse> likePost(@Path("post_id") int postId);
+
+    @GET("posts/{post_id}/comments")
+    Call<List<Comment>> getComments(@Path("post_id") int postId);
+
+    @POST("posts/{post_id}/comments")
+    Call<Comment> addComment(@Path("post_id") int postId, @Body String comment);
 
     Call<ApiResponse> uploadImage(MultipartBody.Part body);
 }

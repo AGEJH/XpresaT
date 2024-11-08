@@ -8,6 +8,8 @@ public class Post implements Parcelable {
     private String author;
     private String username;
     private String userProfileImage;
+    private int likesCount;
+
     private long timestamp; // Añadir el campo de marca de tiempo
 
     public Post(String content, String author, long timestamp) {
@@ -37,6 +39,7 @@ public class Post implements Parcelable {
     public int describeContents() {
         return 0;
     }
+    public int getLikesCount() { return likesCount; }
 
     public static final Creator<Post> CREATOR = new Creator<Post>() {
         @Override
