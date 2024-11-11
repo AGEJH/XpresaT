@@ -30,6 +30,8 @@ public class PostDetailActivity extends AppCompatActivity {
     private CommentAdapter commentAdapter;
     private int postId;
     private int likes = 0;
+    private boolean isLiked = false;  // Variable para rastrear si el post ya ha sido "liked"
+    private TextView postAuthor; // Declara la variable postAuthor
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,12 +39,12 @@ public class PostDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_post_detail);
 
         // Inicializar vistas
-        postContent = findViewById(R.id.post_content);
         likeButton = findViewById(R.id.like_button);
         likesCount = findViewById(R.id.like_count);
         commentsRecyclerView = findViewById(R.id.comments_recycler_view);
-        commentInput = findViewById(R.id.comment_input);
+        commentInput = findViewById(R.id.commentInput);
         sendCommentButton = findViewById(R.id.send_comment_button);
+        postAuthor = findViewById(R.id.post_author);
 
         // Configurar RecyclerView
         commentAdapter = new CommentAdapter(this);
@@ -78,10 +80,15 @@ public class PostDetailActivity extends AppCompatActivity {
             public void onResponse(Call<Post> call, Response<Post> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Post post = response.body();
+
+                    // Actualizamos los campos de UI con los detalles del post
                     postContent.setText(post.getContent());
-                    likes = post.getLikesCount();
-                    likesCount.setText(likes + " likes");
-                    loadComments();
+                    postAuthor.setText(post.getAuthor());
+                    likesCount.setText(post.getLikesCount() + " likes");
+
+                    // Verificamos si el usuario actual ya dio "like" a este post
+                    isLiked = post.isLiked(); // Asegúrate de que `isLiked` esté disponible en `Post`
+                    updateLikeButton();
                 } else {
                     Toast.makeText(PostDetailActivity.this, "Error al cargar detalles del post", Toast.LENGTH_SHORT).show();
                 }
@@ -89,7 +96,7 @@ public class PostDetailActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Post> call, Throwable t) {
-                Toast.makeText(PostDetailActivity.this, "Fallo al cargar los detalles del post", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PostDetailActivity.this, "Error de red al cargar el post", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -101,6 +108,8 @@ public class PostDetailActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     LikeResponse likeResponse = response.body();
                     likes = likeResponse.getLikesCount();
+                    isLiked = likeResponse.isLiked(); // Ahora `isLiked` se obtiene correctamente
+                    updateLikeButton();
                     likesCount.setText(likes + " likes");
                     Toast.makeText(PostDetailActivity.this, "Estado de 'Like' actualizado", Toast.LENGTH_SHORT).show();
                 } else {
@@ -115,12 +124,17 @@ public class PostDetailActivity extends AppCompatActivity {
         });
     }
 
+    private void updateLikeButton() {
+        int likeIcon = isLiked ? R.drawable.ic_liked : R.drawable.ic_like;
+        likeButton.setImageResource(likeIcon);
+    }
+
     private void loadComments() {
-        apiService.getComments(postId).enqueue(new Callback<List<com.example.pruebaappredsocial.Comment>>() {
+        apiService.getComments(postId).enqueue(new Callback<List<Comment>>() {
             @Override
-            public void onResponse(Call<List<com.example.pruebaappredsocial.Comment>> call, Response<List<com.example.pruebaappredsocial.Comment>> response) {
+            public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<com.example.pruebaappredsocial.Comment> comments = response.body();
+                    List<Comment> comments = response.body();
                     commentAdapter.setComments(comments);  // Asegúrate de que `setComments` en `CommentAdapter` usa List<Comment>
                 } else {
                     Toast.makeText(PostDetailActivity.this, "Error al cargar comentarios", Toast.LENGTH_SHORT).show();
@@ -128,7 +142,7 @@ public class PostDetailActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<com.example.pruebaappredsocial.Comment>> call, Throwable t) {
+            public void onFailure(Call<List<Comment>> call, Throwable t) {
                 Toast.makeText(PostDetailActivity.this, "Error de conexión al cargar comentarios", Toast.LENGTH_SHORT).show();
             }
         });
@@ -141,12 +155,12 @@ public class PostDetailActivity extends AppCompatActivity {
             return;
         }
 
-        apiService.addComment(postId, content).enqueue(new Callback<com.example.pruebaappredsocial.Comment>() {
+        apiService.addComment(postId, content).enqueue(new Callback<Comment>() {
             @Override
-            public void onResponse(Call<com.example.pruebaappredsocial.Comment> call, Response<com.example.pruebaappredsocial.Comment> response) {
+            public void onResponse(Call<Comment> call, Response<Comment> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    com.example.pruebaappredsocial.Comment newComment = response.body();
-                    commentAdapter.addComment(newComment); // Asegúrate de que `addComment` en `CommentAdapter` usa `Comment`
+                    Comment newComment = response.body();
+                    commentAdapter.addComment(newComment); // Añade el nuevo comentario
                     commentInput.setText(""); // Limpiar el campo después de enviar
                     commentsRecyclerView.scrollToPosition(commentAdapter.getItemCount() - 1); // Ir al último comentario
                 } else {
@@ -155,7 +169,7 @@ public class PostDetailActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<com.example.pruebaappredsocial.Comment> call, Throwable t) {
+            public void onFailure(Call<Comment> call, Throwable t) {
                 Toast.makeText(PostDetailActivity.this, "Error al añadir comentario", Toast.LENGTH_SHORT).show();
             }
         });

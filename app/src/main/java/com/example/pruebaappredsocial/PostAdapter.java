@@ -3,10 +3,14 @@ package com.example.pruebaappredsocial;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -22,8 +26,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     }
 
     public void addPost(Post post) {
-        postList.add(0, post); // Agregar el nuevo post al inicio de la lista
-        notifyItemInserted(0); // Notificar al adaptador que un nuevo elemento fue insertado
+        postList.add(0, post);
+        notifyItemInserted(0);
     }
 
     @NonNull
@@ -36,14 +40,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     @Override
     public void onBindViewHolder(PostViewHolder holder, int position) {
         Post post = postList.get(position);
-
-        // Asignar el contenido del post y el autor al TextView
-        holder.tvPostAuthor.setText(post.getAuthor());
-        holder.tvPostContent.setText(post.getContent());
-
-        // Si tienes una imagen de perfil, también puedes asignarla
-        // Usa Glide o cualquier otra librería para cargar la imagen si es necesario
-        // Glide.with(context).load(post.getUserProfileImage()).into(holder.imageViewProfile);
+        holder.bind(post);
     }
 
     @Override
@@ -52,24 +49,59 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     }
 
     public class PostViewHolder extends RecyclerView.ViewHolder {
-        TextView tvPostAuthor, tvPostContent;
+
+        TextView tvPostAuthor, tvPostContent, likeCount;
         ImageView imageViewProfile;
+        ImageButton likeButton;
+        RecyclerView commentsRecyclerView;
+        EditText commentInput;
+        Button sendCommentButton;
+        CommentAdapter commentAdapter;
 
         public PostViewHolder(View itemView) {
             super(itemView);
             tvPostAuthor = itemView.findViewById(R.id.tvPostAuthor);
             tvPostContent = itemView.findViewById(R.id.tvPostContent);
             imageViewProfile = itemView.findViewById(R.id.imageViewProfile);
+            likeButton = itemView.findViewById(R.id.likeButton);
+            likeCount = itemView.findViewById(R.id.likeCount);
+            commentsRecyclerView = itemView.findViewById(R.id.commentsRecyclerView);
+            commentInput = itemView.findViewById(R.id.commentInput);
+            sendCommentButton = itemView.findViewById(R.id.sendCommentButton);
         }
 
-    public void bind(Post post) {
-            // Cargar la imagen de perfil usando Glide
+        public void bind(Post post) {
+            tvPostAuthor.setText(post.getAuthor());
+            tvPostContent.setText(post.getContent());
+
             Glide.with(itemView.getContext())
-                    .load(post.getUserProfileImage())  // URL de la imagen de perfil
-                    .placeholder(R.drawable.ic_profile)  // Imagen de carga
+                    .load(post.getUserProfileImage())
+                    .placeholder(R.drawable.ic_profile)
                     .into(imageViewProfile);
 
-        tvPostContent.setText(post.getContent());
+            likeCount.setText(post.getLikesCount() + " Likes");
+
+            likeButton.setOnClickListener(v -> toggleLike(post));
+
+            commentAdapter = new CommentAdapter(itemView.getContext());
+            commentsRecyclerView.setLayoutManager(new LinearLayoutManager(itemView.getContext()));
+            commentsRecyclerView.setAdapter(commentAdapter);
+
+            sendCommentButton.setOnClickListener(v -> {
+                String commentText = commentInput.getText().toString();
+                if (!commentText.isEmpty()) {
+                    Comment newComment = new Comment(commentText);
+                    post.getComments().add(newComment);
+                    commentAdapter.notifyDataSetChanged();
+                    commentInput.setText("");
+                }
+            });
+        }
+        private void toggleLike(Post post) {
+            post.setLiked(!post.isLiked());
+            post.setLikesCount(post.isLiked() ? post.getLikesCount() + 1 : post.getLikesCount() - 1);
+            likeCount.setText(post.getLikesCount() + " Likes");
+            // Aquí puedes hacer una llamada al servidor para actualizar el estado del "like"
         }
     }
 }

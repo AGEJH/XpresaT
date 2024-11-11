@@ -3,27 +3,36 @@ package com.example.pruebaappredsocial;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 public class Post implements Parcelable {
     private String content;
     private String author;
     private String username;
     private String userProfileImage;
     private int likesCount;
+    private boolean isLiked;
+    private long timestamp;
+    private ArrayList<Comment> comments;
 
-    private long timestamp; // Añadir el campo de marca de tiempo
-
+    // Constructor principal
     public Post(String content, String author, long timestamp) {
         this.content = content;
         this.author = author;
-        this.timestamp = timestamp; // Asignar la marca de tiempo
+        this.timestamp = timestamp;
+        this.comments = new ArrayList<>();  // Inicialización de la lista de comentarios
     }
 
+    // Constructor para Parcel
     protected Post(Parcel in) {
         content = in.readString();
         author = in.readString();
         username = in.readString();
         userProfileImage = in.readString();
-        timestamp = in.readLong(); // Leer el valor del Parcel
+        likesCount = in.readInt();
+        isLiked = in.readByte() != 0;
+        timestamp = in.readLong();
+        comments = in.createTypedArrayList(Comment.CREATOR); // Leer lista de comentarios desde el Parcel
     }
 
     @Override
@@ -32,28 +41,26 @@ public class Post implements Parcelable {
         dest.writeString(author);
         dest.writeString(username);
         dest.writeString(userProfileImage);
-        dest.writeLong(timestamp); // Escribir el valor en el Parcel
+        dest.writeInt(likesCount);
+        dest.writeByte((byte) (isLiked ? 1 : 0));
+        dest.writeLong(timestamp);
+        dest.writeTypedList(comments); // Escribir lista de comentarios en el Parcel
     }
 
     @Override
     public int describeContents() {
         return 0;
     }
-    public int getLikesCount() { return likesCount; }
 
-    public static final Creator<Post> CREATOR = new Creator<Post>() {
-        @Override
-        public Post createFromParcel(Parcel in) {
-            return new Post(in);
-        }
+    // Getters y setters (agrega otros si los necesitas)
+    public int getLikesCount() {
+        return likesCount;
+    }
 
-        @Override
-        public Post[] newArray(int size) {
-            return new Post[size];
-        }
-    };
+    public boolean isLiked() {
+        return isLiked;
+    }
 
-    // Getters
     public String getContent() {
         return content;
     }
@@ -71,6 +78,31 @@ public class Post implements Parcelable {
     }
 
     public long getTimestamp() {
-        return timestamp; // Getter para la marca de tiempo
+        return timestamp;
     }
+
+    public ArrayList<Comment> getComments() {
+        return comments;
+    }
+
+    public void setLikesCount(int likesCount) {
+        this.likesCount = likesCount;
+    }
+
+    public void setLiked(boolean liked) {
+        isLiked = liked;
+    }
+
+    // Parcelable Creator
+    public static final Creator<Post> CREATOR = new Creator<Post>() {
+        @Override
+        public Post createFromParcel(Parcel in) {
+            return new Post(in);
+        }
+
+        @Override
+        public Post[] newArray(int size) {
+            return new Post[size];
+        }
+    };
 }
