@@ -19,17 +19,17 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     public CommentAdapter(Context context) {
         this.context = context;
+        this.comments = new ArrayList<>();
     }
-
+    public void addComment(Comment comment) {
+        comments.add(comment);
+        notifyItemInserted(comments.size() - 1);
+    }
     public void setComments(List<Comment> comments) {
         this.comments = comments;
         notifyDataSetChanged();
     }
 
-    public void addComment(Comment comment) {
-        comments.add(comment);
-        notifyItemInserted(comments.size() - 1);
-    }
 
     @NonNull
     @Override
@@ -41,7 +41,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
         Comment comment = comments.get(position);
-        holder.commentContent.setText(comment.getContent()); // Asegúrate de que `getContent()` esté implementado en tu clase Comment.
+        holder.commentContent.setText(comment.getContent());
     }
 
     @Override

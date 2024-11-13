@@ -135,7 +135,7 @@ public class PostDetailActivity extends AppCompatActivity {
             public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Comment> comments = response.body();
-                    commentAdapter.setComments(comments);  // Asegúrate de que `setComments` en `CommentAdapter` usa List<Comment>
+                    commentAdapter.setComments(comments);  // Establece la lista de comentarios
                 } else {
                     Toast.makeText(PostDetailActivity.this, "Error al cargar comentarios", Toast.LENGTH_SHORT).show();
                 }
@@ -147,6 +147,7 @@ public class PostDetailActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void addComment() {
         String content = commentInput.getText().toString().trim();

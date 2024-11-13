@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -81,10 +80,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
             likeCount.setText(post.getLikesCount() + " Likes");
 
+            // Establece el icono inicial del botón de "like" según el estado del post
+            updateLikeButtonIcon(post.isLiked());
+
             likeButton.setOnClickListener(v -> toggleLike(post));
 
-            commentAdapter = new CommentAdapter(itemView.getContext());
-            commentsRecyclerView.setLayoutManager(new LinearLayoutManager(itemView.getContext()));
+            // Pasa la lista de comentarios al CommentAdapter en el momento de crear el adaptador
+            commentAdapter = new CommentAdapter(itemView.getContext()); // inicializa CommentAdapter solo con el Context
+            commentAdapter.setComments(post.getComments()); //y luego usa setComments para establecer los comentarios:
             commentsRecyclerView.setAdapter(commentAdapter);
 
             sendCommentButton.setOnClickListener(v -> {
@@ -92,16 +95,32 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 if (!commentText.isEmpty()) {
                     Comment newComment = new Comment(commentText);
                     post.getComments().add(newComment);
-                    commentAdapter.notifyDataSetChanged();
-                    commentInput.setText("");
+                    commentAdapter.notifyDataSetChanged();// Actualiza el RecyclerView después de agregar el comentario
+                    commentInput.setText(""); // Limpia el campo de texto
                 }
             });
         }
+
         private void toggleLike(Post post) {
+            // Cambia el estado del "like" en el post
             post.setLiked(!post.isLiked());
+
+            // Actualiza el conteo de "likes"
             post.setLikesCount(post.isLiked() ? post.getLikesCount() + 1 : post.getLikesCount() - 1);
             likeCount.setText(post.getLikesCount() + " Likes");
+
+            // Cambia el icono del botón de "like" según el nuevo estado
+            updateLikeButtonIcon(post.isLiked());
+
             // Aquí puedes hacer una llamada al servidor para actualizar el estado del "like"
+        }
+
+        private void updateLikeButtonIcon(boolean isLiked) {
+            if (isLiked) {
+                likeButton.setImageResource(R.drawable.ic_liked); // Icono para el estado "likeado"
+            } else {
+                likeButton.setImageResource(R.drawable.ic_like); // Icono para el estado "no likeado"
+            }
         }
     }
 }

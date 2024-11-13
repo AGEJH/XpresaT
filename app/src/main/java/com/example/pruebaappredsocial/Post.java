@@ -13,7 +13,7 @@ public class Post implements Parcelable {
     private int likesCount;
     private boolean isLiked;
     private long timestamp;
-    private ArrayList<Comment> comments;
+    private ArrayList<Comment>  comments = new ArrayList<>();
 
     // Constructor principal
     public Post(String content, String author, long timestamp) {
@@ -83,6 +83,10 @@ public class Post implements Parcelable {
 
     public ArrayList<Comment> getComments() {
         return comments;
+    }
+
+    public void setComments(ArrayList<Comment> comments) {
+        this.comments = comments;
     }
 
     public void setLikesCount(int likesCount) {
