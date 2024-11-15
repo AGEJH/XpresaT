@@ -5,10 +5,13 @@ import android.os.Parcelable;
 
 public class Comment implements Parcelable {
     private String content;
-
+    private String authorName;
+    private String authorLastName;
     // Constructor principal
-    public Comment(String content) {
+    public Comment(String content, String authorName, String authorLastName) {
         this.content = content;
+        this.authorName = authorName;
+        this.authorLastName = authorLastName;
     }
 
     // Constructor para Parcel
@@ -30,6 +33,9 @@ public class Comment implements Parcelable {
     public String getContent() {
         return content;
     }
+    public String getAuthorName() {return authorName;}
+
+    public String getAuthorLastName() {return authorLastName;}
 
     // Parcelable Creator
     public static final Creator<Comment> CREATOR = new Creator<Comment>() {

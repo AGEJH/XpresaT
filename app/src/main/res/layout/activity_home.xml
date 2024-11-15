@@ -136,7 +136,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_marginTop="380dp"
+                android:layout_marginTop="289dp"
                 android:fontFamily="@font/core_mellow_57_cn_medium"
                 android:text="No tienes ninguna publicación"
                 android:textColor="@color/black"
@@ -148,7 +148,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/postInput"
-                android:layout_marginTop="84dp"
+                android:layout_marginTop="170dp"
                 android:background="@android:color/transparent"
                 android:visibility="gone" />
 

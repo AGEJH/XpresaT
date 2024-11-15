@@ -21,10 +21,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         this.context = context;
         this.comments = new ArrayList<>();
     }
+
     public void addComment(Comment comment) {
         comments.add(comment);
         notifyItemInserted(comments.size() - 1);
     }
+
     public void setComments(List<Comment> comments) {
         this.comments = comments;
         notifyDataSetChanged();
@@ -50,11 +52,17 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     }
 
     static class CommentViewHolder extends RecyclerView.ViewHolder {
-        TextView commentContent;
+        TextView commentContent, tvAuthorName;
 
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
+            tvAuthorName = itemView.findViewById(R.id.tvAuthorName);
             commentContent = itemView.findViewById(R.id.comment_content);
+        }
+        public void bind(Comment comment) {
+            tvAuthorName.setText(comment.getAuthorName() + " " + comment.getAuthorLastName());
+            commentContent.setText(comment.getContent());
         }
     }
 }
+

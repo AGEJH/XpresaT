@@ -24,12 +24,12 @@
 
         <!-- Texto del autor del post -->
         <TextView
-            android:id="@+id/tvPostAuthor"
+            android:id="@+id/tvAuthorName"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="14dp"
             android:text="Author"
-            android:textSize="14sp"
-            android:textColor="@color/azul_primario"/>
+            android:textColor="@color/azul_primario"
+            android:textSize="14sp" />
     </LinearLayout>
 
     <!-- Contenido del post -->
@@ -88,5 +88,6 @@
         android:layout_height="wrap_content"
         android:text="Comentar"
         android:backgroundTint="@color/azul_primario"
+        android:clickable="true"
         android:layout_marginTop="8dp"/>
 </LinearLayout>

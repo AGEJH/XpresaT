@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -50,27 +51,27 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     public class PostViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvPostAuthor, tvPostContent, likeCount;
+        TextView tvAuthorName, tvPostContent, likeCount;
         ImageView imageViewProfile;
         ImageButton likeButton;
         RecyclerView commentsRecyclerView;
-        EditText commentInput;
+        EditText commentText;
         Button sendCommentButton;
         CommentAdapter commentAdapter;
 
         public PostViewHolder(View itemView) {
             super(itemView);
-            tvPostAuthor = itemView.findViewById(R.id.tvPostAuthor);
+            tvAuthorName = itemView.findViewById(R.id.tvAuthorName);
             tvPostContent = itemView.findViewById(R.id.tvPostContent);
             imageViewProfile = itemView.findViewById(R.id.imageViewProfile);
             likeButton = itemView.findViewById(R.id.likeButton);
             likeCount = itemView.findViewById(R.id.likeCount);
             commentsRecyclerView = itemView.findViewById(R.id.commentsRecyclerView);
-            commentInput = itemView.findViewById(R.id.commentInput);
+            commentText = itemView.findViewById(R.id.commentText);
             sendCommentButton = itemView.findViewById(R.id.sendCommentButton);
 
             // Verificar si las referencias no son nulas
-            if (commentInput == null) {
+            if (commentText == null) {
                 Log.e("PostViewHolder", "commentInput es null");
             }
             if (sendCommentButton == null) {
@@ -79,44 +80,67 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         }
 
         public void bind(Post post) {
-            tvPostAuthor.setText(post.getAuthor());
+            // Configura el autor y contenido del post
+            tvAuthorName.setText(post.getAuthor());
             tvPostContent.setText(post.getContent());
 
+            // Configura la imagen de perfil usando Glide
             Glide.with(itemView.getContext())
                     .load(post.getUserProfileImage())
-                    .placeholder(R.drawable.ic_profile)
+                    .placeholder(R.drawable.ic_profile) // Asegúrate de tener este recurso
                     .into(imageViewProfile);
 
+            // Configura el contador de "likes"
             likeCount.setText(post.getLikesCount() + " Likes");
 
-            // Establece el icono inicial del botón de "like" según el estado del post
+            // Actualiza el estado del botón de "like" y configura su OnClickListener
             updateLikeButtonIcon(post.isLiked());
-
             likeButton.setOnClickListener(v -> toggleLike(post));
 
-            // Pasa la lista de comentarios al CommentAdapter en el momento de crear el adaptador
-            commentAdapter = new CommentAdapter(itemView.getContext());
-            commentAdapter.setComments(post.getComments());
-            commentsRecyclerView.setAdapter(commentAdapter);
-
-            // Verifica que el botón de comentar y el campo de comentario no sean nulos
-            if (sendCommentButton == null || commentInput == null) {
-                Log.e("PostAdapter", "sendCommentButton o commentInput son nulos en bind()");
-            } else {
-                sendCommentButton.setOnClickListener(v -> {
-                    Log.d("PostAdapter", "Botón de comentar pulsado");
-                    String commentText = commentInput.getText().toString();
-                    if (!commentText.isEmpty()) {
-                        Log.d("PostAdapter", "Comentario: " + commentText);
-                        Comment newComment = new Comment(commentText);
-                        post.getComments().add(newComment);
-                        commentAdapter.notifyDataSetChanged(); // Actualiza el RecyclerView después de agregar el comentario
-                        commentInput.setText(""); // Limpia el campo de texto
-                    } else {
-                        Log.d("PostAdapter", "Comentario vacío");
-                    }
-                });
+            // Configura el RecyclerView de comentarios con un LayoutManager
+            if (commentsRecyclerView.getLayoutManager() == null) {
+                commentsRecyclerView.setLayoutManager(new LinearLayoutManager(itemView.getContext()));
             }
+
+            // Inicializa el adaptador de comentarios y lo asocia al RecyclerView
+            if (commentAdapter == null) {
+                commentAdapter = new CommentAdapter(itemView.getContext());
+                commentsRecyclerView.setAdapter(commentAdapter);
+            }
+            commentAdapter.setComments(post.getComments()); // Actualiza los datos del adaptador
+
+            Log.d("PostAdapter", "Adaptador de comentarios configurado correctamente");
+
+            // Verifica que los componentes de comentario no sean nulos
+            if (sendCommentButton == null || commentText == null) {
+                Log.e("PostAdapter", "sendCommentButton o commentText son nulos en bind()");
+                return; // Salimos temprano si hay un problema
+            }
+
+            // Configura el botón para enviar comentarios
+            sendCommentButton.setOnClickListener(v -> {
+                Log.d("PostAdapter", "Botón de comentar clickeado");
+                String commentContent = commentText.getText().toString().trim(); // Usa trim para eliminar espacios innecesarios
+
+                if (!commentContent.isEmpty()) {
+                    Log.d("PostAdapter", "Texto ingresado: " + commentContent);
+                    // Usa datos del usuario actual como nombre y apellido del autor
+                    String authorName = "NombreUsuario"; // Reemplaza con el nombre real del usuario
+                    String authorLastName = "ApellidoUsuario"; // Reemplaza con el apellido real del usuario
+
+                    Comment newComment = new Comment(commentContent, authorName, authorLastName);
+                    post.getComments().add(newComment);
+
+                    Log.d("PostAdapter", "Comentario añadido. Total comentarios: " + post.getComments().size());
+
+                    commentAdapter.notifyItemInserted(post.getComments().size() - 1);
+                    commentsRecyclerView.scrollToPosition(post.getComments().size() - 1);
+
+                    commentText.setText("");
+                } else {
+                    Log.d("PostAdapter", "Campo de comentario vacío, no se agrega comentario");
+                }
+            });
         }
 
         private void toggleLike(Post post) {
