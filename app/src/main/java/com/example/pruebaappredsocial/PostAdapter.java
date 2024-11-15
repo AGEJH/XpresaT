@@ -1,5 +1,6 @@
 package com.example.pruebaappredsocial;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,6 +68,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             commentsRecyclerView = itemView.findViewById(R.id.commentsRecyclerView);
             commentInput = itemView.findViewById(R.id.commentInput);
             sendCommentButton = itemView.findViewById(R.id.sendCommentButton);
+
+            // Verificar si las referencias no son nulas
+            if (commentInput == null) {
+                Log.e("PostViewHolder", "commentInput es null");
+            }
+            if (sendCommentButton == null) {
+                Log.e("PostViewHolder", "sendCommentButton es null");
+            }
         }
 
         public void bind(Post post) {
@@ -86,19 +95,28 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             likeButton.setOnClickListener(v -> toggleLike(post));
 
             // Pasa la lista de comentarios al CommentAdapter en el momento de crear el adaptador
-            commentAdapter = new CommentAdapter(itemView.getContext()); // inicializa CommentAdapter solo con el Context
-            commentAdapter.setComments(post.getComments()); //y luego usa setComments para establecer los comentarios:
+            commentAdapter = new CommentAdapter(itemView.getContext());
+            commentAdapter.setComments(post.getComments());
             commentsRecyclerView.setAdapter(commentAdapter);
 
-            sendCommentButton.setOnClickListener(v -> {
-                String commentText = commentInput.getText().toString();
-                if (!commentText.isEmpty()) {
-                    Comment newComment = new Comment(commentText);
-                    post.getComments().add(newComment);
-                    commentAdapter.notifyDataSetChanged();// Actualiza el RecyclerView después de agregar el comentario
-                    commentInput.setText(""); // Limpia el campo de texto
-                }
-            });
+            // Verifica que el botón de comentar y el campo de comentario no sean nulos
+            if (sendCommentButton == null || commentInput == null) {
+                Log.e("PostAdapter", "sendCommentButton o commentInput son nulos en bind()");
+            } else {
+                sendCommentButton.setOnClickListener(v -> {
+                    Log.d("PostAdapter", "Botón de comentar pulsado");
+                    String commentText = commentInput.getText().toString();
+                    if (!commentText.isEmpty()) {
+                        Log.d("PostAdapter", "Comentario: " + commentText);
+                        Comment newComment = new Comment(commentText);
+                        post.getComments().add(newComment);
+                        commentAdapter.notifyDataSetChanged(); // Actualiza el RecyclerView después de agregar el comentario
+                        commentInput.setText(""); // Limpia el campo de texto
+                    } else {
+                        Log.d("PostAdapter", "Comentario vacío");
+                    }
+                });
+            }
         }
 
         private void toggleLike(Post post) {
