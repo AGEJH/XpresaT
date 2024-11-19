@@ -1,6 +1,7 @@
 package com.example.pruebaappredsocial;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,8 +44,16 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
         Comment comment = comments.get(position);
+
+        // Configura el nombre y contenido del comentario
+        holder.tvAuthorName.setText(comment.getAuthorName() + " " + comment.getAuthorLastName());
         holder.commentContent.setText(comment.getContent());
+
+        // Añade logs para depuración
+        Log.d("CommentAdapter", "Renderizando comentario: " + comment.getContent() +
+                " por " + comment.getAuthorName() + " " + comment.getAuthorLastName());
     }
+
 
     @Override
     public int getItemCount() {
@@ -58,10 +67,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             super(itemView);
             tvAuthorName = itemView.findViewById(R.id.tvAuthorName);
             commentContent = itemView.findViewById(R.id.comment_content);
-        }
-        public void bind(Comment comment) {
-            tvAuthorName.setText(comment.getAuthorName() + " " + comment.getAuthorLastName());
-            commentContent.setText(comment.getContent());
         }
     }
 }
