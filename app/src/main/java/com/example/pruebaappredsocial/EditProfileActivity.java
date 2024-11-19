@@ -14,7 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 public class EditProfileActivity extends AppCompatActivity {
 
     private ImageButton btnBack, btnHome, btnNotifications, btnVideos, btnProfile, btnMenu;
-    private Button btnPersonalInfo, btnPosts, btnFriends;
+    private Button btnPersonalInfo, btnFriends;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
         // Botones de navegación entre fragmentos
         btnPersonalInfo = findViewById(R.id.btnPersonalInfo);
-        btnPosts = findViewById(R.id.btnPosts);
         btnFriends = findViewById(R.id.btnFriends);
 
         // Establecer escuchadores para los botones
@@ -92,14 +91,6 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadFragment(new InfoPersonalFragment());
-            }
-        });
-
-        // Cambiar a fragmento de Posts
-        btnPosts.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadFragment(new PostFragment());
             }
         });
 

@@ -1,5 +1,7 @@
 package com.example.pruebaappredsocial;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,25 +71,25 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             commentsRecyclerView = itemView.findViewById(R.id.commentsRecyclerView);
             commentText = itemView.findViewById(R.id.commentText);
             sendCommentButton = itemView.findViewById(R.id.sendCommentButton);
-
-            // Verificar si las referencias no son nulas
-            if (commentText == null) {
-                Log.e("PostViewHolder", "commentInput es null");
-            }
-            if (sendCommentButton == null) {
-                Log.e("PostViewHolder", "sendCommentButton es null");
-            }
         }
 
         public void bind(Post post) {
+            // Obtén el Context desde itemView
+            Context context = itemView.getContext();
+            SharedPreferences sharedPreferences = context.getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+
+            // Obtén los datos del usuario actual desde SharedPreferences
+            String currentUserName = sharedPreferences.getString("name", "NombreDesconocido");
+            String currentUserLastName = sharedPreferences.getString("lastname", "ApellidoDesconocido");
+
             // Configura el autor y contenido del post
             tvAuthorName.setText(post.getAuthor());
             tvPostContent.setText(post.getContent());
 
             // Configura la imagen de perfil usando Glide
-            Glide.with(itemView.getContext())
+            Glide.with(context)
                     .load(post.getUserProfileImage())
-                    .placeholder(R.drawable.ic_profile) // Asegúrate de tener este recurso
+                    .placeholder(R.drawable.ic_profile)
                     .into(imageViewProfile);
 
             // Configura el contador de "likes"
@@ -99,36 +101,26 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
             // Configura el RecyclerView de comentarios con un LayoutManager
             if (commentsRecyclerView.getLayoutManager() == null) {
-                commentsRecyclerView.setLayoutManager(new LinearLayoutManager(itemView.getContext()));
+                commentsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
             }
 
             // Inicializa el adaptador de comentarios y lo asocia al RecyclerView
             if (commentAdapter == null) {
-                commentAdapter = new CommentAdapter(itemView.getContext());
+                commentAdapter = new CommentAdapter(context);
                 commentsRecyclerView.setAdapter(commentAdapter);
             }
             commentAdapter.setComments(post.getComments()); // Actualiza los datos del adaptador
 
-            Log.d("PostAdapter", "Adaptador de comentarios configurado correctamente");
-
-            // Verifica que los componentes de comentario no sean nulos
-            if (sendCommentButton == null || commentText == null) {
-                Log.e("PostAdapter", "sendCommentButton o commentText son nulos en bind()");
-                return; // Salimos temprano si hay un problema
-            }
-
             // Configura el botón para enviar comentarios
             sendCommentButton.setOnClickListener(v -> {
                 Log.d("PostAdapter", "Botón de comentar clickeado");
-                String commentContent = commentText.getText().toString().trim(); // Usa trim para eliminar espacios innecesarios
+                String commentContent = commentText.getText().toString().trim();
 
                 if (!commentContent.isEmpty()) {
                     Log.d("PostAdapter", "Texto ingresado: " + commentContent);
-                    // Usa datos del usuario actual como nombre y apellido del autor
-                    String authorName = "NombreUsuario"; // Reemplaza con el nombre real del usuario
-                    String authorLastName = "ApellidoUsuario"; // Reemplaza con el apellido real del usuario
 
-                    Comment newComment = new Comment(commentContent, authorName, authorLastName);
+                    // Usa el nombre y apellido del usuario actual obtenidos de SharedPreferences
+                    Comment newComment = new Comment(commentContent, currentUserName, currentUserLastName);
                     post.getComments().add(newComment);
 
                     Log.d("PostAdapter", "Comentario añadido. Total comentarios: " + post.getComments().size());
@@ -141,7 +133,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                     Log.d("PostAdapter", "Campo de comentario vacío, no se agrega comentario");
                 }
             });
-        }
+    }
 
         private void toggleLike(Post post) {
             // Cambia el estado del "like" en el post
