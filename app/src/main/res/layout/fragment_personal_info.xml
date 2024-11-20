@@ -29,7 +29,7 @@
             android:inputType="textPassword"
             android:backgroundTint="@color/black"
             android:layout_marginTop="16dp"
-            android:textColor="@color/font_letras_default"/>
+            android:textColor="@color/colorToolbarBackground"/>
 
         <Button
             android:id="@+id/btn_verify"
@@ -64,7 +64,7 @@
             android:text="Fecha de nacimiento"
             android:textSize="18sp"
             android:layout_marginTop="10dp"
-            android:textColor="@color/font_letras_default"/>
+            android:textColor="@color/colorToolbarBackground"/>
 
         <TextView
             android:id="@+id/tv_location"
@@ -73,6 +73,6 @@
             android:text="Lugar de residencia"
             android:textSize="18sp"
             android:layout_marginTop="10dp"
-            android:textColor="@color/font_letras_default"/>
+            android:textColor="@color/colorToolbarBackground"/>
     </LinearLayout>
 </RelativeLayout>

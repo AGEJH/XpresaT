@@ -79,12 +79,15 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         // Inicializar íconos de emoción y configurar onClickListener para cada uno
-        ImageView[] emotionIcons = new ImageView[5];
-        emotionIcons[0] = findViewById(R.id.emoji_feliz);
-        emotionIcons[1] = findViewById(R.id.emoji_triste);
+        ImageView[] emotionIcons = new ImageView[7];
+        emotionIcons[0] = findViewById(R.id.emoji_alegria);
+        emotionIcons[1] = findViewById(R.id.emoji_miedo);
         emotionIcons[2] = findViewById(R.id.emoji_enojado);
-        emotionIcons[3] = findViewById(R.id.emoji_con_miedo);
-        emotionIcons[4] = findViewById(R.id.emoji_sorprendido);
+        emotionIcons[3] = findViewById(R.id.emoji_triste);
+        emotionIcons[4] = findViewById(R.id.emoji_tristeza_profunda);
+        emotionIcons[5] = findViewById(R.id.emoji_asco);
+        emotionIcons[6] = findViewById(R.id.emoji_sorpresa);
+
 
         for (ImageView icon : emotionIcons) {
             icon.setOnClickListener(new View.OnClickListener() {
@@ -197,17 +200,23 @@ public class HomeActivity extends AppCompatActivity {
         ImageView selectedEmotion = (ImageView) view;
 
         // Determina la emoción seleccionada según el ID del icono
-        if (selectedEmotion.getId() == R.id.emoji_feliz) {
-            emotionText = "Feliz";
+        if (selectedEmotion.getId() == R.id.emoji_alegria) {
+            emotionText = "Alegre";
         } else if (selectedEmotion.getId() == R.id.emoji_triste) {
             emotionText = "Triste";
         } else if (selectedEmotion.getId() == R.id.emoji_enojado) {
             emotionText = "Enojado";
-        } else if (selectedEmotion.getId() == R.id.emoji_sorprendido) {
+        } else if (selectedEmotion.getId() == R.id.emoji_sorpresa) {
             emotionText = "Sorprendido";
-        } else if (selectedEmotion.getId() == R.id.emoji_con_miedo) {
+        } else if (selectedEmotion.getId() == R.id.emoji_miedo) {
             emotionText = "Miedo";
+        } else if (selectedEmotion.getId() == R.id.emoji_tristeza_profunda) {
+            emotionText = "Tristeza profunda";
+        } else if (selectedEmotion.getId() == R.id.emoji_asco) {
+            emotionText = "Asco";
         }
+
+
 
         // Muestra la emoción seleccionada
         Toast.makeText(this, "Emoción seleccionada: " + emotionText, Toast.LENGTH_SHORT).show();
