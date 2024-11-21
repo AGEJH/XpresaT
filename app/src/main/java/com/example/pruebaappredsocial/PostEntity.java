@@ -12,7 +12,7 @@ public class PostEntity {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    private String getUserProfileImage;
+    private String userProfileImage; // Nueva variable para almacenar la imagen de perfil del usuario
     private String content;
     private String author;
     private long timestamp;
@@ -33,10 +33,12 @@ public class PostEntity {
         this.content = content;
         this.author = author;
         this.timestamp = timestamp;
+        this.userProfileImage = null; // O asigna un valor predeterminado si es necesario
         this.isLiked = false;
         this.likesCount = 0;
         this.comments = new ArrayList<>(); // Inicializar lista vacía
     }
+
 
     // Getters y setters para todos los campos
     public int getId() {
@@ -51,16 +53,16 @@ public class PostEntity {
         return content;
     }
 
-    public String getUserProfileImage() {
-        return getUserProfileImage;
-    }
-
-    public void setUserProfileImage(String getUserProfileImage) {
-        this.getUserProfileImage = getUserProfileImage;
-    }
-
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getUserProfileImage() {
+        return userProfileImage;
+    }
+
+    public void setUserProfileImage(String userProfileImage) {
+        this.userProfileImage = userProfileImage;
     }
 
     public String getAuthor() {
