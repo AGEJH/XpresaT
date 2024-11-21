@@ -336,6 +336,45 @@ def get_comments(post_id):
     return jsonify(comments_list), 200
 
 
+@app.route('/comments/<int:comment_id>', methods=['PUT'])
+def update_comment(comment_id):
+    data = request.json
+    comment = Comment.query.get(comment_id)
+    
+    if not comment:
+        return jsonify({'error': 'Comentario no encontrado'}), 404
+
+    # Verificar que el usuario que edita es el dueño del comentario
+    if comment.user_id != data['user_id']:
+        return jsonify({'error': 'No autorizado'}), 403
+
+    # Actualizar contenido del comentario
+    comment.content = data.get('content', comment.content)
+    db.session.commit()
+
+    return jsonify({'message': 'Comentario actualizado'}), 200
+
+
+
+@app.route('/comments/<int:comment_id>', methods=['DELETE'])
+def delete_comment(comment_id):
+    data = request.json
+    comment = Comment.query.get(comment_id)
+
+    if not comment:
+        return jsonify({'error': 'Comentario no encontrado'}), 404
+
+    # Verificar que el usuario que elimina es el dueño del comentario
+    if comment.user_id != data['user_id']:
+        return jsonify({'error': 'No autorizado'}), 403
+
+    db.session.delete(comment)
+    db.session.commit()
+
+    return jsonify({'message': 'Comentario eliminado'}), 200
+
+
+
 
 #permite dar o quitar un like, dependiendo de si el like ya existe.
 @app.route('/<int:type_id>/<int:ref_id>/like', methods=['POST'])
