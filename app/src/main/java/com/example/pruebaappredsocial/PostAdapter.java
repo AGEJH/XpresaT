@@ -1,8 +1,8 @@
 package com.example.pruebaappredsocial;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,39 +12,37 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
+    private List<PostEntity> postList;
+    private Dao Dao;
 
-    private final ArrayList<Post> postList;
-
-    public PostAdapter(ArrayList<Post> postList) {
+    public PostAdapter(List<PostEntity> postList, Dao Dao) {
         this.postList = postList;
+        this.Dao = Dao;
     }
 
-    public void addPost(Post post) {
-        postList.add(0, post);
-        notifyItemInserted(0);
-    }
-
-    @NonNull
     @Override
-    public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public PostViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post, parent, false);
         return new PostViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(PostViewHolder holder, int position) {
-        Post post = postList.get(position);
-        holder.bind(post);
+        holder.bind(postList.get(position));
     }
+    public void addPost(PostEntity post) {
+        postList.add(0, post); // Agregar al inicio de la lista
+        notifyItemInserted(0); // Notificar que se insertó un elemento en la posición 0
+    }
+
 
     @Override
     public int getItemCount() {
@@ -52,13 +50,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     }
 
     public class PostViewHolder extends RecyclerView.ViewHolder {
-
         TextView tvAuthorName, tvPostContent, likeCount;
         ImageView imageViewProfile;
         ImageButton likeButton;
         RecyclerView commentsRecyclerView;
         EditText commentText;
-        Button sendCommentButton;
+        Button sendCommentButton, editButton, deleteButton;
         CommentAdapter commentAdapter;
 
         public PostViewHolder(View itemView) {
@@ -71,89 +68,99 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             commentsRecyclerView = itemView.findViewById(R.id.commentsRecyclerView);
             commentText = itemView.findViewById(R.id.commentText);
             sendCommentButton = itemView.findViewById(R.id.sendCommentButton);
+            editButton = itemView.findViewById(R.id.editButton); // Botón de editar
+            deleteButton = itemView.findViewById(R.id.deleteButton); // Botón de eliminar
         }
 
-        public void bind(Post post) {
-            // Obtén el Context desde itemView
+        public void bind(PostEntity post) {
             Context context = itemView.getContext();
             SharedPreferences sharedPreferences = context.getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
 
-            // Obtén los datos del usuario actual desde SharedPreferences
             String currentUserName = sharedPreferences.getString("name", "NombreDesconocido");
             String currentUserLastName = sharedPreferences.getString("lastname", "ApellidoDesconocido");
 
-            // Configura el autor y contenido del post
             tvAuthorName.setText(post.getAuthor());
             tvPostContent.setText(post.getContent());
 
-            // Configura la imagen de perfil usando Glide
             Glide.with(context)
                     .load(post.getUserProfileImage())
                     .placeholder(R.drawable.ic_profile)
                     .into(imageViewProfile);
 
-            // Configura el contador de "likes"
             likeCount.setText(post.getLikesCount() + " Likes");
 
-            // Actualiza el estado del botón de "like" y configura su OnClickListener
             updateLikeButtonIcon(post.isLiked());
             likeButton.setOnClickListener(v -> toggleLike(post));
 
-            // Configura el RecyclerView de comentarios con un LayoutManager
             if (commentsRecyclerView.getLayoutManager() == null) {
                 commentsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
             }
 
-            // Inicializa el adaptador de comentarios y lo asocia al RecyclerView
             if (commentAdapter == null) {
                 commentAdapter = new CommentAdapter(context);
                 commentsRecyclerView.setAdapter(commentAdapter);
             }
-            commentAdapter.setComments(post.getComments()); // Actualiza los datos del adaptador
+            commentAdapter.setComments(post.getComments());
 
-            // Configura el botón para enviar comentarios
             sendCommentButton.setOnClickListener(v -> {
-                Log.d("PostAdapter", "Botón de comentar clickeado");
                 String commentContent = commentText.getText().toString().trim();
 
                 if (!commentContent.isEmpty()) {
-                    Log.d("PostAdapter", "Texto ingresado: " + commentContent);
-
-                    // Usa el nombre y apellido del usuario actual obtenidos de SharedPreferences
                     Comment newComment = new Comment(commentContent, currentUserName, currentUserLastName);
                     post.getComments().add(newComment);
 
-                    Log.d("PostAdapter", "Comentario añadido. Total comentarios: " + post.getComments().size());
-
                     commentAdapter.notifyItemInserted(post.getComments().size() - 1);
                     commentsRecyclerView.scrollToPosition(post.getComments().size() - 1);
-
                     commentText.setText("");
-                } else {
-                    Log.d("PostAdapter", "Campo de comentario vacío, no se agrega comentario");
                 }
             });
-    }
 
-        private void toggleLike(Post post) {
-            // Cambia el estado del "like" en el post
+            // Acción de editar publicación
+            editButton.setOnClickListener(v -> {
+                // Abre una interfaz para editar el contenido del post
+                String newContent = "Nuevo contenido del post"; // Puedes usar un diálogo para que el usuario edite
+                post.setContent(newContent);
+
+                // Actualiza en la base de datos
+                AppDatabase db = AppDatabase.getInstance(itemView.getContext());
+                new Thread(() -> {
+                    db.postDao().updatePost(post); // Actualiza el post en la base de datos
+
+                    // Actualiza el RecyclerView en el hilo principal
+                    ((Activity) itemView.getContext()).runOnUiThread(() -> {
+                        notifyItemChanged(getAdapterPosition()); // Actualiza en el RecyclerView
+                    });
+                }).start();
+            });
+
+            deleteButton.setOnClickListener(v -> {
+                // Elimina el post en la base de datos
+                AppDatabase db = AppDatabase.getInstance(itemView.getContext());
+                new Thread(() -> {
+                    db.postDao().deletePost(post); // Elimina el post de la base de datos
+
+                    // Elimina del RecyclerView en el hilo principal
+                    ((Activity) itemView.getContext()).runOnUiThread(() -> {
+                        postList.remove(getAdapterPosition()); // Elimina el post del RecyclerView
+                        notifyItemRemoved(getAdapterPosition()); // Notifica la eliminación en el RecyclerView
+                    });
+                }).start();
+            });
+
+            }
+
+            private void toggleLike(PostEntity post) {
             post.setLiked(!post.isLiked());
-
-            // Actualiza el conteo de "likes"
             post.setLikesCount(post.isLiked() ? post.getLikesCount() + 1 : post.getLikesCount() - 1);
             likeCount.setText(post.getLikesCount() + " Likes");
-
-            // Cambia el icono del botón de "like" según el nuevo estado
             updateLikeButtonIcon(post.isLiked());
-
-            // Aquí puedes hacer una llamada al servidor para actualizar el estado del "like"
         }
 
         private void updateLikeButtonIcon(boolean isLiked) {
             if (isLiked) {
-                likeButton.setImageResource(R.drawable.ic_liked); // Icono para el estado "likeado"
+                likeButton.setImageResource(R.drawable.ic_liked);
             } else {
-                likeButton.setImageResource(R.drawable.ic_like); // Icono para el estado "no likeado"
+                likeButton.setImageResource(R.drawable.ic_like);
             }
         }
     }

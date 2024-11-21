@@ -110,19 +110,20 @@ public class HomeActivity extends AppCompatActivity {
         // Configurar el RecyclerView
         recyclerViewPosts.setLayoutManager(new LinearLayoutManager(this));
 
-        // Recibir el ArrayList<Post> de la actividad anterior
-        ArrayList<Post> postList = getIntent().getParcelableArrayListExtra("posts");
+    // Inicializar PostDao y base de datos
+        Dao Dao = AppDatabase.getInstance(this).postDao(); // Asegúrate de tener acceso a tu instancia de base de datos
+        List<PostEntity> postList = Dao.getAllPosts(); // Recupera las publicaciones desde la base de datos
 
-        // Comprobar si la lista de posts no es nula
-        if (postList != null) {
-            postAdapter = new PostAdapter(postList); // Usar la lista recibida
+    // Comprobar si la lista de posts no es nula
+        if (postList != null && !postList.isEmpty()) {
+            postAdapter = new PostAdapter(new ArrayList<>(postList), Dao); // Pasar la lista de publicaciones y el DAO
         } else {
-            postAdapter = new PostAdapter(new ArrayList<>()); // Crear una lista vacía si no hay posts
+            postAdapter = new PostAdapter(new ArrayList<>(),Dao); // Crear una lista vacía si no hay posts
         }
 
         recyclerViewPosts.setAdapter(postAdapter);
 
-        // Cargar publicaciones (esto puede ser opcional si ya tienes publicaciones al iniciar)
+// Cargar publicaciones (esto puede ser opcional si ya tienes publicaciones al iniciar)
         loadPosts();
 
         // Menú de navegación
@@ -176,23 +177,23 @@ public class HomeActivity extends AppCompatActivity {
 
 
     private void publishPost(String content, String author) {
-        // Crear un nuevo objeto Post con el contenido ingresado
         long timestamp = System.currentTimeMillis();
-        Post newPost = new Post(content, author, timestamp);
+        PostEntity newPost = new PostEntity(content, author, timestamp);
 
-
-        // Agregar el nuevo post a la lista de posts
-        postAdapter.addPost(newPost);
-
-        // Limpiar el campo de texto después de publicar
-        postInput.setText("");
-
-        // Desplegar el RecyclerView y ocultar el mensaje de "sin publicaciones"
-        recyclerViewPosts.setVisibility(View.VISIBLE);
-        tvNoPosts.setVisibility(View.GONE);
+        // Guardar en la base de datos
+        AppDatabase db = AppDatabase.getInstance(this);
+        new Thread(() -> {
+            db.postDao().insertPost(newPost);
+            runOnUiThread(() -> {
+                postAdapter.addPost(newPost);
+                postInput.setText("");
+                recyclerViewPosts.setVisibility(View.VISIBLE);
+                tvNoPosts.setVisibility(View.GONE);
+            });
+        }).start();
     }
 
-    // Paso 3: Define el método para mostrar emoción seleccionada fuera de `onCreate`
+        // Paso 3: Define el método para mostrar emoción seleccionada fuera de `onCreate`
     private void mostrarEmocionSeleccionada(View view) {
         String emotionText = "";
 

@@ -68,7 +68,7 @@
 
     <!-- Comentarios -->
     <androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/commentsRecyclerView"
+        android:id="@+id/commentsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"/>
@@ -90,4 +90,28 @@
         android:backgroundTint="@color/azul_primario"
         android:clickable="true"
         android:layout_marginTop="8dp"/>
+
+    <!-- Botones de editar y eliminar publicación -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <Button
+            android:id="@+id/deleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/azul_primario"
+            android:layout_toRightOf="@id/sendCommentButton"
+            android:text="Eliminar"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/editButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/azul_primario"
+        android:layout_toRightOf="@id/deleteButton"
+        android:text="Editar" />
 </LinearLayout>
