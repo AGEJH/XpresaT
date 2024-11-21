@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.orm import relationship, Column, Integer, String, ForeignKey, Text, DateTime
-from sqlalchemy import Integer
+from sqlalchemy import Column, Integer, String, ForeignKey, Text, DateTime
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from datetime import datetime
 #from security import hash_password  # Importa la función hash_password de security.py
