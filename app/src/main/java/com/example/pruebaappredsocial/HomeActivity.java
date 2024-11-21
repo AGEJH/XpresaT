@@ -111,7 +111,7 @@ public class HomeActivity extends AppCompatActivity {
         recyclerViewPosts.setLayoutManager(new LinearLayoutManager(this));
 
     // Inicializar PostDao y base de datos
-        Dao Dao = AppDatabase.getInstance(this).postDao(); // Asegúrate de tener acceso a tu instancia de base de datos
+        Dao Dao = AppDatabase.getInstance(this).Dao(); // Asegúrate de tener acceso a tu instancia de base de datos
         List<PostEntity> postList = Dao.getAllPosts(); // Recupera las publicaciones desde la base de datos
 
     // Comprobar si la lista de posts no es nula
@@ -183,7 +183,7 @@ public class HomeActivity extends AppCompatActivity {
         // Guardar en la base de datos
         AppDatabase db = AppDatabase.getInstance(this);
         new Thread(() -> {
-            db.postDao().insertPost(newPost);
+            db.Dao().insertPost(newPost);
             runOnUiThread(() -> {
                 postAdapter.addPost(newPost);
                 postInput.setText("");

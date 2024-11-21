@@ -124,7 +124,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 // Actualiza en la base de datos
                 AppDatabase db = AppDatabase.getInstance(itemView.getContext());
                 new Thread(() -> {
-                    db.postDao().updatePost(post); // Actualiza el post en la base de datos
+                    db.Dao().updatePost(post); // Actualiza el post en la base de datos
 
                     // Actualiza el RecyclerView en el hilo principal
                     ((Activity) itemView.getContext()).runOnUiThread(() -> {
@@ -137,7 +137,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 // Elimina el post en la base de datos
                 AppDatabase db = AppDatabase.getInstance(itemView.getContext());
                 new Thread(() -> {
-                    db.postDao().deletePost(post); // Elimina el post de la base de datos
+                    db.Dao().deletePost(post); // Elimina el post de la base de datos
 
                     // Elimina del RecyclerView en el hilo principal
                     ((Activity) itemView.getContext()).runOnUiThread(() -> {
