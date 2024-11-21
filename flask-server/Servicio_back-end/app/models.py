@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, Column, Integer, String, ForeignKey, Text, DateTime
 from sqlalchemy import Integer
+from sqlalchemy.sql import func
 from datetime import datetime
 #from security import hash_password  # Importa la función hash_password de security.py
 
@@ -30,6 +31,8 @@ class User(db.Model):
  # Relación con los amigos
     friends_sent = db.relationship('Friend', foreign_keys='Friend.sender_id', backref='sender', lazy='dynamic')
     friends_received = db.relationship('Friend', foreign_keys='Friend.receptor_id', backref='receiver', lazy='dynamic')
+ #Relación con post
+    posts = relationship('Post', back_populates='user', cascade="all, delete-orphan")
 
 class Friend(db.Model):
     __tablename__ = 'friend'
@@ -123,20 +126,15 @@ class Image(db.Model):
     created_at = db.Column(db.DateTime)
 
 class Post(db.Model):
-    __tablename__ = 'post'
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(500))
-    content = db.Column(db.Text)
-    lat = db.Column(db.Float)
-    lng = db.Column(db.Float)
-    start_at = db.Column(db.DateTime)
-    finish_at = db.Column(db.DateTime)
-    receptor_type_id = db.Column(db.Integer, default=1)  # 1: user, 2: group
-    author_ref_id = db.Column(db.Integer)
-    receptor_ref_id = db.Column(db.Integer)
-    level_id = db.Column(db.Integer, db.ForeignKey('level.id'))
-    post_type_id = db.Column(db.Integer, default=1)  # 1: status, 2: event
-    created_at = db.Column(db.DateTime)
+    __tablename__ = 'posts'
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)  # Relación con el usuario
+    title = Column(String(255), nullable=False)
+    content = Column(Text, nullable=False)
+    created_at = Column(DateTime, default=func.now(), nullable=False)
+    updated_at = Column(DateTime, onupdate=func.now())  # Se actualiza automáticamente
+
+    user = relationship('User', back_populates='posts')
 
 class PostImage(db.Model):
     __tablename__ = 'post_image'
