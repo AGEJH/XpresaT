@@ -3,6 +3,7 @@ package com.example.pruebaappredsocial;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -88,7 +89,6 @@ public class HomeActivity extends AppCompatActivity {
         emotionIcons[5] = findViewById(R.id.emoji_asco);
         emotionIcons[6] = findViewById(R.id.emoji_sorpresa);
 
-
         for (ImageView icon : emotionIcons) {
             icon.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -98,7 +98,7 @@ public class HomeActivity extends AppCompatActivity {
             });
         }
 
-            // Configura el OnClickListener para el botón de búsqueda de amigos
+        // Configura el OnClickListener para el botón de búsqueda de amigos
         btnSearchFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,21 +110,8 @@ public class HomeActivity extends AppCompatActivity {
         // Configurar el RecyclerView
         recyclerViewPosts.setLayoutManager(new LinearLayoutManager(this));
 
-    // Inicializar PostDao y base de datos
-        Dao Dao = AppDatabase.getInstance(this).Dao(); // Asegúrate de tener acceso a tu instancia de base de datos
-        List<PostEntity> postList = Dao.getAllPosts(); // Recupera las publicaciones desde la base de datos
-
-    // Comprobar si la lista de posts no es nula
-        if (postList != null && !postList.isEmpty()) {
-            postAdapter = new PostAdapter(new ArrayList<>(postList), Dao); // Pasar la lista de publicaciones y el DAO
-        } else {
-            postAdapter = new PostAdapter(new ArrayList<>(),Dao); // Crear una lista vacía si no hay posts
-        }
-
-        recyclerViewPosts.setAdapter(postAdapter);
-
-// Cargar publicaciones (esto puede ser opcional si ya tienes publicaciones al iniciar)
-        loadPosts();
+        // Ejecutar el AsyncTask para obtener los posts en segundo plano
+        new GetPostsTask().execute();
 
         // Menú de navegación
         btnBack = findViewById(R.id.btnBack);
@@ -152,10 +139,8 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-
         // Configurar el TextWatcher para el campo de texto de publicación
         postInput.addTextChangedListener(new TextWatcher() {
-
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -173,6 +158,28 @@ public class HomeActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
             }
         });
+    }
+
+    // Clase GetPostsTask para obtener los posts en segundo plano
+    private class GetPostsTask extends AsyncTask<Void, Void, List<PostEntity>> {
+        @Override
+        protected List<PostEntity> doInBackground(Void... voids) {
+            // Recupera las publicaciones desde la base de datos en segundo plano
+            Dao dao = AppDatabase.getInstance(HomeActivity.this).Dao();  // Asegúrate de tener acceso a tu DAO
+            return dao.getAllPosts();  // Obtén los posts
+        }
+
+        @Override
+        protected void onPostExecute(List<PostEntity> posts) {
+            super.onPostExecute(posts);
+            // Aquí actualizamos la UI con los posts obtenidos
+            if (posts != null && !posts.isEmpty()) {
+                postAdapter = new PostAdapter(new ArrayList<>(posts), AppDatabase.getInstance(HomeActivity.this).Dao());
+            } else {
+                postAdapter = new PostAdapter(new ArrayList<>(), AppDatabase.getInstance(HomeActivity.this).Dao());
+            }
+            recyclerViewPosts.setAdapter(postAdapter);
+        }
     }
 
 
