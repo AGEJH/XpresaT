@@ -1,6 +1,7 @@
 package com.example.pruebaappredsocial;
 
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
@@ -72,6 +73,17 @@ public interface ApiService {
 
     @POST("posts/{post_id}/comments")
     Call<Comment> addComment(@Path("post_id") int postId, @Body String comment);
+
+
+    @POST("/family_request")
+    Call<ResponseBody> sendFamilyRequest(@Body FamilyRequest familyRequest);
+
+    @PUT("/family_request/{id}")
+    Call<ResponseBody> respondFamilyRequest(@Path("id") int requestId, @Body Map<String, Boolean> response);
+
+    @GET("/family/{userId}")
+    //Call<List<FamilyMember>> getFamilyMembers(@Path("userId") int userId);
+
 
     Call<ApiResponse> uploadImage(MultipartBody.Part body);
 }

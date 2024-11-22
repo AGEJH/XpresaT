@@ -62,6 +62,16 @@ class Comment(db.Model):
     comment_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
     content = db.Column(db.Text)
     created_at = db.Column(db.DateTime)
+    
+
+class Family(db.Model):
+    __tablename__ = 'family'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    family_member_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    relation = db.Column(db.String(50), nullable=True)  # Ejemplo: "hermano", "madre"
+    is_confirmed = db.Column(db.Boolean, default=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
    
         
 class Recover(db.Model):

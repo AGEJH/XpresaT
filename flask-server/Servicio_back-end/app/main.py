@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, session  # type: ignore          #TRUNCATE sirve para eliminar en sql registros
 from datetime import datetime
-from models import Comment, Like, Post, db, User, UserResponse, Friend  # Asegúrate de importar la instancia de tu base de datos
+from models import Comment, Like, Post, db, User, UserResponse, Friend, Family  # Asegúrate de importar la instancia de tu base de datos
 from flask_migrate import Migrate      # type: ignore # Importar Flask-Migrate aquí, Flask-Migrate, es excelente para manejar las migraciones de la base de datos sin problemas.
 #from security import check_password, hash_password
 from flask_cors import CORS # type: ignore # Manejar las solicitudes desde tu aplicación Android.
@@ -392,6 +392,65 @@ def toggle_like(type_id, ref_id):
         db.session.add(new_like)
         db.session.commit()
         return jsonify({'message': 'Like agregado'}), 201
+    
+    
+@app.route('/family_request', methods=['POST'])
+def send_family_request():
+    data = request.json
+    user_id = data.get('user_id')
+    family_member_id = data.get('family_member_id')
+    relation = data.get('relation')
+
+    if not user_id or not family_member_id:
+        return jsonify({"error": "Datos incompletos"}), 400
+
+    # Verificar que no exista ya una relación
+    existing_relation = Family.query.filter_by(user_id=user_id, family_member_id=family_member_id).first()
+    if existing_relation:
+        return jsonify({"error": "Ya existe una relación"}), 400
+
+    # Crear una nueva solicitud
+    family_request = Family(user_id=user_id, family_member_id=family_member_id, relation=relation, is_confirmed=False)
+    db.session.add(family_request)
+    db.session.commit()
+
+    return jsonify({"message": "Solicitud enviada con éxito"}), 201
+
+
+
+
+@app.route('/family_request/<int:request_id>', methods=['PUT'])
+def respond_family_request(request_id):
+    data = request.json
+    is_confirmed = data.get('is_confirmed')  # True para aceptar, False para rechazar
+
+    family_request = Family.query.get(request_id)
+    if not family_request:
+        return jsonify({"error": "Solicitud no encontrada"}), 404
+
+    if is_confirmed:
+        family_request.is_confirmed = True
+        db.session.commit()
+        return jsonify({"message": "Solicitud aceptada"}), 200
+    else:
+        db.session.delete(family_request)
+        db.session.commit()
+        return jsonify({"message": "Solicitud rechazada"}), 200
+    
+    
+    
+@app.route('/family/<int:user_id>', methods=['GET'])
+def get_family_members(user_id):
+    family_members = Family.query.filter_by(user_id=user_id, is_confirmed=True).all()
+    result = [
+        {
+            "id": member.id,
+            "family_member_id": member.family_member_id,
+            "relation": member.relation,
+            "created_at": member.created_at
+        } for member in family_members
+    ]
+    return jsonify(result), 200
 
 
 
