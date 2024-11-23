@@ -14,14 +14,14 @@ import androidx.fragment.app.FragmentTransaction;
 public class EditProfileActivity extends AppCompatActivity {
 
     private ImageButton btnBack, btnHome, btnNotifications, btnVideos, btnProfile, btnMenu;
-    private Button btnPersonalInfo, btnFriends;
+    private Button btnPersonalInfo, btnFriends, btnFamily; // Nuevo botón para familiares
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
-        // Menu de navegación
+        // Menú de navegación
         btnBack = findViewById(R.id.btnBack);
         btnHome = findViewById(R.id.btnHome);
         btnNotifications = findViewById(R.id.btnNotifications);
@@ -32,10 +32,10 @@ public class EditProfileActivity extends AppCompatActivity {
         // Botones de navegación entre fragmentos
         btnPersonalInfo = findViewById(R.id.btnPersonalInfo);
         btnFriends = findViewById(R.id.btnFriends);
+        btnFamily = findViewById(R.id.btnFamily); // Inicializamos el botón
 
         // Establecer escuchadores para los botones
         setButtonListeners();
-
     }
 
     private void setButtonListeners() {
@@ -99,6 +99,14 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadFragment(new AmigosFragment());
+            }
+        });
+
+        // Cambiar a fragmento de Familiares
+        btnFamily.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadFragment(new FamilyFragment());
             }
         });
     }

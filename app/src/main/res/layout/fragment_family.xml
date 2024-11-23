@@ -1,0 +1,29 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@drawable/background_gradient">
+
+    <!-- Botón para agregar un familiar -->
+    <Button
+        android:id="@+id/btnAddFamily"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="8dp"
+        android:text="Agregar familiar"
+        android:fontFamily="@font/core_mellow_57_cn_medium"
+        android:backgroundTint="@color/primary_color"
+        android:textColor="@color/white" />
+
+    <!-- RecyclerView para listar familiares -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewFamily"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/btnAddFamily"
+        android:layout_marginTop="8dp"
+        android:padding="8dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical" />
+</RelativeLayout>

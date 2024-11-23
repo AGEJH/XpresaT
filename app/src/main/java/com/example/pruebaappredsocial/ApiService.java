@@ -82,7 +82,7 @@ public interface ApiService {
     Call<ResponseBody> respondFamilyRequest(@Path("id") int requestId, @Body Map<String, Boolean> response);
 
     @GET("/family/{userId}")
-    //Call<List<FamilyMember>> getFamilyMembers(@Path("userId") int userId);
+    Call<List<FamilyMember>> getFamilyMembers(@Path("userId") String userId);
 
 
     Call<ApiResponse> uploadImage(MultipartBody.Part body);
