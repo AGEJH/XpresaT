@@ -86,4 +86,6 @@ public interface ApiService {
 
 
     Call<ApiResponse> uploadImage(MultipartBody.Part body);
+
+    Call<Void> addTrustedContact(int userId, int relativeId);
 }

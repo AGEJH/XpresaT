@@ -1,5 +1,7 @@
 from flask import Flask, request, jsonify, session  # type: ignore          #TRUNCATE sirve para eliminar en sql registros
 from datetime import datetime
+from db_utils import get_db_connection
+from flask_mail import Mail, Message
 from models import Comment, Like, Post, db, User, UserResponse, Friend, Family  # Asegúrate de importar la instancia de tu base de datos
 from flask_migrate import Migrate      # type: ignore # Importar Flask-Migrate aquí, Flask-Migrate, es excelente para manejar las migraciones de la base de datos sin problemas.
 #from security import check_password, hash_password
@@ -22,6 +24,17 @@ diccionario_emociones = {
 app = Flask(__name__)  
 app.config.from_object(Config)  # Cargar configuración
 migrate = Migrate(app, db)  # Inicializar Flask-Migrate aquí
+
+# Configuración de Flask-Mail (usa tu servidor SMTP)
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # Servidor SMTP
+app.config['MAIL_PORT'] = 587  # Puerto SMTP (587 para TLS)
+app.config['MAIL_USE_TLS'] = True  # Usa TLS (seguridad)
+app.config['MAIL_USERNAME'] = 'tu_correo@gmail.com'  # Tu correo
+app.config['MAIL_PASSWORD'] = 'tu_contraseña_de_aplicación'  # Contraseña de aplicación (NO la contraseña de tu cuenta)
+app.config['MAIL_DEFAULT_SENDER'] = 'tu_correo@gmail.com'  # Correo que se usará como remitente
+
+# Inicializa Flask-Mail
+mail = Mail(app)
 
 db.init_app(app)  # Inicializar SQLAlchemy con la app de Flask
 CORS(app, methods=["POST"]) # Aplicar CORS a la app
@@ -452,6 +465,47 @@ def get_family_members(user_id):
     ]
     return jsonify(result), 200
 
+
+@app.route('/add_trusted_contact', methods=['POST'])
+def add_trusted_contact():
+    data = request.json
+    user_id = data.get('user_id')
+    relative_id = data.get('relative_id')
+
+    if not user_id or not relative_id:
+        return jsonify({"error": "Faltan parámetros 'user_id' o 'relative_id'"}), 400
+
+    try:
+        connection = get_db_connection()
+        with connection.cursor() as cursor:
+            query = """
+                INSERT INTO trusted_contacts (user_id, relative_id, created_at) 
+                VALUES (%s, %s, NOW())
+            """
+            cursor.execute(query, (user_id, relative_id))
+            connection.commit()
+        
+        return jsonify({"message": "Contacto de confianza añadido con éxito"}), 201
+    except Exception as e:
+        print("Error al añadir contacto de confianza:", e)
+        return jsonify({"error": "Error interno del servidor"}), 500
+    
+    
+
+@app.route('/enviar-correo', methods=['POST'])
+def enviar_correo():
+    """Envía un correo a una dirección de correo dada."""
+    data = request.json  # Obtén los datos del cuerpo de la solicitud
+    try:
+        mensaje = Message(
+            subject=data.get('asunto', 'Sin Asunto'),  # Asunto del correo
+            recipients=[data['email']],  # Lista de destinatarios
+            body=data['mensaje']  # Cuerpo del mensaje
+        )
+        mail.send(mensaje)
+        return jsonify({'mensaje': 'Correo enviado exitosamente'}), 200
+    except Exception as e:
+        return jsonify({'error': f'Error al enviar el correo: {str(e)}'}), 500
 
 
 
