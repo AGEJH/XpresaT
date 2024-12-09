@@ -1,8 +1,9 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Column, Integer, String, ForeignKey, Text, DateTime
+from sqlalchemy import Column, Integer, String, ForeignKey, Text, DateTime, Boolean
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from datetime import datetime
+from db_utils import Base  # Asegúrate de importar Base
 #from security import hash_password  # Importa la función hash_password de security.py
 
 db = SQLAlchemy() 
@@ -72,6 +73,16 @@ class Family(db.Model):
     relation = db.Column(db.String(50), nullable=True)  # Ejemplo: "hermano", "madre"
     is_confirmed = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    
+class Alert(db.Model):
+    __tablename__ = 'alert'
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    tipo = Column(String(50))  # 'alerta mínima', 'alerta media', 'alerta grave'
+    razon = Column(String(255))
+    is_icon_shown = Column(Boolean, default=False)  # Controla si el icono ya se mostró
+    created_at = Column(DateTime, server_default=func.now())
    
         
 class Recover(db.Model):
