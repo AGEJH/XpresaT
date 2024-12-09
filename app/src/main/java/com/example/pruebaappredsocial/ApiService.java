@@ -88,4 +88,9 @@ public interface ApiService {
     Call<ApiResponse> uploadImage(MultipartBody.Part body);
 
     Call<Void> addTrustedContact(int userId, int relativeId);
+
+    @GET("alerts")
+    Call<List<Alert>> getAlertsForUser(@Query("email") String email);
+
+
 }
